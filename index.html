@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Claymorphic Carousel Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-studio: #F4F2EC;
+      --block-bg-top: #FFFFFF;
+      --block-bg-bottom: #F0EFE9;
+      --brand-green: #00D048;
+      --brand-green-dark: #00A83A;
+      --text-dark: #121417;
+      --text-muted: #646870;
+      --text-sub: #8C9099;
+      --plinth-base: #E8E6E0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #13151b;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 48px;
+    }
+
+    /* Top Studio Controls */
+    .studio-header {
+      width: 100%;
+      max-width: 1140px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      color: #f3f4f6;
+    }
+
+    .studio-title {
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-tag {
+      background: var(--brand-green);
+      color: #000;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-secondary {
+      background: #242935;
+      color: #e5e7eb;
+    }
+    .btn-secondary:hover {
+      background: #333a4a;
+    }
+
+    .btn-primary {
+      background: var(--brand-green);
+      color: #08210f;
+      font-weight: 700;
+    }
+    .btn-primary:hover {
+      background: #17e85e;
+      transform: translateY(-1px);
+    }
+
+    /* Studio Main Layout */
+    .studio-container {
+      display: flex;
+      gap: 32px;
+      max-width: 1140px;
+      width: 100%;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    /* CAROUSEL SLIDE FRAME (4:5 Instagram Portrait Ratio) */
+    .slide-viewport {
+      width: 480px;
+      height: 600px;
+      background: var(--bg-studio);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 34px 30px 26px;
+      user-select: none;
+    }
+
+    .slide-viewport::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.7) 0%, rgba(240,238,232,0.4) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* SLIDE HEADER */
+    .slide-header {
+      position: relative;
+      z-index: 20;
+    }
+    .slide-top-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .slide-top-meta .line {
+      width: 22px;
+      height: 2px;
+      background: #111;
+      margin-top: 4px;
+    }
+
+    .slide-number-title {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .slide-num {
+      font-family: 'Anton', 'Oswald', sans-serif;
+      font-size: 52px;
+      line-height: 0.9;
+      color: #9EA2AB;
+      letter-spacing: -1px;
+    }
+
+    .slide-divider {
+      width: 2px;
+      height: 48px;
+      background: #9EA2AB;
+      margin: 0 4px;
+    }
+
+    .slide-title-wrap {
+      flex: 1;
+    }
+
+    .slide-title-main {
+      font-family: 'Anton', 'Oswald', sans-serif;
+      font-size: 44px;
+      line-height: 0.95;
+      letter-spacing: -0.5px;
+      color: var(--text-dark);
+      text-transform: uppercase;
+    }
+
+    .slide-title-green {
+      color: var(--brand-green);
+      display: block;
+    }
+
+    .slide-subtitle {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #4b5563;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+    .slide-subtitle-bar {
+      width: 28px;
+      height: 3px;
+      background: var(--brand-green);
+      margin-top: 5px;
+      border-radius: 2px;
+    }
+
+    /* SLIDE STAGE / 3D CANVAS */
+    .slide-stage {
+      position: relative;
+      z-index: 10;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 8px 0;
+    }
+
+    /* SLIDE FOOTER */
+    .slide-footer {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--text-dark);
+    }
+    .slide-footer .line {
+      width: 22px;
+      height: 2px;
+      background: #111;
+      margin-top: 4px;
+    }
+
+    /* ========================================================
+       SIGNATURE 3D CLAYMORPHIC SYSTEM STYLES
+       ======================================================== */
+
+    /* CRITICAL: .clay-tile, .clay-pill, .clay-slab have z-index: 10
+       and a 100% solid background so connector lines pass underneath! */
+    .clay-tile {
+      background: #F7F6F2 !important;
+      background: linear-gradient(155deg, #FFFFFF 0%, #F5F4F0 40%, #EAE8E2 100%) !important;
+      border-radius: 20px;
+      position: relative;
+      z-index: 10; /* Sits firmly ABOVE the connecting pipe lines */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 
+        inset 1.5px 1.5px 3px rgba(255, 255, 255, 1.0),
+        inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.04),
+        0 6px 12px -2px rgba(0, 0, 0, 0.05),
+        0 14px 28px -6px rgba(110, 100, 90, 0.16);
+    }
+
+    .clay-pill {
+      background: #F7F6F2 !important;
+      background: linear-gradient(150deg, #FFFFFF 0%, #F7F6F2 60%, #EDEBE5 100%) !important;
+      border-radius: 12px;
+      padding: 6px 12px;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 
+        inset 1px 1px 2px rgba(255, 255, 255, 1.0),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.03),
+        0 4px 8px -2px rgba(0, 0, 0, 0.06),
+        0 8px 16px -4px rgba(120, 115, 105, 0.12);
+    }
+
+    .clay-slab {
+      background: #F4F3EF !important;
+      background: linear-gradient(160deg, #FFFFFF 0%, #F4F3EF 50%, #ECEAE4 100%) !important;
+      border-radius: 16px;
+      padding: 10px 18px;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      box-shadow: 
+        inset 1.5px 1.5px 2px rgba(255, 255, 255, 1.0),
+        inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.04),
+        0 8px 16px -4px rgba(0, 0, 0, 0.06),
+        0 18px 32px -8px rgba(100, 95, 85, 0.14);
+    }
+
+    /* 3D Domino Plinth Stand (Slide 1 & Slide 8) */
+    .plinth-wrapper {
+      perspective: 1000px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .domino-row {
+      display: flex;
+      gap: 6px;
+      align-items: flex-end;
+      justify-content: center;
+      transform: rotateX(12deg) rotateY(-8deg) rotateZ(1deg);
+      transform-style: preserve-3d;
+      margin-bottom: -18px;
+      z-index: 10;
+    }
+
+    .domino-tile {
+      width: 50px;
+      height: 108px;
+      border-radius: 14px;
+      background: linear-gradient(165deg, #FFFFFF 0%, #F6F5F2 50%, #ECEAE3 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 4px 10px;
+      box-shadow: 
+        inset 1.5px 1.5px 2px rgba(255, 255, 255, 1.0),
+        inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.05),
+        -4px 12px 18px -4px rgba(60, 50, 40, 0.22);
+      transform: translateZ(10px);
+    }
+
+    .domino-tile .tile-icon {
+      width: 26px;
+      height: 26px;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.12));
+    }
+
+    .domino-tile .tile-label {
+      font-size: 7.5px;
+      font-weight: 800;
+      color: #1a1e26;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .plinth-base-3d {
+      width: 410px;
+      height: 48px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #ECEAE5 30%, #DFDDD6 100%);
+      border-radius: 12px;
+      transform: rotateX(12deg) rotateY(-8deg) rotateZ(1deg);
+      box-shadow: 
+        inset 1.5px 1.5px 3px rgba(255, 255, 255, 1.0),
+        inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.08),
+        -6px 20px 30px -5px rgba(70, 60, 50, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+    }
+
+    .plinth-engrave-title {
+      font-family: 'Anton', 'Oswald', sans-serif;
+      font-size: 19px;
+      color: #A6AAB3;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .plinth-engrave-tag {
+      font-family: 'Anton', 'Oswald', sans-serif;
+      font-size: 22px;
+      color: #A6AAB3;
+    }
+
+    /* 3D Flow Pipe Connectors (SVG)
+       CRITICAL: z-index: 1 ensures it sits strictly BEHIND .clay-tile (z-index: 10) */
+    .pipe-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1 !important; /* strictly behind tiles */
+    }
+
+    .pipe-path-green {
+      stroke: var(--brand-green);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      filter: drop-shadow(0 2px 4px rgba(0, 208, 72, 0.3));
+    }
+
+    .pipe-path-gray {
+      stroke: #C2C6D0;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.07));
+    }
+
+    /* Number badge pin on tiles (1-7) */
+    .pipe-badge {
+      width: 22px;
+      height: 22px;
+      background: var(--brand-green);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -11px;
+      left: calc(50% - 11px);
+      box-shadow: 
+        inset 1px 1px 1.5px rgba(255,255,255,0.8),
+        0 4px 8px rgba(0, 208, 72, 0.45);
+      z-index: 25; /* Always on top of tile border */
+    }
+
+    /* SIDEBAR CONTROLS & CODE VIEWER */
+    .sidebar-panel {
+      flex: 1;
+      min-width: 320px;
+      max-width: 520px;
+      background: #1e222b;
+      border-radius: 16px;
+      padding: 24px;
+      color: #e5e7eb;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .panel-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .slide-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .slide-tab-btn {
+      padding: 10px 6px;
+      background: #282e3b;
+      border: 1px solid #3c4454;
+      color: #d1d5db;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .slide-tab-btn.active, .slide-tab-btn:hover {
+      background: var(--brand-green);
+      color: #0b2614;
+      border-color: var(--brand-green);
+    }
+
+    .code-box {
+      background: #13151b;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      color: #a7f3d0;
+      overflow-x: auto;
+      max-height: 240px;
+      border: 1px solid #282e3b;
+      line-height: 1.5;
+    }
+
+    .copy-btn {
+      float: right;
+      background: #282e3b;
+      color: #d1d5db;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background: #3f475b;
+      color: #fff;
+    }
+
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .nav-arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #242935;
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .nav-arrow:hover {
+      background: var(--brand-green);
+      color: black;
+    }
+
+    .dots-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4b5563;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .dot.active {
+      width: 22px;
+      border-radius: 6px;
+      background: var(--brand-green);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="studio-header">
+    <div class="studio-title">
+      <span>3D Claymorphic Carousel Studio</span>
+      <span class="badge-tag">TACTILE 3D SYSTEM</span>
+    </div>
+    <div class="controls-row">
+      <button class="btn btn-secondary" onclick="toggleTheme()">Invert Preview</button>
+      <button class="btn btn-primary" onclick="alert('Tip: Right click or screenshot slide to save as 4:5 image!')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Ready to Export
+      </button>
+    </div>
+  </div>
+
+  <div class="studio-container">
+
+    <!-- LEFT: SLIDE PREVIEW VIEWPORT -->
+    <div>
+      <div id="slideViewport" class="slide-viewport"></div>
+
+      <!-- Navigation Arrows & Dots -->
+      <div class="pagination-bar">
+        <button class="nav-arrow" onclick="prevSlide()">&#8592;</button>
+        <div id="dotsContainer" class="dots-row"></div>
+        <button class="nav-arrow" onclick="nextSlide()">&#8594;</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: INTERACTIVE INSPECTOR & CODE GENERATOR -->
+    <div class="sidebar-panel">
+      <div class="panel-section-title">Select Slide</div>
+      <div class="slide-selector-grid">
+        <button class="slide-tab-btn active" onclick="goToSlide(0)">01 Cover</button>
+        <button class="slide-tab-btn" onclick="goToSlide(1)">02 Product</button>
+        <button class="slide-tab-btn" onclick="goToSlide(2)">03 Leads</button>
+        <button class="slide-tab-btn" onclick="goToSlide(3)">04 Traffic</button>
+        <button class="slide-tab-btn" onclick="goToSlide(4)">05 Sales</button>
+        <button class="slide-tab-btn" onclick="goToSlide(5)">06 Hub</button>
+        <button class="slide-tab-btn" onclick="goToSlide(6)">07 Loop</button>
+        <button class="slide-tab-btn" onclick="goToSlide(7)">08 CTA</button>
+      </div>
+
+      <div class="panel-section-title">Architecture Description</div>
+      <p id="slideDesc" style="font-size: 13px; color: #9ca3af; margin-bottom: 20px; line-height: 1.5;"></p>
+
+      <div class="panel-section-title">
+        <span>CSS Claymorphic Recipe</span>
+        <button class="copy-btn" onclick="copyRecipe()">Copy CSS</button>
+      </div>
+      <pre class="code-box" id="codeSnippet"></pre>
+
+      <div class="panel-section-title" style="margin-top: 20px;">
+        <span>AI Image Prompt Formula</span>
+      </div>
+      <div style="background: #13151b; border-radius: 10px; padding: 12px; font-size: 11.5px; color: #f3f4f6; line-height: 1.4; border: 1px solid #282e3b;">
+        <span style="color: var(--brand-green); font-weight: 700;">Midjourney / Flux Prompt:</span><br>
+        <code>Clean 3D isometric claymorphic rounded rectangular white blocks, smooth matte porcelain plastic texture, tactile chiclet domino tiles, glossy 3D colored icon inset, soft top-down studio lighting, subtle ambient occlusion contact shadow, off-white clean background, high resolution UI component render --v 6.1</code>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const slidesData = [
+      {
+        id: 1,
+        metaTopL: "BUILD<br>AUTOMATE<br>SCALE",
+        metaTopR: "IDEAS<br>LEADS<br>SALES",
+        num: "",
+        title: "I BUILT AN",
+        titleGreen: "AI MONEY-MAKING TEAM.",
+        subtitle: "7 AI AGENTS. 1 BUSINESS SYSTEM.",
+        metaBotL: "ONE TEAM.<br>REAL RESULTS.",
+        metaBotR: "AI TURNS<br>IDEAS INTO INCOME.",
+        desc: "Slide 1: Isometric Domino Plinth Stand showcasing all 7 agent tiles standing upright on an extruded base tray.",
+        type: "plinth",
+        items: [
+          { name: "PRODUCTS", color: "#FF7A00", icon: "box" },
+          { name: "LEADS", color: "#007AFF", icon: "users" },
+          { name: "CONTENT", color: "#9333EA", icon: "play" },
+          { name: "SALES", color: "#10B981", icon: "chart" },
+          { name: "RESEARCH", color: "#EF4444", icon: "search" },
+          { name: "ADS", color: "#F59E0B", icon: "speaker" },
+          { name: "OPERATIONS", color: "#4B5563", icon: "gear" }
+        ]
+      },
+      {
+        id: 2,
+        metaTopL: "BUILD<br>AUTOMATE<br>SCALE",
+        metaTopR: "IDEAS<br>LEADS<br>SALES",
+        num: "02",
+        title: "IT FINDS",
+        titleGreen: "WHAT PEOPLE WANT.",
+        subtitle: "THE RESEARCH + PRODUCT AGENTS FIND REAL OPPORTUNITIES.",
+        metaBotL: "SAME WORK.<br>MORE OUTPUT.<br>BIGGER OPPORTUNITIES.",
+        metaBotR: "AI TURNS<br>IDEAS INTO INCOME.",
+        desc: "Slide 2: Dual Agent Hub. Trends, Problems, and Demand inputs flow into Research and Products, yielding Product Ideas.",
+        type: "flow_research"
+      },
+      {
+        id: 3,
+        metaTopL: "BUILD<br>AUTOMATE<br>SCALE",
+        metaTopR: "IDEAS<br>LEADS<br>SALES",
+        num: "03",
+        title: "THEN IT FINDS",
+        titleGreen: "CUSTOMERS.",
+        subtitle: "THE LEAD AGENT FINDS AND QUALIFIES THE RIGHT PEOPLE.",
+        metaBotL: "SAME WORK.<br>MORE OUTPUT.<br>BIGGER OPPORTUNITIES.",
+        metaBotR: "AI TURNS<br>IDEAS INTO INCOME.",
+        desc: "Slide 3: Prospecting Pipeline. Lead channels feed into the Leads agent to produce a checklist of Qualified Leads.",
+        type: "flow_leads"
+      },
+      {
+        id: 4,
+        metaTopL: "BUILD<br>AUTOMATE<br>SCALE",
+        metaTopR: "IDEAS<br>LEADS<br>SALES",
+        num: "04",
+        title: "THEN IT GETS",
+        titleGreen: "ATTENTION.",
+        subtitle: "THE CONTENT + ADS AGENTS CREATE POSTS, VIDEOS AND ADS TO BRING IN TRAFFIC.",
+        metaBotL: "SAME WORK.<br>MORE OUTPUT.<br>BIGGER OPPORTUNITIES.",
+        metaBotR: "AI TURNS<br>IDEAS INTO INCOME.",
+        desc: "Slide 4: Traffic Engine. Content and Ads agents create high-performing social video assets producing massive reach.",
+        type: "flow_content"
+      },
+      {
+        id: 5,
+        metaTopL: "BUILD<br>AUTOMATE<br>SCALE",
+        metaTopR: "IDEAS<br>LEADS<br>SALES",
+        num: "05",
+        title: "THEN IT HELPS",
+        titleGreen: "MAKE THE SALE.",
+        subtitle: "THE SALES AGENT OUTREACHES, FOLLOWS UP, AND CONVERTS LEADS INTO CUSTOMERS.",
+        metaBotL: "SAME WORK.<br>MORE OUTPUT.<br>BIGGER OPPORTUNITIES.",
+        metaBotR: "AI TURNS<br>IDEAS INTO INCOME.",
+        desc: "Slide 5: Sales Conversion Pipeline. 4 stages: Outreach, Follow Up, Book Calls, Close Sales ($997).",
+        type: "flow_sales"
+      },
+      {
+        id: 6,
+        metaTopL: "BUILD<br>AUTOMATE<br>SCALE",
+        metaTopR: "IDEAS<br>LEADS<br>SALES",
+        num: "06",
+        title: "ONE AI KEEPS",
+        titleGreen: "IT ALL RUNNING.",
+        subtitle: "THE OPERATIONS AGENT CONNECTS EVERY AGENT, MANAGES TASKS, AND KEEPS THINGS MOVING 24/7.",
+        metaBotL: "A SYSTEM THAT WORKS<br><span style='color:var(--brand-green);'>TOGETHER.</span>",
+        metaBotR: "AI TURNS<br>IDEAS INTO INCOME.",
+        desc: "Slide 6: Hub-and-Spoke Topology. Operations agent sits at center with green conduits linking all 6 agents cleanly underneath.",
+        type: "hub_spoke"
+      },
+      {
+        id: 7,
+        metaTopL: "BUILD<br>AUTOMATE<br>SCALE",
+        metaTopR: "7 AGENTS.<br>1 SYSTEM.<br>REAL RESULTS.",
+        num: "07",
+        title: "THE FULL AI",
+        titleGreen: "MONEY-MAKING TEAM.",
+        subtitle: "7 AGENTS. 1 SYSTEM. REAL RESULTS.",
+        metaBotL: "SAME WORK.<br>MORE OUTPUT.<br>BIGGER OPPORTUNITIES.",
+        metaBotR: "AI TURNS<br>IDEAS INTO INCOME.",
+        desc: "Slide 7: Circular Flywheel Engine. Perimeter cycle with green arrows and spoke connections to central Operations.",
+        type: "flywheel"
+      },
+      {
+        id: 8,
+        metaTopL: "BUILD<br>AUTOMATE<br>SCALE",
+        metaTopR: "IDEAS<br>LEADS<br>SALES",
+        num: "08",
+        title: "I BUILT THE",
+        titleGreen: "FULL TEAM.",
+        subtitle: "SAME WORK. MORE OUTPUT. BIGGER OPPORTUNITIES.",
+        metaBotL: "REAL TOOLS.<br>REAL SYSTEMS.<br>REAL RESULTS.",
+        metaBotR: "AI TURNS<br>IDEAS INTO INCOME.",
+        desc: "Slide 8: Outro & Call to Action. Plinth rack + comment trigger button for automated DM funnel.",
+        type: "cta"
+      }
+    ];
+
+    let currentSlide = 0;
+
+    const icons = {
+      box: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="2.2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>`,
+      users: `<svg width="24" height="24" viewBox="0 0 24 24" fill="#007AFF"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+      play: `<svg width="24" height="24" viewBox="0 0 24 24" fill="#9333EA"><rect width="20" height="20" x="2" y="2" rx="6" fill="#9333EA" fill-opacity="0.15" stroke="#9333EA" stroke-width="2"></rect><polygon points="10 8 16 12 10 16 10 8" fill="#9333EA"></polygon></svg>`,
+      chart: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="m3 17 6-6 4 4 8-8"></path><path d="m14 7 7 0 0 7"></path></svg>`,
+      search: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`,
+      speaker: `<svg width="24" height="24" viewBox="0 0 24 24" fill="#F59E0B"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>`,
+      gear: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>`
+    };
+
+    function renderSlide(idx) {
+      const data = slidesData[idx];
+      const el = document.getElementById("slideViewport");
+
+      let headerHTML = `
+        <div class="slide-header">
+          <div class="slide-top-meta">
+            <div>${data.metaTopL}<div class="line"></div></div>
+            <div style="text-align:right;">${data.metaTopR}<div class="line" style="margin-left:auto;"></div></div>
+          </div>
+          <div class="slide-number-title">
+            ${data.num ? `<div class="slide-num">${data.num}</div><div class="slide-divider"></div>` : ''}
+            <div class="slide-title-wrap">
+              <div class="slide-title-main">${data.title} <span class="slide-title-green">${data.titleGreen}</span></div>
+            </div>
+          </div>
+          <div class="slide-subtitle">${data.subtitle}</div>
+          <div class="slide-subtitle-bar"></div>
+        </div>
+      `;
+
+      let stageHTML = "";
+
+      if (data.type === "plinth") {
+        stageHTML = `
+          <div class="slide-stage">
+            <div class="plinth-wrapper">
+              <div class="domino-row">
+                ${data.items.map(it => `
+                  <div class="domino-tile">
+                    <div class="tile-icon">${icons[it.icon]}</div>
+                    <div class="tile-label">${it.name}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="plinth-base-3d">
+                <div class="plinth-engrave-title">AI TEAM</div>
+                <div class="plinth-engrave-tag">24/7</div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (data.type === "flow_research") {
+        stageHTML = `
+          <div class="slide-stage" style="flex-direction:column; justify-content:space-between; width:100%; height:290px; position:relative;">
+            <!-- Background conduits: strictly behind tiles (z-index: 1) -->
+            <svg class="pipe-svg" viewBox="0 0 420 290" preserveAspectRatio="none">
+              <path d="M 65 35 L 65 80 L 120 120" class="pipe-path-gray" />
+              <path d="M 210 35 L 210 120" class="pipe-path-gray" />
+              <path d="M 355 35 L 355 80 L 300 120" class="pipe-path-gray" />
+              <path d="M 140 195 L 140 220 L 210 240 L 280 220 L 280 195" class="pipe-path-gray" />
+            </svg>
+
+            <!-- Top Input Chips (z-index: 10) -->
+            <div style="display:flex; justify-content:space-between; width:100%; position:relative; z-index:10;">
+              <div class="clay-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#333"><rect x="3" y="12" width="4" height="8"></rect><rect x="10" y="8" width="4" height="12"></rect><rect x="17" y="4" width="4" height="16"></rect></svg>
+                <div><div style="font-size:9px; font-weight:800;">TRENDS</div><div style="font-size:8px; color:#666;">What's growing?</div></div>
+              </div>
+              <div class="clay-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#333"><circle cx="9" cy="7" r="4"></circle><path d="M17 11a3 3 0 1 0 0-6"></path><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"></path></svg>
+                <div><div style="font-size:9px; font-weight:800;">PROBLEMS</div><div style="font-size:8px; color:#666;">What do people need?</div></div>
+              </div>
+              <div class="clay-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#333"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                <div><div style="font-size:9px; font-weight:800;">DEMAND</div><div style="font-size:8px; color:#666;">What's searched?</div></div>
+              </div>
+            </div>
+
+            <!-- Middle 2 Agents (z-index: 10) -->
+            <div style="display:flex; justify-content:center; align-items:center; gap:24px; width:100%; position:relative; z-index:10;">
+              <div class="clay-tile" style="width:160px; height:120px; padding:12px;">
+                ${icons.search}
+                <div style="font-weight:800; font-size:13px; margin:4px 0 2px;">RESEARCH</div>
+                <div style="font-size:8.5px; color:#666; line-height:1.3;">Analyze trends<br>Find pain points<br>Validate demand</div>
+              </div>
+              
+              <div style="font-size:24px; font-weight:900; color:#111; z-index:10;">&rarr;</div>
+
+              <div class="clay-tile" style="width:160px; height:120px; padding:12px;">
+                ${icons.box}
+                <div style="font-weight:800; font-size:13px; margin:4px 0 2px;">PRODUCTS</div>
+                <div style="font-size:8.5px; color:#666; line-height:1.3;">Generate ideas<br>Evaluate potential<br>Prioritize best options</div>
+              </div>
+            </div>
+
+            <!-- Bottom Output Slab (z-index: 10) -->
+            <div class="clay-slab" style="position:relative; z-index:10;">
+              <div style="width:32px; height:32px; background:rgba(0,208,72,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-green)" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+              </div>
+              <div style="border-left:2px solid #ccc; padding-left:12px;">
+                <div style="font-family:'Anton',sans-serif; font-size:16px; letter-spacing:0.5px; color:#111;">PRODUCT IDEAS</div>
+                <div style="font-size:9px; color:#555;">Real opportunities to build or sell.</div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (data.type === "flow_leads") {
+        stageHTML = `
+          <div class="slide-stage" style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:14px; position:relative;">
+            <!-- Background conduits (z-index: 1) -->
+            <svg class="pipe-svg" viewBox="0 0 420 260">
+              <path d="M 120 38 C 170 38, 170 125, 200 125" class="pipe-path-gray" />
+              <path d="M 120 95 C 160 95, 170 125, 200 125" class="pipe-path-gray" />
+              <path d="M 120 155 C 160 155, 170 125, 200 125" class="pipe-path-gray" />
+              <path d="M 120 215 C 170 215, 170 125, 200 125" class="pipe-path-gray" />
+              <path d="M 270 125 L 310 125" class="pipe-path-green" />
+            </svg>
+
+            <!-- Left Channel Chips (z-index: 10) -->
+            <div style="display:flex; flex-direction:column; gap:10px; width:135px; position:relative; z-index:10;">
+              <div class="clay-pill" style="padding:7px 10px;">
+                <div style="color:#EA4335; font-weight:800; font-size:12px;">📍</div>
+                <div><div style="font-size:9px; font-weight:800;">GOOGLE MAPS</div><div style="font-size:7.5px; color:#666;">Local businesses</div></div>
+              </div>
+              <div class="clay-pill" style="padding:7px 10px;">
+                <div style="color:#0A66C2; font-weight:800; font-size:12px;">in</div>
+                <div><div style="font-size:9px; font-weight:800;">LINKEDIN</div><div style="font-size:7.5px; color:#666;">Decision makers</div></div>
+              </div>
+              <div class="clay-pill" style="padding:7px 10px;">
+                <div style="font-size:12px;">🌐</div>
+                <div><div style="font-size:9px; font-weight:800;">WEBSITES</div><div style="font-size:7.5px; color:#666;">Company data</div></div>
+              </div>
+              <div class="clay-pill" style="padding:7px 10px;">
+                <div style="font-size:12px;">👥</div>
+                <div><div style="font-size:9px; font-weight:800;">NICHE LISTS</div><div style="font-size:7.5px; color:#666;">Target industries</div></div>
+              </div>
+            </div>
+
+            <!-- Middle Agent Tile (z-index: 10) -->
+            <div class="clay-tile" style="width:130px; height:150px; padding:12px; position:relative; z-index:10;">
+              ${icons.users}
+              <div style="font-weight:800; font-size:13px; margin:8px 0 4px;">LEADS</div>
+              <div style="font-size:8.5px; color:#666; line-height:1.4;">Find prospects<br>Qualify with AI<br>Build targeted lists</div>
+            </div>
+
+            <!-- Right Results Notepad Tile (z-index: 10) -->
+            <div class="clay-tile" style="width:135px; height:175px; padding:14px 12px; align-items:flex-start; text-align:left; position:relative; z-index:10;">
+              <div style="font-family:'Anton',sans-serif; font-size:12px; letter-spacing:0.5px; margin-bottom:10px; width:100%; text-align:center;">QUALIFIED LEADS</div>
+              ${[1,2,3,4,5].map(() => `
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:7px; width:100%;">
+                  <div style="width:13px; height:13px; border-radius:50%; background:var(--brand-green); display:flex; align-items:center; justify-content:center; color:#fff; font-size:8px; font-weight:800;">✓</div>
+                  <div style="height:5px; background:#CBD5E1; border-radius:3px; flex:1;"></div>
+                </div>
+              `).join('')}
+              <div style="margin-top:auto; font-size:7.5px; font-weight:800; color:#444; text-transform:uppercase;">PEOPLE READY TO BUY.</div>
+            </div>
+          </div>
+        `;
+      } else if (data.type === "flow_content") {
+        stageHTML = `
+          <div class="slide-stage" style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:12px; position:relative;">
+            <svg class="pipe-svg" viewBox="0 0 420 260">
+              <path d="M 120 65 L 170 65 L 170 120 L 200 120" class="pipe-path-gray" />
+              <path d="M 120 185 L 170 185 L 170 130 L 200 130" class="pipe-path-gray" />
+              <path d="M 285 125 L 320 125" class="pipe-path-green" />
+            </svg>
+
+            <!-- Left 2 Agents (z-index: 10) -->
+            <div style="display:flex; flex-direction:column; gap:16px; position:relative; z-index:10;">
+              <div class="clay-tile" style="width:125px; height:95px; padding:8px;">
+                ${icons.play}
+                <div style="font-weight:800; font-size:11px; margin-top:2px;">CONTENT</div>
+                <div style="font-size:7.5px; color:#666;">Posts, scripts, clips</div>
+              </div>
+              <div class="clay-tile" style="width:125px; height:95px; padding:8px;">
+                ${icons.speaker}
+                <div style="font-weight:800; font-size:11px; margin-top:2px;">ADS</div>
+                <div style="font-size:7.5px; color:#666;">Targeting & campaigns</div>
+              </div>
+            </div>
+
+            <!-- Middle Social Cards (z-index: 10) -->
+            <div class="clay-tile" style="width:145px; height:215px; padding:10px 8px; gap:8px; position:relative; z-index:10;">
+              <div style="background:#1e293b; color:white; border-radius:8px; padding:7px 8px; width:100%; font-size:8px; text-align:left;">
+                <div style="font-weight:700;">TURN IDEAS INTO INCOME</div>
+                <div style="color:var(--brand-green); font-weight:800; margin-top:2px;">▶ 1.2M</div>
+              </div>
+              <div style="background:#1e293b; color:white; border-radius:8px; padding:7px 8px; width:100%; font-size:8px; text-align:left;">
+                <div style="font-weight:700;">AUTOMATE YOUR WORK</div>
+                <div style="color:var(--brand-green); font-weight:800; margin-top:2px;">▶ 420K</div>
+              </div>
+              <div style="background:#1e293b; color:white; border-radius:8px; padding:7px 8px; width:100%; font-size:8px; text-align:left;">
+                <div style="font-weight:700;">WORK LESS, MAKE MORE</div>
+                <div style="color:var(--brand-green); font-weight:800; margin-top:2px;">▶ 315K</div>
+              </div>
+            </div>
+
+            <!-- Right Traffic Metrics (z-index: 10) -->
+            <div class="clay-tile" style="width:130px; height:185px; padding:12px 8px; text-align:left; position:relative; z-index:10;">
+              <div style="font-family:'Anton',sans-serif; font-size:12px; margin-bottom:10px; text-align:center;">MORE TRAFFIC</div>
+              <div style="font-size:8px; font-weight:800; margin-bottom:4px;">👁 VISIBILITY</div>
+              <div style="font-size:7px; color:#666; margin-bottom:8px;">More people see you</div>
+              <div style="font-size:8px; font-weight:800; margin-bottom:4px;">👥 AUDIENCE</div>
+              <div style="font-size:7px; color:#666; margin-bottom:8px;">Grow following</div>
+              <div style="font-size:8px; font-weight:800; margin-bottom:4px;">📈 OPPORTUNITIES</div>
+              <div style="font-size:7px; color:#666;">More buyers</div>
+            </div>
+          </div>
+        `;
+      } else if (data.type === "flow_sales") {
+        stageHTML = `
+          <div class="slide-stage" style="flex-direction:column; gap:16px; width:100%; position:relative;">
+            <!-- Top 4 Sales Stages (z-index: 10) -->
+            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; width:100%; position:relative; z-index:10;">
+              <div class="clay-tile" style="padding:10px 4px; height:110px;">
+                <div style="font-size:16px; margin-bottom:4px;">✉️</div>
+                <div style="font-size:9px; font-weight:800;">OUTREACH</div>
+                <div style="font-size:7.5px; color:#666; margin-top:3px;">Personalized scale</div>
+              </div>
+              <div class="clay-tile" style="padding:10px 4px; height:110px;">
+                <div style="font-size:16px; margin-bottom:4px;">💬</div>
+                <div style="font-size:9px; font-weight:800;">FOLLOW UP</div>
+                <div style="font-size:7.5px; color:#666; margin-top:3px;">Handles replies</div>
+              </div>
+              <div class="clay-tile" style="padding:10px 4px; height:110px;">
+                <div style="font-size:16px; margin-bottom:4px;">📅</div>
+                <div style="font-size:9px; font-weight:800;">BOOK CALLS</div>
+                <div style="font-size:7.5px; color:#666; margin-top:3px;">Schedules meets</div>
+              </div>
+              <div class="clay-tile" style="padding:10px 4px; height:110px;">
+                <div style="font-size:16px; margin-bottom:4px;">🤝</div>
+                <div style="font-size:9px; font-weight:800;">CLOSE SALES</div>
+                <div style="font-size:7.5px; color:#666; margin-top:3px;">Paying clients</div>
+              </div>
+            </div>
+
+            <!-- Dialogue & Result Cards (z-index: 10) -->
+            <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; width:100%; position:relative; z-index:10;">
+              <div class="clay-pill" style="padding:8px 12px; font-size:8.5px; line-height:1.3; color:#333;">
+                "Hey! I saw your business on Google. Had an idea to help you get more customers..." ✈️
+              </div>
+              <div class="clay-pill" style="padding:8px 12px; justify-content:space-between; background:linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+                <div>
+                  <div style="font-size:8px; font-weight:800; color:#15803d;">NEW CUSTOMER!</div>
+                  <div style="font-size:16px; font-family:'Anton',sans-serif; color:#166534;">$997</div>
+                </div>
+                <div style="width:20px; height:20px; background:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px;">✓</div>
+              </div>
+            </div>
+
+            <!-- Bottom Slab (z-index: 10) -->
+            <div class="clay-slab" style="margin-top:4px; position:relative; z-index:10;">
+              <div style="font-size:22px;">👥 📈</div>
+              <div style="border-left:2px solid #ccc; padding-left:14px;">
+                <div style="font-family:'Anton',sans-serif; font-size:16px; color:#111;">MORE CUSTOMERS. MORE REVENUE.</div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (data.type === "hub_spoke") {
+        /* FIXED SLIDE 06:
+           1. Green pipes are in the background (z-index: 1).
+           2. All cards have solid opaque backgrounds and z-index: 10.
+           3. Lines route cleanly from the center Operations card to the outer cards! */
+        stageHTML = `
+          <div class="slide-stage" style="position:relative; width:410px; height:280px;">
+            <!-- Background green conduits: strictly UNDER the cards -->
+            <svg class="pipe-svg" viewBox="0 0 410 280">
+              <!-- Up to Leads -->
+              <line x1="205" y1="140" x2="205" y2="40" class="pipe-path-green" />
+              <!-- Down to Sales -->
+              <line x1="205" y1="140" x2="205" y2="240" class="pipe-path-green" />
+              <!-- Left to Products (via 90 deg bend) -->
+              <path d="M 205 140 L 70 140 L 70 45" class="pipe-path-green" />
+              <!-- Left to Research (via 90 deg bend) -->
+              <path d="M 205 140 L 70 140 L 70 235" class="pipe-path-green" />
+              <!-- Right to Content (via 90 deg bend) -->
+              <path d="M 205 140 L 340 140 L 340 45" class="pipe-path-green" />
+              <!-- Right to Ads (via 90 deg bend) -->
+              <path d="M 205 140 L 340 140 L 340 235" class="pipe-path-green" />
+            </svg>
+
+            <!-- TOP ROW TILES (z-index: 10, completely solid) -->
+            <div class="clay-tile" style="position:absolute; top:8px; left:18px; width:104px; height:74px; padding:6px;">
+              ${icons.box}
+              <div style="font-size:8.5px; font-weight:800; margin-top:2px;">PRODUCTS</div>
+              <div style="font-size:7px; color:#666;">Validates ideas</div>
+            </div>
+
+            <div class="clay-tile" style="position:absolute; top:0px; left:155px; width:100px; height:74px; padding:6px;">
+              ${icons.users}
+              <div style="font-size:8.5px; font-weight:800; margin-top:2px;">LEADS</div>
+              <div style="font-size:7px; color:#666;">Finds customers</div>
+            </div>
+
+            <div class="clay-tile" style="position:absolute; top:8px; right:18px; width:104px; height:74px; padding:6px;">
+              ${icons.play}
+              <div style="font-size:8.5px; font-weight:800; margin-top:2px;">CONTENT</div>
+              <div style="font-size:7px; color:#666;">Posts & videos</div>
+            </div>
+
+            <!-- CENTER OPERATIONS NODE (z-index: 12) -->
+            <div class="clay-tile" style="position:absolute; top:95px; left:150px; width:110px; height:90px; padding:8px; z-index:12; border:2px solid rgba(0,208,72,0.6);">
+              ${icons.gear}
+              <div style="font-weight:900; font-size:10px; margin-top:2px;">OPERATIONS</div>
+              <div style="font-size:7px; color:#555; line-height:1.2;">Coordinates & automates 24/7</div>
+            </div>
+
+            <!-- BOTTOM ROW TILES (z-index: 10) -->
+            <div class="clay-tile" style="position:absolute; bottom:8px; left:18px; width:104px; height:74px; padding:6px;">
+              ${icons.search}
+              <div style="font-size:8.5px; font-weight:800; margin-top:2px;">RESEARCH</div>
+              <div style="font-size:7px; color:#666;">Trends & demand</div>
+            </div>
+
+            <div class="clay-tile" style="position:absolute; bottom:0px; left:155px; width:100px; height:74px; padding:6px;">
+              ${icons.chart}
+              <div style="font-size:8.5px; font-weight:800; margin-top:2px;">SALES</div>
+              <div style="font-size:7px; color:#666;">Converts leads</div>
+            </div>
+
+            <div class="clay-tile" style="position:absolute; bottom:8px; right:18px; width:104px; height:74px; padding:6px;">
+              ${icons.speaker}
+              <div style="font-size:8.5px; font-weight:800; margin-top:2px;">ADS</div>
+              <div style="font-size:7px; color:#666;">Traffic & reach</div>
+            </div>
+          </div>
+        `;
+      } else if (data.type === "flywheel") {
+        /* FIXED SLIDE 07:
+           1. Perimeter dashed cycle and radiating spokes are behind cards (z-index: 1).
+           2. All cards have solid opaque backgrounds and z-index: 10 so lines never cross over text.
+           3. Badges (1-7) are neatly pinned on the cards (z-index: 25). */
+        stageHTML = `
+          <div class="slide-stage" style="position:relative; width:410px; height:280px;">
+            <!-- Background Cycle & Spokes SVG (z-index: 1) -->
+            <svg class="pipe-svg" viewBox="0 0 410 280">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--brand-green)" />
+                </marker>
+              </defs>
+
+              <!-- Outer Perimeter Cycle (underneath the cards) -->
+              <ellipse cx="205" cy="140" rx="145" ry="115" class="pipe-path-green" stroke-dasharray="8 6" />
+
+              <!-- Radiating Spokes connecting Center to each node (underneath) -->
+              <line x1="205" y1="140" x2="205" y2="40" class="pipe-path-green" />
+              <line x1="205" y1="140" x2="335" y2="75" class="pipe-path-green" />
+              <line x1="205" y1="140" x2="335" y2="205" class="pipe-path-green" />
+              <line x1="205" y1="140" x2="205" y2="240" class="pipe-path-green" />
+              <line x1="205" y1="140" x2="75" y2="205" class="pipe-path-green" />
+              <line x1="205" y1="140" x2="75" y2="75" class="pipe-path-green" />
+            </svg>
+
+            <!-- 1. TOP NODE: PRODUCTS -->
+            <div class="clay-tile" style="position:absolute; top:2px; left:157px; width:96px; height:64px; padding:4px;">
+              <div class="pipe-badge">1</div>
+              ${icons.box}
+              <div style="font-size:8px; font-weight:800; margin-top:2px;">PRODUCTS</div>
+            </div>
+
+            <!-- 2. TOP RIGHT: RESEARCH -->
+            <div class="clay-tile" style="position:absolute; top:50px; right:20px; width:92px; height:64px; padding:4px;">
+              <div class="pipe-badge">2</div>
+              ${icons.search}
+              <div style="font-size:8px; font-weight:800; margin-top:2px;">RESEARCH</div>
+            </div>
+
+            <!-- 3. BOTTOM RIGHT: LEADS -->
+            <div class="clay-tile" style="position:absolute; bottom:40px; right:20px; width:92px; height:64px; padding:4px;">
+              <div class="pipe-badge">3</div>
+              ${icons.users}
+              <div style="font-size:8px; font-weight:800; margin-top:2px;">LEADS</div>
+            </div>
+
+            <!-- 4. BOTTOM NODE: CONTENT -->
+            <div class="clay-tile" style="position:absolute; bottom:2px; left:157px; width:96px; height:64px; padding:4px;">
+              <div class="pipe-badge">4</div>
+              ${icons.play}
+              <div style="font-size:8px; font-weight:800; margin-top:2px;">CONTENT</div>
+            </div>
+
+            <!-- 5. BOTTOM LEFT: ADS -->
+            <div class="clay-tile" style="position:absolute; bottom:40px; left:20px; width:92px; height:64px; padding:4px;">
+              <div class="pipe-badge">5</div>
+              ${icons.speaker}
+              <div style="font-size:8px; font-weight:800; margin-top:2px;">ADS</div>
+            </div>
+
+            <!-- 6. TOP LEFT: SALES -->
+            <div class="clay-tile" style="position:absolute; top:50px; left:20px; width:92px; height:64px; padding:4px;">
+              <div class="pipe-badge">6</div>
+              ${icons.chart}
+              <div style="font-size:8px; font-weight:800; margin-top:2px;">SALES</div>
+            </div>
+
+            <!-- 7. CENTER NODE: OPERATIONS -->
+            <div class="clay-tile" style="position:absolute; top:95px; left:150px; width:110px; height:90px; padding:6px; z-index:15; border:2px solid rgba(0,208,72,0.6);">
+              <div class="pipe-badge">7</div>
+              ${icons.gear}
+              <div style="font-weight:900; font-size:9.5px; margin-top:2px;">OPERATIONS</div>
+              <div style="font-size:7px; color:#555;">Coordinates & runs 24/7</div>
+            </div>
+          </div>
+        `;
+      } else if (data.type === "cta") {
+        stageHTML = `
+          <div class="slide-stage" style="flex-direction:column; gap:20px; width:100%;">
+            <div class="plinth-wrapper">
+              <div class="domino-row">
+                ${slidesData[0].items.map(it => `
+                  <div class="domino-tile" style="height:90px; width:44px; padding:10px 3px 6px;">
+                    <div class="tile-icon" style="transform:scale(0.85);">${icons[it.icon]}</div>
+                    <div class="tile-label" style="font-size:7px;">${it.name}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="plinth-base-3d" style="height:38px; width:360px;">
+                <div class="plinth-engrave-title" style="font-size:15px;">AI MONEY-MAKING TEAM</div>
+                <div class="plinth-engrave-tag" style="font-size:18px;">24/7</div>
+              </div>
+            </div>
+
+            <div style="background:#0D1117; border:2px solid var(--brand-green); border-radius:18px; padding:12px 24px; display:flex; align-items:center; gap:16px; box-shadow:0 10px 25px rgba(0,208,72,0.25); width:100%; max-width:340px; position:relative; z-index:10;">
+              <div style="font-size:26px;">💬</div>
+              <div>
+                <div style="font-size:9.5px; color:#A1A1AA; letter-spacing:1.5px; font-weight:800;">COMMENT</div>
+                <div style="font-family:'Anton',sans-serif; font-size:26px; color:var(--brand-green); letter-spacing:1px; line-height:1;">"TEAM"</div>
+                <div style="font-size:8.5px; color:#E4E4E7; margin-top:2px;">I'll send you the full setup + prompts.</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      let footerHTML = `
+        <div class="slide-footer">
+          <div>${data.metaBotL}<div class="line"></div></div>
+          <div style="text-align:right;">${data.metaBotR}<div class="line" style="margin-left:auto;"></div></div>
+        </div>
+      `;
+
+      el.innerHTML = headerHTML + stageHTML + footerHTML;
+
+      renderDots();
+      document.getElementById("slideDesc").innerText = data.desc;
+      updateCodeSnippet();
+    }
+
+    function renderDots() {
+      const container = document.getElementById("dotsContainer");
+      container.innerHTML = slidesData.map((_, i) => `
+        <div class="dot ${i === currentSlide ? 'active' : ''}" onclick="goToSlide(${i})"></div>
+      `).join('');
+    }
+
+    function goToSlide(i) {
+      currentSlide = i;
+      document.querySelectorAll(".slide-tab-btn").forEach((btn, idx) => {
+        btn.classList.toggle("active", idx === i);
+      });
+      renderSlide(currentSlide);
+    }
+
+    function nextSlide() {
+      if (currentSlide < slidesData.length - 1) goToSlide(currentSlide + 1);
+      else goToSlide(0);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) goToSlide(currentSlide - 1);
+      else goToSlide(slidesData.length - 1);
+    }
+
+    function updateCodeSnippet() {
+      const cssRecipe = `/* Pure CSS Tactile 3D Claymorphic Tile with Stacking Isolation */
+.clay-tile {
+  background: linear-gradient(155deg, #FFFFFF 0%, #F5F4F0 40%, #EAE8E2 100%);
+  border-radius: 20px;
+  position: relative;
+  z-index: 10; /* Strictly above background connector lines */
+  box-shadow: 
+    /* Specular rim */
+    inset 1.5px 1.5px 3px rgba(255, 255, 255, 1.0),
+    /* Bevel shade */
+    inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.04),
+    /* Ambient occlusion */
+    0 6px 12px -2px rgba(0, 0, 0, 0.05),
+    /* Soft diffuse shadow */
+    0 14px 28px -6px rgba(110, 100, 90, 0.16);
+}
+
+/* Connector Pipes: strictly placed behind the tiles */
+.pipe-svg {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* Sits underneath tiles so lines never cross text */
+  pointer-events: none;
+}`;
+      document.getElementById("codeSnippet").innerText = cssRecipe;
+    }
+
+    function copyRecipe() {
+      const text = document.getElementById("codeSnippet").innerText;
+      navigator.clipboard.writeText(text);
+      alert("CSS Recipe copied to clipboard!");
+    }
+
+    function toggleTheme() {
+      const vp = document.getElementById("slideViewport");
+      if (vp.style.filter === "invert(0.9) hue-rotate(180deg)") {
+        vp.style.filter = "none";
+      } else {
+        vp.style.filter = "invert(0.9) hue-rotate(180deg)";
+      }
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") nextSlide();
+      if (e.key === "ArrowLeft") prevSlide();
+    });
+
+    renderSlide(0);
+  </script>
+</body>
+</html>
