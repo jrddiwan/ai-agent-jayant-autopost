@@ -24,6 +24,7 @@ from pathlib import Path
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") or "AQ.Ab8RN6JR1YuN17YDmBFjTXHXz5xTwY9ZSR65Z3fshG09mLMLSQ"
 BUFFER_API_TOKEN = os.environ.get("BUFFER_API_TOKEN") or "yQto5YnVBWqNBlJsJnkOi5ETOiwc6t-fl3YMxIpOIjz"
 BUFFER_CHANNEL_ID = os.environ.get("BUFFER_CHANNEL_ID") or "6a8cc31bccaf649a670cfa58"  # @ai.agent_jayant
+IMGBB_API_KEY = os.environ.get("IMGBB_API_KEY") or "b8b703dc32b61b43e82ed5664e9bba17"
 
 # Optional Cloudflare R2
 R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID", "")
@@ -738,30 +739,64 @@ def upload_images(image_paths):
             print(f"  -> Uploaded to R2: {url}")
         return public_urls
 
-    # Priority 2: Direct High-Speed Image Host (FreeImage CDN / iili.io)
-    print("  -> Uploading to high-speed public CDN (FreeImage / iili.io)...")
-    for path_str in image_paths:
+    # Priority 2: Direct High-Speed Image Host (ImgBB & FreeImage with retries)
+    print("  -> Uploading to high-speed public CDN (ImgBB / FreeImage)...")
+    for idx, path_str in enumerate(image_paths):
         filepath = Path(path_str)
         with open(filepath, "rb") as f:
             b64_img = base64.b64encode(f.read()).decode("utf-8")
 
-        params = {
-            "key": "6d207e02198a847aa98d0a2a901485a5",
-            "action": "upload",
-            "source": b64_img,
-            "format": "json"
-        }
-        data = urllib.parse.urlencode(params).encode("utf-8")
-        req = urllib.request.Request(
-            "https://freeimage.host/api/1/upload",
-            data=data,
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            res = json.loads(resp.read().decode("utf-8"))
-            img_url = res["image"]["url"]
-            public_urls.append(img_url)
-            print(f"  -> Uploaded: {img_url}")
+        uploaded = False
+
+        # Try ImgBB first
+        if IMGBB_API_KEY:
+            for attempt in range(3):
+                try:
+                    data = urllib.parse.urlencode({
+                        "key": IMGBB_API_KEY,
+                        "image": b64_img
+                    }).encode("utf-8")
+                    req = urllib.request.Request("https://api.imgbb.com/1/upload", data=data)
+                    with urllib.request.urlopen(req, timeout=45) as resp:
+                        res = json.loads(resp.read().decode("utf-8"))
+                        img_url = res["data"]["url"]
+                        public_urls.append(img_url)
+                        print(f"  -> Uploaded Slide {idx+1} to ImgBB: {img_url}")
+                        uploaded = True
+                        break
+                except Exception as e:
+                    print(f"  -> ImgBB slide {idx+1} attempt {attempt+1} failed: {e}. Retrying in 3s...")
+                    time.sleep(3)
+
+        # Fallback to FreeImage if ImgBB fails
+        if not uploaded:
+            for attempt in range(3):
+                try:
+                    params = {
+                        "key": "6d207e02198a847aa98d0a2a901485a5",
+                        "action": "upload",
+                        "source": b64_img,
+                        "format": "json"
+                    }
+                    data = urllib.parse.urlencode(params).encode("utf-8")
+                    req = urllib.request.Request(
+                        "https://freeimage.host/api/1/upload",
+                        data=data,
+                        headers={"User-Agent": "Mozilla/5.0"}
+                    )
+                    with urllib.request.urlopen(req, timeout=45) as resp:
+                        res = json.loads(resp.read().decode("utf-8"))
+                        img_url = res["image"]["url"]
+                        public_urls.append(img_url)
+                        print(f"  -> Uploaded Slide {idx+1} to FreeImage: {img_url}")
+                        uploaded = True
+                        break
+                except Exception as e:
+                    print(f"  -> FreeImage slide {idx+1} attempt {attempt+1} failed: {e}. Retrying in 4s...")
+                    time.sleep(4)
+
+        if not uploaded:
+            raise RuntimeError(f"Failed to upload slide {idx+1} after multiple CDN attempts!")
 
     return public_urls
 
