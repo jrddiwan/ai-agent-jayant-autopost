@@ -3,7 +3,7 @@ Daily Automated Carousel Poster for @ai.agent_jayant
 Pipeline:
 1. Gemini API generates a viral AI workflow/tip carousel topic & content.
 2. Playwright renders the 3D claymorphic HTML slides at 1080x1350 PNG.
-3. Images are uploaded to Cloudflare R2 / ImgBB / tmpfiles.org to obtain public URLs.
+3. Images are uploaded via high-speed direct image host (FreeImage / iili.io) to obtain public URLs.
 4. Buffer GraphQL API schedules the carousel to @ai.agent_jayant.
 """
 
@@ -11,6 +11,7 @@ import os
 import sys
 import json
 import time
+import base64
 import urllib.request
 import urllib.parse
 from pathlib import Path
@@ -18,18 +19,16 @@ from pathlib import Path
 # ==========================================
 # CONFIGURATION & CREDENTIALS
 # ==========================================
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6JR1YuN17YDmBFjTXHXz5xTwY9ZSR65Z3fshG09mLMLSQ")
-BUFFER_API_TOKEN = os.environ.get("BUFFER_API_TOKEN", "yQto5YnVBWqNBlJsJnkOi5ETOiwc6t-fl3YMxIpOIjz")
-BUFFER_CHANNEL_ID = os.environ.get("BUFFER_CHANNEL_ID", "6a8cc31bccaf649a670cfa58")  # @ai.agent_jayant
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") or "AQ.Ab8RN6JR1YuN17YDmBFjTXHXz5xTwY9ZSR65Z3fshG09mLMLSQ"
+BUFFER_API_TOKEN = os.environ.get("BUFFER_API_TOKEN") or "yQto5YnVBWqNBlJsJnkOi5ETOiwc6t-fl3YMxIpOIjz"
+BUFFER_CHANNEL_ID = os.environ.get("BUFFER_CHANNEL_ID") or "6a8cc31bccaf649a670cfa58"  # @ai.agent_jayant
 
-# Storage options
+# Optional Cloudflare R2
 R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID", "")
 R2_ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID", "")
 R2_SECRET_ACCESS_KEY = os.environ.get("R2_SECRET_ACCESS_KEY", "")
 R2_BUCKET_NAME = os.environ.get("R2_BUCKET_NAME", "instagram-carousels")
 R2_PUBLIC_DOMAIN = os.environ.get("R2_PUBLIC_DOMAIN", "")
-
-IMGBB_API_KEY = os.environ.get("IMGBB_API_KEY", "b8b703dc32b61b43e82ed5664e9bba17")
 
 # Directories
 BASE_DIR = Path(__file__).parent.resolve()
@@ -196,7 +195,7 @@ def render_slides(carousel_data):
 
         for i in range(len(carousel_data["slides"])):
             page.evaluate(f"goToSlide({i})")
-            page.wait_for_timeout(300)
+            page.wait_for_timeout(350)
 
             out_file = OUTPUT_DIR / f"slide_{i+1}.png"
             slide_el = page.query_selector("#slideViewport")
@@ -239,35 +238,30 @@ def upload_images(image_paths):
             print(f"  -> Uploaded to R2: {url}")
         return public_urls
 
-    # Priority 2: tmpfiles.org (Instant, 100% Free, Zero configuration fallback)
-    print("  -> Uploading to high-speed temporary storage (tmpfiles.org)...")
+    # Priority 2: Direct High-Speed Image Host (FreeImage CDN / iili.io)
+    print("  -> Uploading to high-speed public CDN (FreeImage / iili.io)...")
     for path_str in image_paths:
         filepath = Path(path_str)
-        boundary = "----WebKitFormBoundaryAutoPoster7MA4YWxk"
         with open(filepath, "rb") as f:
-            file_bytes = f.read()
+            b64_img = base64.b64encode(f.read()).decode("utf-8")
 
-        body = (
-            f"--{boundary}\r\n"
-            f'Content-Disposition: form-data; name="file"; filename="{filepath.name}"\r\n'
-            f"Content-Type: image/png\r\n\r\n"
-        ).encode("utf-8") + file_bytes + f"\r\n--{boundary}--\r\n".encode("utf-8")
-
+        params = {
+            "key": "6d207e02198a847aa98d0a2a901485a5",
+            "action": "upload",
+            "source": b64_img,
+            "format": "json"
+        }
+        data = urllib.parse.urlencode(params).encode("utf-8")
         req = urllib.request.Request(
-            "https://tmpfiles.org/api/v1/upload",
-            data=body,
-            headers={
-                "Content-Type": f"multipart/form-data; boundary={boundary}",
-                "User-Agent": "Mozilla/5.0"
-            }
+            "https://freeimage.host/api/1/upload",
+            data=data,
+            headers={"User-Agent": "Mozilla/5.0"}
         )
         with urllib.request.urlopen(req) as resp:
             res = json.loads(resp.read().decode("utf-8"))
-            # convert view URL to direct download URL
-            raw_url = res["data"]["url"]
-            direct_url = raw_url.replace("tmpfiles.org/", "tmpfiles.org/dl/")
-            public_urls.append(direct_url)
-            print(f"  -> Uploaded: {direct_url}")
+            img_url = res["image"]["url"]
+            public_urls.append(img_url)
+            print(f"  -> Uploaded: {img_url}")
 
     return public_urls
 
@@ -303,8 +297,14 @@ def schedule_to_buffer(caption, image_urls):
             "channelId": BUFFER_CHANNEL_ID,
             "text": caption,
             "assets": assets_input,
-            "schedulingType": "queue",  # Automatically adds to your daily posting queue!
-            "mode": "automatic"
+            "schedulingType": "automatic",
+            "mode": "addToQueue",
+            "metadata": {
+                "instagram": {
+                    "type": "post",
+                    "shouldShareToFeed": True
+                }
+            }
         }
     }
 
@@ -322,6 +322,17 @@ def schedule_to_buffer(caption, image_urls):
         res = json.loads(resp.read().decode("utf-8"))
         print("Buffer API Response:")
         print(json.dumps(res, indent=2))
+
+        # Check for errors
+        if "errors" in res:
+            raise RuntimeError(f"Buffer GraphQL Error: {json.dumps(res['errors'])}")
+        create_post_data = res.get("data", {}).get("createPost", {})
+        if "message" in create_post_data:
+            raise RuntimeError(f"Buffer Mutation Error: {create_post_data['message']}")
+        post_obj = create_post_data.get("post")
+        if not post_obj or not post_obj.get("id"):
+            raise RuntimeError(f"Buffer did not return a valid post: {res}")
+        print(f"Successfully scheduled post ID: {post_obj.get('id')} for {post_obj.get('dueAt')}")
         return res
 
 
