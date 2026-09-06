@@ -1,10 +1,10 @@
 """
-Daily Automated Carousel Poster for @ai.agent_jayant
+Daily Automated 3D Carousel Poster for @ai.agent_jayant
 Pipeline:
-1. Gemini API generates a viral AI workflow/tip carousel topic & content.
-2. Playwright renders the 3D claymorphic HTML slides at 1080x1350 PNG.
-3. Images are uploaded via high-speed direct image host (FreeImage / iili.io) to obtain public URLs.
-4. Buffer GraphQL API schedules the carousel to @ai.agent_jayant.
+1. Dynamic Topic Rotator + Gemini Flash generates a fresh, viral AI topic & architecture.
+2. Playwright renders the tactile 3D claymorphic HTML slides at 1080x1350 portrait PNG.
+3. Images are uploaded to FreeImage CDN for direct high-speed image delivery.
+4. Buffer GraphQL API schedules the carousel to @ai.agent_jayant on Instagram.
 """
 
 import os
@@ -12,6 +12,7 @@ import sys
 import json
 import time
 import base64
+import random
 import urllib.request
 import urllib.parse
 from pathlib import Path
@@ -38,121 +39,149 @@ HTML_PATH = BASE_DIR / "index.html"
 
 
 # ==========================================
-# 1. GENERATE VIRAL CONTENT WITH GEMINI
+# 1. GENERATE DYNAMIC VIRAL AI CONTENT (Gemini)
 # ==========================================
+CATEGORIES = [
+    "AUTONOMOUS AI AGENTS (CrewAI, LangGraph, AutoGen, Multi-agent swarms, Browser agents)",
+    "AI NEWS & REVOLUTIONARY MODELS (Claude 3.7 Sonnet, DeepSeek V3 & R1, OpenAI Operator, Grok 3, Gemini 2.0)",
+    "AI BUSINESS AUTOMATION & REVENUE (Building 24/7 client systems, AI lead machines, Agency automation)",
+    "DEVELOPER & CODING WORKFLOWS (Cursor AI secrets, Claude Code CLI, Building fullstack apps in 10 minutes)",
+    "NO-CODE AI PIPELINES (n8n automations, Make.com + AI agent routing, Webhook swarms)",
+    "HIDDEN AI PRODUCTIVITY SECRETS (Deep research workflows, Advanced prompt engineering frameworks)"
+]
+
+
 def generate_carousel_content():
-    print("[1/4] Generating viral carousel topic with Gemini Flash...")
+    print("[1/4] Brainstorming viral AI topic with Gemini Flash...")
+    
+    # Pick today's category
+    chosen_category = random.choice(CATEGORIES)
+    print(f"  -> Category Theme: {chosen_category}")
+
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_API_KEY}"
     
-    prompt = """
-    You are the head content strategist for @ai.agent_jayant on Instagram.
-    Your mission: help the account grow to 10,000 followers fast by delivering high-value, save-worthy AI workflows, automation hacks, and developer/money-making systems.
+    prompt = f"""
+    You are the elite Instagram content strategist for @ai.agent_jayant.
+    Your target audience: developers, founders, tech professionals, and builders who want to master AI, autonomous agents, and automation to grow their income and save 20+ hours a week.
 
-    Create content for an 8-slide educational carousel.
-    The response MUST be ONLY valid JSON matching this schema (no markdown, no backticks):
-    {
-      "topic": "Short internal topic name",
-      "caption": "High-converting Instagram caption with strong hook, 3 bullet points, CTA to comment a keyword, and 10 viral hashtags (#AIAgents #Automation #AIWorkflows #TechTrends ...)",
+    TODAY'S THEME: {chosen_category}
+
+    Create an original, highly save-worthy 8-slide Instagram carousel breakdown on a specific, trending topic within this theme.
+    DO NOT use generic advice. Be specific, tactical, and mention real tools (like DeepSeek, Claude 3.7, Cursor, n8n, OpenAI, etc.).
+
+    Return ONLY a valid JSON object matching this structure (no markdown fences, no backticks, just raw JSON):
+    {{
+      "topic": "Specific viral topic name",
+      "categoryTag": "Short category pill (e.g. AI AGENTS, AI NEWS, DEV TOOLS, AUTOMATION)",
+      "ctaKeyword": "A single uppercase trigger keyword to comment (e.g. AGENT, PROMPT, FLOW, CLAUDE, SYSTEM, REVENUE)",
+      "ctaSub": "I'll DM you the full setup + copy-paste prompts.",
+      "caption": "Viral Instagram caption with hook, bullet points, CTA to comment the keyword, follow reminder for @ai.agent_jayant, and 15 hashtags.",
+      "plinthTitle": "2-3 word engraved title for 3D rack (e.g. CLAUDE 3.7, AGENT SWARM, DEEPSEEK)",
+      "plinthTag": "Short badge tag (e.g. 2026, V3, PRO, 24/7)",
+      "items": [
+        {{"name": "TOOL 1", "icon": "zap"}},
+        {{"name": "TOOL 2", "icon": "cpu"}},
+        {{"name": "TOOL 3", "icon": "bot"}},
+        {{"name": "TOOL 4", "icon": "chart"}},
+        {{"name": "TOOL 5", "icon": "gear"}}
+      ],
       "slides": [
-        {
+        {{
           "id": 1,
-          "metaTopL": "BUILD\\nAUTOMATE\\nSCALE",
-          "metaTopR": "IDEAS\\nLEADS\\nSALES",
           "num": "",
-          "title": "I BUILT AN",
-          "titleGreen": "AI AUTOMATION TEAM.",
-          "subtitle": "7 AI AGENTS. 1 BUSINESS SYSTEM.",
-          "metaBotL": "ONE TEAM.\\nREAL RESULTS.",
-          "metaBotR": "AI TURNS\\nIDEAS INTO INCOME."
-        },
-        {
+          "title": "PUNCHY HOOK LINE 1",
+          "titleGreen": "BOLD NEON PUNCHLINE.",
+          "subtitle": "THE 1-SENTENCE HOOK EXPLAINING THE SYSTEM.",
+          "metaBotL": "PRINCIPLE OR PROMISE",
+          "metaBotR": "VALUE PROPOSITION"
+        }},
+        {{
           "id": 2,
           "num": "02",
-          "title": "IT FINDS",
-          "titleGreen": "WHAT PEOPLE WANT.",
-          "subtitle": "THE RESEARCH + PRODUCT AGENTS FIND REAL OPPORTUNITIES.",
-          "metaBotL": "SAME WORK.\\nMORE OUTPUT.\\nBIGGER OPPORTUNITIES.",
-          "metaBotR": "AI TURNS\\nIDEAS INTO INCOME."
-        },
-        {
+          "title": "THE BREAKTHROUGH OR",
+          "titleGreen": "WHY IT MATTERS.",
+          "subtitle": "EXPLAINING THE CORE PROBLEM OR REVOLUTIONARY CAPABILITY.",
+          "metaBotL": "OLD WAY VS NEW WAY",
+          "metaBotR": "EXPONENTIAL LEVERAGE"
+        }},
+        {{
           "id": 3,
           "num": "03",
-          "title": "THEN IT FINDS",
-          "titleGreen": "CUSTOMERS.",
-          "subtitle": "THE LEAD AGENT FINDS AND QUALIFIES THE RIGHT PEOPLE.",
-          "metaBotL": "SAME WORK.\\nMORE OUTPUT.\\nBIGGER OPPORTUNITIES.",
-          "metaBotR": "AI TURNS\\nIDEAS INTO INCOME."
-        },
-        {
+          "title": "STEP 1:",
+          "titleGreen": "THE INGESTION / SETUP.",
+          "subtitle": "HOW THE DATA OR AGENT INITIALIZATION WORKS.",
+          "metaBotL": "STEP 1 BREAKDOWN",
+          "metaBotR": "AUTONOMOUS SYSTEM"
+        }},
+        {{
           "id": 4,
           "num": "04",
-          "title": "THEN IT GETS",
-          "titleGreen": "ATTENTION.",
-          "subtitle": "CONTENT + ADS AGENTS CREATE POSTS, VIDEOS AND ADS TO BRING IN TRAFFIC.",
-          "metaBotL": "SAME WORK.\\nMORE OUTPUT.\\nBIGGER OPPORTUNITIES.",
-          "metaBotR": "AI TURNS\\nIDEAS INTO INCOME."
-        },
-        {
+          "title": "STEP 2:",
+          "titleGreen": "THE EXECUTION ENGINE.",
+          "subtitle": "HOW THE AI PROCESSES, REASONS, OR CREATES.",
+          "metaBotL": "STEP 2 BREAKDOWN",
+          "metaBotR": "HIGH SPEED OUTPUT"
+        }},
+        {{
           "id": 5,
           "num": "05",
-          "title": "THEN IT HELPS",
-          "titleGreen": "MAKE THE SALE.",
-          "subtitle": "THE SALES AGENT OUTREACHES, FOLLOWS UP, AND CONVERTS LEADS INTO CUSTOMERS.",
-          "metaBotL": "SAME WORK.\\nMORE OUTPUT.\\nBIGGER OPPORTUNITIES.",
-          "metaBotR": "AI TURNS\\nIDEAS INTO INCOME."
-        },
-        {
+          "title": "STEP 3:",
+          "titleGreen": "THE DELIVERABLE.",
+          "subtitle": "HOW RESULTS ARE DELIVERED OR MONETIZED.",
+          "metaBotL": "STEP 3 BREAKDOWN",
+          "metaBotR": "MEASURABLE RESULTS"
+        }},
+        {{
           "id": 6,
           "num": "06",
-          "title": "ONE AI KEEPS",
-          "titleGreen": "IT ALL RUNNING.",
-          "subtitle": "THE OPERATIONS AGENT CONNECTS EVERY AGENT, MANAGES TASKS, AND KEEPS THINGS MOVING 24/7.",
-          "metaBotL": "A SYSTEM THAT WORKS\\nTOGETHER.",
-          "metaBotR": "AI TURNS\\nIDEAS INTO INCOME."
-        },
-        {
+          "title": "THE COMPLETE",
+          "titleGreen": "CONNECTED WORKFLOW.",
+          "subtitle": "HOW ALL TOOLS/STEPS INTERACT 24/7 SEAMLESSLY.",
+          "metaBotL": "NETWORK MAP",
+          "metaBotR": "ZERO MANUAL WORK"
+        }},
+        {{
           "id": 7,
           "num": "07",
-          "title": "THE FULL AI",
-          "titleGreen": "MONEY-MAKING TEAM.",
-          "subtitle": "7 AGENTS. 1 SYSTEM. REAL RESULTS.",
-          "metaBotL": "SAME WORK.\\nMORE OUTPUT.\\nBIGGER OPPORTUNITIES.",
-          "metaBotR": "AI TURNS\\nIDEAS INTO INCOME."
-        },
-        {
+          "title": "THE IMPACT &",
+          "titleGreen": "COMPOUNDING RESULTS.",
+          "subtitle": "WHAT HAPPENS WHEN THIS RUNS FOR 30 DAYS STRAIGHT.",
+          "metaBotL": "COMPOUND VALUE",
+          "metaBotR": "WORK LESS SCALE MORE"
+        }},
+        {{
           "id": 8,
           "num": "08",
-          "title": "I BUILT THE",
-          "titleGreen": "FULL TEAM.",
-          "subtitle": "SAME WORK. MORE OUTPUT. BIGGER OPPORTUNITIES.",
-          "metaBotL": "REAL TOOLS.\\nREAL SYSTEMS.\\nREAL RESULTS.",
-          "metaBotR": "AI TURNS\\nIDEAS INTO INCOME."
-        }
+          "title": "STEAL THIS",
+          "titleGreen": "FULL SYSTEM.",
+          "subtitle": "COMMENT BELOW AND I WILL SEND YOU THE COMPLETE SETUP + PROMPT PACK.",
+          "metaBotL": "SAVE FOR LATER",
+          "metaBotR": "REAL RESULTS"
+        }}
       ]
-    }
+    }}
     """
 
     payload = json.dumps({"contents": [{"parts": [{"text": prompt}]}]}).encode("utf-8")
     req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"})
 
-    for attempt in range(3):
+    for attempt in range(4):
         try:
-            with urllib.request.urlopen(req) as resp:
+            with urllib.request.urlopen(req, timeout=30) as resp:
                 res = json.loads(resp.read().decode("utf-8"))
                 raw = res["candidates"][0]["content"]["parts"][0]["text"].strip()
-                if raw.startswith("```json"):
-                    raw = raw[7:]
-                if raw.startswith("```"):
-                    raw = raw[3:]
-                if raw.endswith("```"):
-                    raw = raw[:-3]
+                if raw.startswith("```json"): raw = raw[7:]
+                if raw.startswith("```"): raw = raw[3:]
+                if raw.endswith("```"): raw = raw[:-3]
                 data = json.loads(raw.strip())
                 print(f"  -> Generated Topic: {data.get('topic')}")
+                print(f"  -> CTA Keyword: {data.get('ctaKeyword')}")
                 return data
         except Exception as e:
             print(f"  -> Attempt {attempt+1} failed: {e}. Retrying...")
-            time.sleep(2)
-    raise RuntimeError("Failed to generate carousel content from Gemini after 3 attempts.")
+            time.sleep(3)
+            
+    raise RuntimeError("Failed to generate carousel content from Gemini after 4 attempts.")
 
 
 # ==========================================
@@ -180,22 +209,42 @@ def render_slides(carousel_data):
         file_url = f"file:///{HTML_PATH.as_posix()}"
         page.goto(file_url)
 
-        # Inject generated titles into the HTML template
-        page.evaluate(f"""
-            (newSlides) => {{
-                for (let i = 0; i < newSlides.length; i++) {{
-                    if (slidesData[i]) {{
-                        slidesData[i].title = newSlides[i].title;
-                        slidesData[i].titleGreen = newSlides[i].titleGreen;
-                        slidesData[i].subtitle = newSlides[i].subtitle;
-                    }}
-                }}
-            }}
-        """, carousel_data["slides"])
+        # Inject generated content, tiles, branding & CTA into the HTML studio
+        page.evaluate("""
+            (carousel) => {
+                for (let i = 0; i < carousel.slides.length; i++) {
+                    const s = carousel.slides[i];
+                    const idx = s.id - 1;
+                    if (slidesData[idx]) {
+                        slidesData[idx].title = s.title;
+                        slidesData[idx].titleGreen = s.titleGreen;
+                        slidesData[idx].subtitle = s.subtitle;
+                        slidesData[idx].metaTopR = carousel.categoryTag || "AI SYSTEMS";
+                        if (s.metaBotL) slidesData[idx].metaBotL = s.metaBotL;
+                    }
+                }
+                if (slidesData[0]) {
+                    if (carousel.plinthTitle) slidesData[0].plinthTitle = carousel.plinthTitle;
+                    if (carousel.plinthTag) slidesData[0].plinthTag = carousel.plinthTag;
+                    if (carousel.items && carousel.items.length > 0) {
+                        slidesData[0].items = carousel.items;
+                    }
+                }
+                if (slidesData[7]) {
+                    slidesData[7].ctaKeyword = carousel.ctaKeyword || "SYSTEM";
+                    slidesData[7].ctaSub = carousel.ctaSub || "I'll DM you the full setup + prompts.";
+                    if (carousel.plinthTitle) slidesData[7].plinthTitle = carousel.plinthTitle;
+                    if (carousel.plinthTag) slidesData[7].plinthTag = carousel.plinthTag;
+                    if (carousel.items && carousel.items.length > 0) {
+                        slidesData[7].items = carousel.items;
+                    }
+                }
+            }
+        """, carousel_data)
 
         for i in range(len(carousel_data["slides"])):
             page.evaluate(f"goToSlide({i})")
-            page.wait_for_timeout(350)
+            page.wait_for_timeout(400)
 
             out_file = OUTPUT_DIR / f"slide_{i+1}.png"
             slide_el = page.query_selector("#slideViewport")
@@ -205,7 +254,7 @@ def render_slides(carousel_data):
                 page.screenshot(path=str(out_file))
             
             image_paths.append(str(out_file))
-            print(f"  -> Rendered {out_file.name}")
+            print(f"  -> Rendered Slide {i+1}/8")
 
         browser.close()
 
@@ -257,7 +306,7 @@ def upload_images(image_paths):
             data=data,
             headers={"User-Agent": "Mozilla/5.0"}
         )
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=30) as resp:
             res = json.loads(resp.read().decode("utf-8"))
             img_url = res["image"]["url"]
             public_urls.append(img_url)
@@ -318,7 +367,7 @@ def schedule_to_buffer(caption, image_urls):
         }
     )
 
-    with urllib.request.urlopen(req) as resp:
+    with urllib.request.urlopen(req, timeout=30) as resp:
         res = json.loads(resp.read().decode("utf-8"))
         print("Buffer API Response:")
         print(json.dumps(res, indent=2))
