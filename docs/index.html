@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Complete Setup & Prompt Pack: MCP‑Enabled Autonomous Code‑First Swarm | @ai.agent_jayant</title>
+  <title>Complete Setup & Prompt Pack: MCP‑Powered UI Test Swarm | @ai.agent_jayant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -213,8 +213,8 @@
     </div>
 
     <span class="hero-tag">MCP SWARM</span>
-    <h1 class="hero-title">Complete Setup & Prompt Pack: MCP‑Enabled Autonomous Code‑First Swarm</h1>
-    <p class="hero-sub">An MCP‑driven swarm of Claude, DeepSeek R1, and Cursor agents auto‑generates, tests, and deploys SaaS features in real time. Supabase pgvector provides shared context while LangGraph orchestrates reasoning graphs.</p>
+    <h1 class="hero-title">Complete Setup & Prompt Pack: MCP‑Powered UI Test Swarm</h1>
+    <p class="hero-sub">An autonomous MCP‑based swarm that discovers UI components, auto‑generates fixes with Claude/DeepSeek, and deploys them via n8n & Supabase—running 24/7 without manual QA.</p>
 
     <!-- STEP BY STEP GUIDE -->
     <div class="card">
@@ -224,22 +224,22 @@
       
       <div class="step-item">
         <div class="step-num">1</div>
-        <div class="step-text">1️⃣ Create a Supabase project, enable pgvector, and load your domain‑specific embeddings.</div>
+        <div class="step-text">Deploy the MCP server (Docker) and enable pgvector on Supabase; create a 'ui_endpoints' collection.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">2</div>
-        <div class="step-text">2️⃣ Define a LangGraph workflow that pulls the vector context, spawns Claude and DeepSeek agents, and routes tasks to Cursor via tool‑calling.</div>
+        <div class="step-text">Configure Cursor to run headless Chrome, expose a local endpoint, and register it with MCP discovery.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text">3️⃣ Wire n8n to listen for LangGraph completions and trigger CI/CD pipelines; configure Ollama for local inference fallback.</div>
+        <div class="step-text">Set up Claude Code CLI and DeepSeek R1 to listen to MCP 'fix' events, generate patches, and write them back to Supabase.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">4</div>
-        <div class="step-text">4️⃣ Deploy the MCP hub as a lightweight FastAPI service that broadcasts updated context to all agents every minute.</div>
+        <div class="step-text">Build an n8n workflow: trigger on new vector entry → run tests → create PR → merge on pass → update vector store.</div>
       </div>
       
     </div>
@@ -254,15 +254,14 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           COPY PROMPT
         </button>
-        <span id="promptText">You are an autonomous swarm orchestrated by Model Context Protocol (MCP).
-- Load shared context from Supabase pgvector (table: embeddings, column: vector).
-- Use Claude (model: claude-3-5-sonnet) for high‑level planning, DeepSeek R1 for fast code generation, and Cursor for IDE‑style edits.
-- Communicate via LangGraph nodes: ingest → plan → code → test → deploy.
-- When a node finishes, broadcast its output back to MCP so other agents can refine.
-- If a tool call fails, retry with Ollama local model.
-- Log every step back to Supabase (table: swarm_logs) for audit.
-Respond only with JSON actions and minimal prose.
-[END OF PROMPT]</span>
+        <span id="promptText">You are an autonomous UI‑testing swarm orchestrated via Model Context Protocol. When a new UI endpoint vector is added to Supabase pgvector, instantly:
+1️⃣ Retrieve the endpoint details.
+2️⃣ Use Claude Code CLI to generate a minimal regression test.
+3️⃣ Run the test in Cursor's headless browser.
+4️⃣ If failure detected, invoke DeepSeek R1 to produce a patch.
+5️⃣ Submit a PR via n8n, await CI pass, then merge.
+6️⃣ Log the outcome back to Supabase and broadcast completion via MCP.
+Maintain concise JSON logs for each step and never request human input unless a fatal error occurs.</span>
       </div>
     </div>
 
@@ -274,38 +273,33 @@ Respond only with JSON actions and minimal prose.
       <div class="tools-grid">
         
         <div class="tool-chip">
-          <div class="tool-name">Cursor</div>
-          <div class="tool-desc">IDE‑style code generation and editing</div>
+          <div class="tool-name">MCP Server</div>
+          <div class="tool-desc">Facilitates real‑time context sharing among agents</div>
         </div>
         
         <div class="tool-chip">
-          <div class="tool-name">Claude</div>
-          <div class="tool-desc">Strategic reasoning and planning</div>
+          <div class="tool-name">Cursor</div>
+          <div class="tool-desc">Headless browser for UI interaction and test execution</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">Claude Code CLI</div>
+          <div class="tool-desc">Generates test code and patches based on context</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">DeepSeek R1</div>
-          <div class="tool-desc">Fast, high‑quality code synthesis</div>
-        </div>
-        
-        <div class="tool-chip">
-          <div class="tool-name">LangGraph</div>
-          <div class="tool-desc">Graph‑based orchestration of agent workflows</div>
+          <div class="tool-desc">Provides high‑quality code suggestions and bug fixes</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">n8n</div>
-          <div class="tool-desc">No‑code automation and CI/CD triggering</div>
+          <div class="tool-desc">Orchestrates CI/CD pipeline and PR automation</div>
         </div>
         
         <div class="tool-chip">
-          <div class="tool-name">Supabase</div>
-          <div class="tool-desc">Vector storage, context sharing, and logging</div>
-        </div>
-        
-        <div class="tool-chip">
-          <div class="tool-name">Ollama</div>
-          <div class="tool-desc">Local fallback model serving</div>
+          <div class="tool-name">Supabase pgvector</div>
+          <div class="tool-desc">Stores vector embeddings of UI endpoints and test results</div>
         </div>
         
       </div>
