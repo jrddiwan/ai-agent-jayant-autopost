@@ -1081,6 +1081,15 @@ def generate_resource_page(carousel_data):
         f.write(html_content)
     print(f"  -> Generated Web Guide: {out_file.name}")
 
+    # Also save dedicated permanent page by keyword (e.g. docs/swarm.html, docs/memory.html)
+    import re
+    slug = re.sub(r'[^a-z0-9]', '', cta_kw.lower())
+    if slug:
+        slug_file = DOCS_DIR / f"{slug}.html"
+        with open(slug_file, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        print(f"  -> Generated Dedicated Permanent Guide: {slug_file.name}")
+
 
 # ==========================================
 # 4. RENDER SLIDES TO 1080x1350 PNG (Playwright)
