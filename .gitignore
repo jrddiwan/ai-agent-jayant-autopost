@@ -2,4 +2,4 @@ __pycache__
 output/
 *.pyc
 scratch_svgs.json
-
+.env

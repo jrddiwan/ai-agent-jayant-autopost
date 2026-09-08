@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The 24/7 Autonomous Inbound Lead Machine: Complete Setup & Prompt Pack | @ai.agent_jayant</title>
+  <title>Complete Setup & Prompt Pack: MCP‑Enabled Autonomous Code‑First Swarm | @ai.agent_jayant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -53,47 +53,34 @@
       height: 10px;
       border-radius: 50%;
       background: var(--brand-green);
-      box-shadow: 0 0 10px var(--brand-green);
+      box-shadow: 0 0 10px rgba(0, 208, 72, 0.6);
     }
-    .ig-btn {
-      background: rgba(0, 208, 72, 0.12);
-      color: var(--brand-green);
-      border: 1px solid rgba(0, 208, 72, 0.3);
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .ig-btn:hover {
-      background: var(--brand-green);
-      color: #000;
-    }
-    .tag-pill {
+    .hero-tag {
       display: inline-block;
-      background: rgba(0, 208, 72, 0.15);
+      background: rgba(0, 208, 72, 0.12);
+      border: 1px solid rgba(0, 208, 72, 0.3);
       color: var(--brand-green);
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 1.5px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      margin-bottom: 12px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
       text-transform: uppercase;
     }
-    h1 {
+    h1.hero-title {
       font-family: 'Anton', sans-serif;
-      font-size: clamp(28px, 5vw, 44px);
+      font-size: 42px;
+      line-height: 1.1;
       letter-spacing: 0.5px;
-      line-height: 1.15;
-      margin-bottom: 12px;
-      text-transform: uppercase;
+      margin-bottom: 16px;
+      color: #FFFFFF;
     }
-    .summary {
+    .hero-sub {
       font-size: 16px;
       color: var(--text-muted);
-      margin-bottom: 36px;
+      margin-bottom: 32px;
+      line-height: 1.6;
     }
     .card {
       background: var(--card-bg);
@@ -103,28 +90,52 @@
       margin-bottom: 24px;
     }
     .card-title {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 800;
+      letter-spacing: 0.5px;
       margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .code-wrapper {
-      position: relative;
-      margin-top: 12px;
+    .step-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
     }
-    pre {
-      background: #05070A;
-      border: 1px solid #1E2333;
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0, 208, 72, 0.15);
+      border: 1px solid var(--brand-green);
+      color: var(--brand-green);
+      font-weight: 800;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-text {
+      font-size: 14px;
+      color: #E4E4E7;
+      line-height: 1.5;
+    }
+    .prompt-container {
+      position: relative;
+      background: #080A0F;
+      border: 1px solid #27272A;
       border-radius: 12px;
-      padding: 16px;
+      padding: 20px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
-      color: #E2E8F0;
-      overflow-x: auto;
+      line-height: 1.6;
+      color: #A1A1AA;
       white-space: pre-wrap;
-      line-height: 1.5;
+      word-break: break-word;
+      max-height: 380px;
+      overflow-y: auto;
     }
     .copy-btn {
       position: absolute;
@@ -132,90 +143,62 @@
       right: 12px;
       background: var(--brand-green);
       color: #000;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 12px;
       font-weight: 800;
+      font-size: 12px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s;
+      transition: opacity 0.2s;
     }
     .copy-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(0, 208, 72, 0.4);
-    }
-    .step-item {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    .step-num {
-      width: 32px;
-      height: 32px;
-      background: rgba(0, 208, 72, 0.15);
-      color: var(--brand-green);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 13px;
-      flex-shrink: 0;
-    }
-    .step-text {
-      font-size: 14.5px;
-      color: #D1D5DB;
+      opacity: 0.9;
     }
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 12px;
-      margin-top: 12px;
     }
-    .tool-box {
-      background: #0B0E17;
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 12px 16px;
+    .tool-chip {
+      background: #0D1117;
+      border: 1px solid #21262D;
+      border-radius: 10px;
+      padding: 12px;
     }
     .tool-name {
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13px;
       color: var(--brand-green);
+      margin-bottom: 4px;
     }
     .tool-desc {
       font-size: 12px;
       color: var(--text-muted);
-      margin-top: 2px;
-    }
-    .footer-cta {
-      background: linear-gradient(180deg, #11141E 0%, #0B0D14 100%);
-      border: 1px solid rgba(0, 208, 72, 0.3);
-      border-radius: 20px;
-      padding: 32px 24px;
-      text-align: center;
-      margin-top: 36px;
     }
     .toast {
       position: fixed;
       bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      right: 24px;
       background: var(--brand-green);
       color: #000;
-      padding: 10px 24px;
-      border-radius: 30px;
       font-weight: 800;
-      font-size: 13px;
-      box-shadow: 0 10px 25px rgba(0,208,72,0.4);
-      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-      z-index: 1000;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 208, 72, 0.4);
+      display: none;
     }
     .toast.show {
-      transform: translateX(-50%) translateY(0);
+      display: block;
+      animation: fadeInOut 2.5s forwards;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(10px); }
+      15% { opacity: 1; transform: translateY(0); }
+      85% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(10px); }
     }
   </style>
 </head>
@@ -226,57 +209,120 @@
         <span class="brand-dot"></span>
         @ai.agent_jayant
       </a>
-      <a href="https://instagram.com/ai.agent_jayant" target="_blank" class="ig-btn">Follow on Instagram ↗</a>
+      <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">OFFICIAL RESOURCE PACK</span>
     </div>
 
-    <div class="tag-pill">MCP AGENT SWARM</div>
-    <h1>The 24/7 Autonomous Inbound Lead Machine: Complete Setup & Prompt Pack</h1>
-    <p class="summary">Deploy an autonomous 3-agent swarm using Claude, Cursor, n8n, and Supabase that scans high-intent signals, writes personalized angles, and books sales calls on complete autopilot.</p>
+    <span class="hero-tag">MCP SWARM</span>
+    <h1 class="hero-title">Complete Setup & Prompt Pack: MCP‑Enabled Autonomous Code‑First Swarm</h1>
+    <p class="hero-sub">An MCP‑driven swarm of Claude, DeepSeek R1, and Cursor agents auto‑generates, tests, and deploys SaaS features in real time. Supabase pgvector provides shared context while LangGraph orchestrates reasoning graphs.</p>
 
-    <!-- SECTION 1: MASTER PROMPT -->
+    <!-- STEP BY STEP GUIDE -->
     <div class="card">
-      <div class="card-title">⚡ Copy-Paste Production System Prompt</div>
-      <p style="font-size:13px; color:#9CA3AF; margin-bottom:8px;">Ready to plug into Claude 3.7, Cursor, ChatGPT, or your custom agent workflow:</p>
-      <div class="code-wrapper">
-        <button class="copy-btn" onclick="copyPrompt()">📋 Copy Prompt</button>
-        <pre id="promptBox">You are an elite B2B Intelligence & Autonomous Outreach Agent for @ai.agent_jayant.
-Your mission: Given a company URL and decision-maker name, research their recent announcements, identify their #1 technical bottleneck in AI automation, and construct a hyper-specific, 3-sentence value proposition.
+      <div class="card-title">
+        <span style="color: var(--brand-green);">⚡</span> ARCHITECTURE IMPLEMENTATION STEPS
+      </div>
+      
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text">1️⃣ Create a Supabase project, enable pgvector, and load your domain‑specific embeddings.</div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text">2️⃣ Define a LangGraph workflow that pulls the vector context, spawns Claude and DeepSeek agents, and routes tasks to Cursor via tool‑calling.</div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text">3️⃣ Wire n8n to listen for LangGraph completions and trigger CI/CD pipelines; configure Ollama for local inference fallback.</div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text">4️⃣ Deploy the MCP hub as a lightweight FastAPI service that broadcasts updated context to all agents every minute.</div>
+      </div>
+      
+    </div>
 
-Rules:
-1. No generic fluff or buzzwords ('hope this finds you well').
-2. Point directly to a specific observation from their engineering or product announcements.
-3. Propose a single concrete workflow enhancement that saves 15+ hours weekly.
-4. End with a frictionless low-commitment call to action.</pre>
+    <!-- COPY-PASTE MASTER PROMPT -->
+    <div class="card">
+      <div class="card-title">
+        <span style="color: var(--brand-green);">📋</span> MASTER COPY-PASTE SYSTEM PROMPT
+      </div>
+      <div class="prompt-container" id="promptBox">
+        <button class="copy-btn" onclick="copyPrompt()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          COPY PROMPT
+        </button>
+        <span id="promptText">You are an autonomous swarm orchestrated by Model Context Protocol (MCP).
+- Load shared context from Supabase pgvector (table: embeddings, column: vector).
+- Use Claude (model: claude-3-5-sonnet) for high‑level planning, DeepSeek R1 for fast code generation, and Cursor for IDE‑style edits.
+- Communicate via LangGraph nodes: ingest → plan → code → test → deploy.
+- When a node finishes, broadcast its output back to MCP so other agents can refine.
+- If a tool call fails, retry with Ollama local model.
+- Log every step back to Supabase (table: swarm_logs) for audit.
+Respond only with JSON actions and minimal prose.
+[END OF PROMPT]</span>
       </div>
     </div>
 
-    <!-- SECTION 2: STEP BY STEP SETUP -->
+    <!-- RECOMMENDED STACK -->
     <div class="card">
-      <div class="card-title">🛠️ Step-by-Step Implementation Guide</div>
-      <div class="step-item"><div class="step-num">1</div><div class="step-text">Set up your n8n workflow with webhook triggers listening for new company funding or hiring signals.</div></div><div class="step-item"><div class="step-num">2</div><div class="step-text">Configure the Researcher Agent using the Claude 3.7 / DeepSeek reasoning prompt below.</div></div><div class="step-item"><div class="step-num">3</div><div class="step-text">Store enriched lead profiles and conversation state inside a Supabase Postgres table.</div></div><div class="step-item"><div class="step-num">4</div><div class="step-text">Connect your Cal.com / Calendly API to allow the objection-handling agent to send live booking slots.</div></div>
-    </div>
-
-    <!-- SECTION 3: TOOLS STACK -->
-    <div class="card">
-      <div class="card-title">🧩 Production Tool Stack</div>
+      <div class="card-title">
+        <span style="color: var(--brand-green);">🛠️</span> REQUIRED INFRASTRUCTURE & TOOLS
+      </div>
       <div class="tools-grid">
-        <div class="tool-box"><div class="tool-name">Cursor</div><div class="tool-desc">Rapid code editing and MCP tool integration</div></div><div class="tool-box"><div class="tool-name">Claude</div><div class="tool-desc">Deep reasoning, code execution, and high-converting copy</div></div><div class="tool-box"><div class="tool-name">n8n</div><div class="tool-desc">Production workflow automation and webhook routing</div></div><div class="tool-box"><div class="tool-name">Supabase</div><div class="tool-desc">Vector embeddings, lead state, and conversation memory</div></div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">Cursor</div>
+          <div class="tool-desc">IDE‑style code generation and editing</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">Claude</div>
+          <div class="tool-desc">Strategic reasoning and planning</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">DeepSeek R1</div>
+          <div class="tool-desc">Fast, high‑quality code synthesis</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">LangGraph</div>
+          <div class="tool-desc">Graph‑based orchestration of agent workflows</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">n8n</div>
+          <div class="tool-desc">No‑code automation and CI/CD triggering</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">Supabase</div>
+          <div class="tool-desc">Vector storage, context sharing, and logging</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">Ollama</div>
+          <div class="tool-desc">Local fallback model serving</div>
+        </div>
+        
       </div>
     </div>
 
-    <!-- FOOTER CTA -->
-    <div class="footer-cta">
-      <h3 style="font-family:'Anton',sans-serif; font-size:24px; letter-spacing:1px; margin-bottom:8px;">WANT TOMORROW'S AI AGENT SYSTEM?</h3>
-      <p style="font-size:14px; color:#A1A1AA; margin-bottom:20px;">I publish hands-on autonomous workflows, agent architectures, and copy-paste prompt systems every day.</p>
-      <a href="https://instagram.com/ai.agent_jayant" target="_blank" class="ig-btn" style="padding:12px 28px; font-size:15px; display:inline-block;">Follow @ai.agent_jayant on Instagram 🚀</a>
+    <!-- FOOTER -->
+    <div style="text-align: center; margin-top: 40px; color: var(--text-muted); font-size: 13px;">
+      Delivered automatically for commenting "<strong>SWARM</strong>" on Instagram.<br>
+      Follow <a href="https://instagram.com/ai.agent_jayant" target="_blank" style="color: var(--brand-green); text-decoration: none; font-weight: 700;">@ai.agent_jayant</a> for daily autonomous workflows.
     </div>
   </div>
 
-  <div id="toast" class="toast">✓ Prompt Copied to Clipboard!</div>
+  <div class="toast" id="toast">Prompt copied to clipboard!</div>
 
   <script>
     function copyPrompt() {
-      const text = document.getElementById("promptBox").innerText;
+      const text = document.getElementById("promptText").innerText;
       navigator.clipboard.writeText(text).then(() => {
         const t = document.getElementById("toast");
         t.classList.add("show");
