@@ -69,6 +69,12 @@ IMGBB_API_KEY = os.environ.get("IMGBB_API_KEY") or _IMG_FB
 APIFY_TOKEN = os.environ.get("APIFY_TOKEN") or os.environ.get("APIFY_API_KEY") or _APIFY_FB
 SUPADATA_KEY = os.environ.get("SUPADATA_KEY") or os.environ.get("SUPADATA_API_KEY") or _SUPA_FB
 
+R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID")
+R2_ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = os.environ.get("R2_SECRET_ACCESS_KEY")
+R2_BUCKET_NAME = os.environ.get("R2_BUCKET_NAME")
+R2_PUBLIC_DOMAIN = os.environ.get("R2_PUBLIC_DOMAIN")
+
 
 # ==========================================
 # HISTORY TRACKING (Prevents Repeating Topics)
@@ -355,7 +361,7 @@ Analyze the repository, maintain strict backwards compatibility, write clear tes
         "shapeStyle": "cube",
         "ctaKeyword": "DEEPSEEK",
         "ctaSub": "I'll DM you the full setup + copy-paste prompt pack.",
-        "caption": "Why pay \$100s in cloud API fees when you can run DeepSeek R1 reasoning locally on your machine?\n\nWith Ollama, you get 100% private, zero-latency chain-of-thought reasoning that runs entirely on local hardware with zero data leaks. 🧠⚡\n\nHere is how to set up DeepSeek R1 locally:\n• Download and run quantized R1 models with one Ollama command\n• Connect to Cursor and VS Code for free, unlimited reasoning\n• Build offline RAG agents with local embeddings\n\n📌 Save this post for your local AI setup!\n\n💬 Comment \"DEEPSEEK\" below and I will send you the step-by-step installation guide + prompt optimization templates!\n\nFollow @ai.agent_jayant for daily AI breakthroughs.\n\n#DeepSeek #DeepSeekR1 #Ollama #OpenSourceAI #LocalAI #PrivacyFirst #MachineLearning #ArtificialIntelligence #TechTrends #BuildInPublic #Python #DevCommunity",
+        "caption": "Why pay $100s in cloud API fees when you can run DeepSeek R1 reasoning locally on your machine?\n\nWith Ollama, you get 100% private, zero-latency chain-of-thought reasoning that runs entirely on local hardware with zero data leaks. 🧠⚡\n\nHere is how to set up DeepSeek R1 locally:\n• Download and run quantized R1 models with one Ollama command\n• Connect to Cursor and VS Code for free, unlimited reasoning\n• Build offline RAG agents with local embeddings\n\n📌 Save this post for your local AI setup!\n\n💬 Comment \"DEEPSEEK\" below and I will send you the step-by-step installation guide + prompt optimization templates!\n\nFollow @ai.agent_jayant for daily AI breakthroughs.\n\n#DeepSeek #DeepSeekR1 #Ollama #OpenSourceAI #LocalAI #PrivacyFirst #MachineLearning #ArtificialIntelligence #TechTrends #BuildInPublic #Python #DevCommunity",
         "plinthTitle": "LOCAL RAG",
         "plinthTag": "OFFLINE",
         "items": [
