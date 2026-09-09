@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Complete Setup & Prompt Pack: MCP‑Powered UI Test Swarm | @ai.agent_jayant</title>
+  <title>Complete Setup & Prompt Pack: Tailwind AI Orchestrator 2026 | @ai.agent_jayant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -212,9 +212,9 @@
       <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">OFFICIAL RESOURCE PACK</span>
     </div>
 
-    <span class="hero-tag">MCP SWARM</span>
-    <h1 class="hero-title">Complete Setup & Prompt Pack: MCP‑Powered UI Test Swarm</h1>
-    <p class="hero-sub">An autonomous MCP‑based swarm that discovers UI components, auto‑generates fixes with Claude/DeepSeek, and deploys them via n8n & Supabase—running 24/7 without manual QA.</p>
+    <span class="hero-tag">LANGGRAPH SWARM</span>
+    <h1 class="hero-title">Complete Setup & Prompt Pack: Tailwind AI Orchestrator 2026</h1>
+    <p class="hero-sub">A 3‑agent LangGraph swarm that converts natural‑language design briefs into production‑ready Tailwind components and auto‑deploys them to Shopify. Leverages MCP, Cursor, Claude Code CLI, n8n, and Supabase for zero‑touch scaling.</p>
 
     <!-- STEP BY STEP GUIDE -->
     <div class="card">
@@ -224,22 +224,22 @@
       
       <div class="step-item">
         <div class="step-num">1</div>
-        <div class="step-text">Deploy the MCP server (Docker) and enable pgvector on Supabase; create a 'ui_endpoints' collection.</div>
+        <div class="step-text">1️⃣ In Slack, send a design brief prefixed with /tailwind. Cursor picks it up and formats a JSON spec.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">2</div>
-        <div class="step-text">Configure Cursor to run headless Chrome, expose a local endpoint, and register it with MCP discovery.</div>
+        <div class="step-text">2️⃣ Claude Code CLI consumes the spec, generates Tailwind CSS + HTML, stores the artifact in Supabase pgvector.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text">Set up Claude Code CLI and DeepSeek R1 to listen to MCP 'fix' events, generate patches, and write them back to Supabase.</div>
+        <div class="step-text">3️⃣ n8n triggers on new vector entry, runs MCP‑validated tests, then pushes the component via Shopify API.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">4</div>
-        <div class="step-text">Build an n8n workflow: trigger on new vector entry → run tests → create PR → merge on pass → update vector store.</div>
+        <div class="step-text">4️⃣ Monitor live metrics in Supabase; the loop auto‑optimizes via LangGraph state transitions.</div>
       </div>
       
     </div>
@@ -254,14 +254,9 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           COPY PROMPT
         </button>
-        <span id="promptText">You are an autonomous UI‑testing swarm orchestrated via Model Context Protocol. When a new UI endpoint vector is added to Supabase pgvector, instantly:
-1️⃣ Retrieve the endpoint details.
-2️⃣ Use Claude Code CLI to generate a minimal regression test.
-3️⃣ Run the test in Cursor's headless browser.
-4️⃣ If failure detected, invoke DeepSeek R1 to produce a patch.
-5️⃣ Submit a PR via n8n, await CI pass, then merge.
-6️⃣ Log the outcome back to Supabase and broadcast completion via MCP.
-Maintain concise JSON logs for each step and never request human input unless a fatal error occurs.</span>
+        <span id="promptText">You are a supervisory LangGraph orchestrator for a Tailwind UI swarm. Use Model Context Protocol (MCP) to coordinate three agents: CursorIngestor, ClaudeCoder, DeployBot. CursorIngestor watches Slack channel #design‑briefs, extracts the latest message starting with /tailwind, and outputs a JSON schema {title, sections, style}. ClaudeCoder receives the schema, invokes Claude Code CLI to produce Tailwind component code, validates syntax, and writes the result to Supabase pgvector with metadata. DeployBot triggers on new vector entries, runs automated visual regression via DeepSeek R1, and if passed, calls Shopify Storefront API to upload the component. Ensure all agents share context via MCP, log each step, and handle errors with fallback to human‑in‑the‑loop notification.
+
+# End of prompt</span>
       </div>
     </div>
 
@@ -273,33 +268,33 @@ Maintain concise JSON logs for each step and never request human input unless a 
       <div class="tools-grid">
         
         <div class="tool-chip">
-          <div class="tool-name">MCP Server</div>
-          <div class="tool-desc">Facilitates real‑time context sharing among agents</div>
-        </div>
-        
-        <div class="tool-chip">
           <div class="tool-name">Cursor</div>
-          <div class="tool-desc">Headless browser for UI interaction and test execution</div>
+          <div class="tool-desc">Capture and preprocess design briefs from Slack</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">Claude Code CLI</div>
-          <div class="tool-desc">Generates test code and patches based on context</div>
+          <div class="tool-desc">Generate Tailwind + HTML from structured specs</div>
         </div>
         
         <div class="tool-chip">
-          <div class="tool-name">DeepSeek R1</div>
-          <div class="tool-desc">Provides high‑quality code suggestions and bug fixes</div>
+          <div class="tool-name">LangGraph</div>
+          <div class="tool-desc">State‑machine orchestration and context sharing</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">n8n</div>
-          <div class="tool-desc">Orchestrates CI/CD pipeline and PR automation</div>
+          <div class="tool-desc">Workflow automation and API integration</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">Supabase pgvector</div>
-          <div class="tool-desc">Stores vector embeddings of UI endpoints and test results</div>
+          <div class="tool-desc">Vector store for code artifacts and versioning</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">MCP</div>
+          <div class="tool-desc">Unified context protocol across agents</div>
         </div>
         
       </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Complete Setup & Prompt Pack: Tailwind AI Orchestrator 2026 | @ai.agent_jayant</title>
+  <title>Complete Setup & Prompt Pack: Tailwind‑Shopify AI UI Composer | @ai.agent_jayant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -212,9 +212,9 @@
       <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">OFFICIAL RESOURCE PACK</span>
     </div>
 
-    <span class="hero-tag">LANGGRAPH SWARM</span>
-    <h1 class="hero-title">Complete Setup & Prompt Pack: Tailwind AI Orchestrator 2026</h1>
-    <p class="hero-sub">A 3‑agent LangGraph swarm that converts natural‑language design briefs into production‑ready Tailwind components and auto‑deploys them to Shopify. Leverages MCP, Cursor, Claude Code CLI, n8n, and Supabase for zero‑touch scaling.</p>
+    <span class="hero-tag">CURSOR UI</span>
+    <h1 class="hero-title">Complete Setup & Prompt Pack: Tailwind‑Shopify AI UI Composer</h1>
+    <p class="hero-sub">An autonomous agent stack that converts plain English UI briefs into live, Shopify‑ready Tailwind themes using LangGraph, Cursor, Claude Code, and n8n.</p>
 
     <!-- STEP BY STEP GUIDE -->
     <div class="card">
@@ -224,22 +224,22 @@
       
       <div class="step-item">
         <div class="step-num">1</div>
-        <div class="step-text">1️⃣ In Slack, send a design brief prefixed with /tailwind. Cursor picks it up and formats a JSON spec.</div>
+        <div class="step-text">1️⃣ Create a LangGraph supervisor graph that routes prompts to Claude Code CLI for Tailwind generation.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">2</div>
-        <div class="step-text">2️⃣ Claude Code CLI consumes the spec, generates Tailwind CSS + HTML, stores the artifact in Supabase pgvector.</div>
+        <div class="step-text">2️⃣ Configure Cursor with Model Context Protocol (MCP) to maintain design state across iterations.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text">3️⃣ n8n triggers on new vector entry, runs MCP‑validated tests, then pushes the component via Shopify API.</div>
+        <div class="step-text">3️⃣ Set up an n8n workflow: fetch generated CSS/HTML, store embeddings in Supabase pgvector, call Shopify Storefront API for deployment.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">4</div>
-        <div class="step-text">4️⃣ Monitor live metrics in Supabase; the loop auto‑optimizes via LangGraph state transitions.</div>
+        <div class="step-text">4️⃣ Add post‑deploy validation nodes using Ollama‑based visual regression tests and auto‑scale with DeepSeek R1 feedback loops.</div>
       </div>
       
     </div>
@@ -254,9 +254,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           COPY PROMPT
         </button>
-        <span id="promptText">You are a supervisory LangGraph orchestrator for a Tailwind UI swarm. Use Model Context Protocol (MCP) to coordinate three agents: CursorIngestor, ClaudeCoder, DeployBot. CursorIngestor watches Slack channel #design‑briefs, extracts the latest message starting with /tailwind, and outputs a JSON schema {title, sections, style}. ClaudeCoder receives the schema, invokes Claude Code CLI to produce Tailwind component code, validates syntax, and writes the result to Supabase pgvector with metadata. DeployBot triggers on new vector entries, runs automated visual regression via DeepSeek R1, and if passed, calls Shopify Storefront API to upload the component. Ensure all agents share context via MCP, log each step, and handle errors with fallback to human‑in‑the‑loop notification.
-
-# End of prompt</span>
+        <span id="promptText">You are an autonomous UI composer. When given a brief, you must: 1) Parse requirements, 2) Generate Tailwind component code via Claude Code CLI, 3) Store component vectors in Supabase pgvector, 4) Validate with DeepSeek R1, 5) Trigger n8n to push assets to Shopify, 6) Run Ollama UI tests, 7) Report KPI metrics. Use Model Context Protocol to keep conversation state. Return only JSON with keys: {components, css, deployUrl, testReport}.</span>
       </div>
     </div>
 
@@ -268,33 +266,38 @@
       <div class="tools-grid">
         
         <div class="tool-chip">
+          <div class="tool-name">LangGraph</div>
+          <div class="tool-desc">Orchestrates agent graph and state management</div>
+        </div>
+        
+        <div class="tool-chip">
           <div class="tool-name">Cursor</div>
-          <div class="tool-desc">Capture and preprocess design briefs from Slack</div>
+          <div class="tool-desc">Runs MCP‑enabled loops and code execution</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">Claude Code CLI</div>
-          <div class="tool-desc">Generate Tailwind + HTML from structured specs</div>
-        </div>
-        
-        <div class="tool-chip">
-          <div class="tool-name">LangGraph</div>
-          <div class="tool-desc">State‑machine orchestration and context sharing</div>
+          <div class="tool-desc">Generates Tailwind‑CSS from prompts</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">n8n</div>
-          <div class="tool-desc">Workflow automation and API integration</div>
+          <div class="tool-desc">Automates deployment pipeline to Shopify</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">Supabase pgvector</div>
-          <div class="tool-desc">Vector store for code artifacts and versioning</div>
+          <div class="tool-desc">Stores vectorized component embeddings for retrieval</div>
         </div>
         
         <div class="tool-chip">
-          <div class="tool-name">MCP</div>
-          <div class="tool-desc">Unified context protocol across agents</div>
+          <div class="tool-name">DeepSeek R1</div>
+          <div class="tool-desc">Refines UI quality and catches design bugs</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">Ollama</div>
+          <div class="tool-desc">Performs visual regression testing</div>
         </div>
         
       </div>
@@ -302,7 +305,7 @@
 
     <!-- FOOTER -->
     <div style="text-align: center; margin-top: 40px; color: var(--text-muted); font-size: 13px;">
-      Delivered automatically for commenting "<strong>SWARM</strong>" on Instagram.<br>
+      Delivered automatically for commenting "<strong>UI</strong>" on Instagram.<br>
       Follow <a href="https://instagram.com/ai.agent_jayant" target="_blank" style="color: var(--brand-green); text-decoration: none; font-weight: 700;">@ai.agent_jayant</a> for daily autonomous workflows.
     </div>
   </div>
