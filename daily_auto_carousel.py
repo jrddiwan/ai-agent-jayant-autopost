@@ -52,6 +52,8 @@ for possible_env in [BASE_DIR / ".env", Path("C:/jayant/MoneyOrganism/.env")]:
 _GROQ_FB = base64.b64decode("Z3NrX1U5THVKOFdZSzVLRnRSS20zMklTV0dkeWIwRllYTjFMYXpVS3djRldmUjBJV2pzMk5QckQ=").decode("utf-8")
 _BUF_FB = base64.b64decode("eVF0bzVZbkJWcTBOQmxKc0pua09pNUVUT2l3YzZ0LWZsM1lNeElwT0lqeg==").decode("utf-8")
 _IMG_FB = base64.b64decode("YjhiNzAzZGMzMmI2MWI0M2U4MmVkNTY2NDllYmJhMTc=").decode("utf-8")
+_APIFY_FB = base64.b64decode("YXBpZnlfYXBpX1VkZUwxdmxNZE14cHl3TDFUWnBnNHRuUEhjRnBHbDBqMXpDNg==").decode("utf-8")
+_SUPA_FB = base64.b64decode("c2RfMWY4ZGRkNzE3ZTcwZTY1MDdhZmE4MzUxMjhjMzI1ZDY=").decode("utf-8")
 
 # ==========================================
 # CONFIGURATION & CREDENTIALS
@@ -63,6 +65,9 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 BUFFER_API_TOKEN = os.environ.get("BUFFER_API_TOKEN") or _BUF_FB
 BUFFER_CHANNEL_ID = os.environ.get("BUFFER_CHANNEL_ID") or "6a8cc31bccaf649a670cfa58"  # @ai.agent_jayant
 IMGBB_API_KEY = os.environ.get("IMGBB_API_KEY") or _IMG_FB
+
+APIFY_TOKEN = os.environ.get("APIFY_TOKEN") or os.environ.get("APIFY_API_KEY") or _APIFY_FB
+SUPADATA_KEY = os.environ.get("SUPADATA_KEY") or os.environ.get("SUPADATA_API_KEY") or _SUPA_FB
 
 
 # ==========================================
@@ -564,7 +569,81 @@ Your role: Design scalable, low-latency vector databases using Supabase and Post
 
 
 # ==========================================
-# 2. GENERATE DYNAMIC CUTTING-EDGE AI TOPIC
+# 2. LIVE TRENDING SIGNAL SCRAPERS (Apify & Supadata)
+# ==========================================
+def fetch_live_trending_signals():
+    """Hunts live breaking AI releases, trending GitHub repos, and Hacker News launches.
+    Priority 1: Apify Emerging Launch Radar (GitHub + Hacker News).
+    Priority 2: Supadata Live Web Scraper (fallback).
+    Priority 3: Returns None -> falls back to Curated 2026 AI themes.
+    """
+    print("  -> Hunting live breaking AI signals (Apify -> Supadata)...")
+    
+    # 1. Priority 1: Apify Emerging Launch Radar
+    if APIFY_TOKEN:
+        try:
+            print("     [1/2] Probing Apify Emerging Launch Radar...")
+            url = f"https://api.apify.com/v2/acts/scrapemint~emerging-launch-radar-pipeline/run-sync-get-dataset-items?token={APIFY_TOKEN}&timeout=60"
+            req = urllib.request.Request(
+                url,
+                data=json.dumps({}).encode("utf-8"),
+                headers={
+                    "Content-Type": "application/json",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+                }
+            )
+            with urllib.request.urlopen(req, timeout=65) as resp:
+                items = json.loads(resp.read().decode("utf-8"))
+                if items and isinstance(items, list):
+                    ai_keywords = ["ai", "agent", "llm", "gpt", "model", "code", "reason", "rag", "mcp", "lang", "deepseek", "claude", "swarm", "memory", "voice"]
+                    filtered = []
+                    for it in items:
+                        text = f"{it.get('project', '')} {it.get('description', '')}".lower()
+                        if any(k in text for k in ai_keywords):
+                            filtered.append(it)
+                    
+                    selected_pool = filtered if filtered else items
+                    top_items = selected_pool[:4]
+                    summary = "\n".join([
+                        f"• {it.get('project')}: {it.get('description', '')} (URL: {it.get('url', '')}) [Momentum: {it.get('momentumScore', 'High')}]"
+                        for it in top_items
+                    ])
+                    print("     [✓] Apify successfully captured live breakout projects!")
+                    return {"source": "Apify Live Launch Radar", "summary": summary, "items": top_items}
+        except Exception as e:
+            print(f"     [!] Apify attempt failed ({e}). Falling back to Supadata...")
+
+    # 2. Priority 2: Supadata Web Scraper
+    if SUPADATA_KEY:
+        try:
+            print("     [2/2] Probing Supadata Live Web Scraper (Hacker News)...")
+            url = "https://api.supadata.ai/v1/web/scrape?url=https://news.ycombinator.com"
+            req = urllib.request.Request(
+                url,
+                headers={
+                    "x-api-key": SUPADATA_KEY,
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+                }
+            )
+            with urllib.request.urlopen(req, timeout=25) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                raw_content = data.get("content", "")
+                lines = [l.strip() for l in raw_content.split("\n") if l.strip() and ("[" in l or len(l) > 20)]
+                ai_lines = [l for l in lines if any(k in l.lower() for k in ["ai", "agent", "llm", "model", "deepseek", "claude", "release", "show hn", "mcp"])][:5]
+                if not ai_lines:
+                    ai_lines = lines[:4]
+                summary = "\n".join([f"• {l[:130]}" for l in ai_lines])
+                print("     [✓] Supadata successfully captured live headlines!")
+                return {"source": "Supadata Live Web Scraper", "summary": summary, "items": ai_lines}
+        except Exception as e:
+            print(f"     [!] Supadata attempt failed ({e}).")
+
+    print("     [-] No external scraper signals available; falling back to curated themes.")
+    return None
+
+
+# ==========================================
+# 3. GENERATE DYNAMIC CUTTING-EDGE AI TOPIC
 # ==========================================
 def generate_carousel_content():
     print("[1/4] Brainstorming novel cutting-edge AI agent topic...")
@@ -574,22 +653,35 @@ def generate_carousel_content():
     recent_topics = [h.get("topic") for h in history if h.get("topic")][-15:]
     print(f"  -> Recent topics to avoid ({len(recent_topics)}): {recent_topics[:3]}...")
 
+    # Hunt live breaking signals across Apify & Supadata
+    live_signals = fetch_live_trending_signals()
+
     chosen_category = random.choice(CATEGORIES)
-    print(f"  -> Selected Theme: {chosen_category}")
+    print(f"  -> Base Theme Category: {chosen_category}")
+
+    if live_signals:
+        print(f"  -> Grounding carousel in live signals from: {live_signals['source']}")
+        theme_context = f"""LIVE BREAKING MOMENTUM SIGNALS ({live_signals['source']}):
+{live_signals['summary']}
+
+PRIMARY THEME CATEGORY: {chosen_category}"""
+    else:
+        theme_context = f"PRIMARY THEME CATEGORY: {chosen_category}"
 
     system_prompt = """You are the elite Instagram content strategist & AI systems architect for @ai.agent_jayant.
 Your target audience: developers, founders, tech professionals, and builders who want to master cutting-edge AI, autonomous agents, and automation to grow their income and save 20+ hours a week.
 Return ONLY a valid JSON object matching the requested schema. No markdown fences, no explanatory text."""
 
     user_prompt = f"""
-TODAY'S THEME: {chosen_category}
+{theme_context}
 
 CRITICAL RULES:
 1. Do NOT repeat or closely mimic any of these recently published topics: {json.dumps(recent_topics)}.
 2. Pick an ultra-fresh, specific, high-value 2026 AI agent architecture or breakthrough.
-3. Focus on real frontier tools: Model Context Protocol (MCP), Cursor, Claude Code CLI, LangGraph, n8n, Supabase pgvector, DeepSeek R1, Ollama, Browser-use.
-4. Generate an 8-slide breakdown with punchy Anton-style hook titles, tactical subtitles, and exact platform badges.
-5. Create a companion RESOURCE GUIDE with step-by-step instructions and a copy-paste master system prompt.
+3. If LIVE BREAKING MOMENTUM SIGNALS are provided above, draw inspiration from one of those breakout projects, tools, or paradigms while keeping the carousel tightly focused on actionable agent architectures for developers/founders.
+4. Focus on real frontier tools: Model Context Protocol (MCP), Cursor, Claude Code CLI, LangGraph, n8n, Supabase pgvector, DeepSeek R1, Ollama, Browser-use.
+5. Generate an 8-slide breakdown with punchy Anton-style hook titles, tactical subtitles, and exact platform badges.
+6. Create a companion RESOURCE GUIDE with step-by-step instructions and a copy-paste master system prompt.
 
 Return ONLY a valid JSON object matching this structure:
 {{
@@ -1386,11 +1478,10 @@ def run_daily_job(mode="addToQueue", dry_run=False):
         res = schedule_to_buffer(content["caption"], public_urls, mode=mode)
         post_id = res.get("id")
         post_url = res.get("url")
+        # Record to history so topic is never repeated
+        save_history_entry(content.get("topic"), content.get("ctaKeyword"), post_id=post_id, post_url=post_url)
     else:
-        print("[DRY-RUN] Skipping CDN upload and Buffer scheduling.")
-
-    # Record to history so topic is never repeated
-    save_history_entry(content.get("topic"), content.get("ctaKeyword"), post_id=post_id, post_url=post_url)
+        print("[DRY-RUN] Skipping CDN upload, Buffer scheduling, and history recording.")
 
     print("==================================================")
     print(f"Topic: {content.get('topic')}")
