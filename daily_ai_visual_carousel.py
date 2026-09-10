@@ -308,8 +308,9 @@ def upload_visual_slides(image_paths):
 # ==========================================
 # 5. DISPATCH TO BUFFER GRAPHQL API
 # ==========================================
-def dispatch_to_buffer(caption, image_urls, mode="addToQueue"):
-    print(f"[5/5] Submitting visual carousel to Buffer (@ai.agent_jayant) with mode '{mode}'...")
+def dispatch_to_buffer(caption, image_urls, mode="addToQueue", draft=False):
+    action_label = "as DRAFT" if draft else f"with mode '{mode}'"
+    print(f"[5/5] Submitting visual carousel to Buffer (@ai.agent_jayant) {action_label}...")
     graphql_url = "https://api.buffer.com"
     assets_input = [{"image": {"url": u}} for u in image_urls]
 
@@ -338,6 +339,7 @@ def dispatch_to_buffer(caption, image_urls, mode="addToQueue"):
             "assets": assets_input,
             "schedulingType": "automatic",
             "mode": mode,
+            "saveToDraft": draft,
             "metadata": {
                 "instagram": {
                     "type": "post",
@@ -361,10 +363,11 @@ def dispatch_to_buffer(caption, image_urls, mode="addToQueue"):
         post_obj = res.get("data", {}).get("createPost", {}).get("post", {})
         post_id = post_obj.get("id")
         due_at = post_obj.get("dueAt")
-        print(f"  -> Buffer Post Created! ID: {post_id}")
+        status = post_obj.get("status")
+        print(f"  -> Buffer Post Created! ID: {post_id} (Status: {status})")
 
         post_url = None
-        if mode == "shareNow":
+        if mode == "shareNow" and not draft:
             print("  -> Waiting 8 seconds for Instagram verification...")
             time.sleep(8)
             try:
@@ -402,10 +405,10 @@ def dispatch_to_buffer(caption, image_urls, mode="addToQueue"):
 # ==========================================
 # MAIN EXECUTION
 # ==========================================
-def run_visual_pipeline(mode="addToQueue", dry_run=False):
+def run_visual_pipeline(mode="addToQueue", dry_run=False, draft=False):
     print("==================================================")
     print("Starting Daily AI Visual Carousel Pipeline (@ai.agent_jayant)")
-    print(f"Mode: {mode} | Dry Run: {dry_run}")
+    print(f"Mode: {mode} | Dry Run: {dry_run} | Draft: {draft}")
     print("==================================================")
 
     data = brainstorm_visual_carousel()
@@ -417,7 +420,7 @@ def run_visual_pipeline(mode="addToQueue", dry_run=False):
 
     if not dry_run:
         public_urls = upload_visual_slides(rendered_slides)
-        res = dispatch_to_buffer(data["caption"], public_urls, mode=mode)
+        res = dispatch_to_buffer(data["caption"], public_urls, mode=mode, draft=draft)
         post_id = res.get("id")
         post_url = res.get("url")
         save_history_entry(data.get("topic"), data.get("ctaKeyword"), post_id=post_id, post_url=post_url)
@@ -437,8 +440,9 @@ def run_visual_pipeline(mode="addToQueue", dry_run=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="AI Visual Carousel Generator for @ai.agent_jayant")
     parser.add_argument("--now", action="store_true", help="Publish immediately to Instagram")
+    parser.add_argument("--draft", action="store_true", help="Save directly to Buffer Drafts tab for manual review")
     parser.add_argument("--dry-run", action="store_true", help="Render slides without publishing")
     args = parser.parse_args()
 
     mode = "shareNow" if args.now else "addToQueue"
-    run_visual_pipeline(mode=mode, dry_run=args.dry_run)
+    run_visual_pipeline(mode=mode, dry_run=args.dry_run, draft=args.draft)

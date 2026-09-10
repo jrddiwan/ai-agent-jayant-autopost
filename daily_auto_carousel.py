@@ -1376,8 +1376,9 @@ def upload_images(image_paths):
 # ==========================================
 # 6. PUBLISH / SCHEDULE VIA BUFFER GRAPHQL API
 # ==========================================
-def schedule_to_buffer(caption, image_urls, mode="addToQueue"):
-    print(f"[5/5] Submitting carousel to Buffer for channel {BUFFER_CHANNEL_ID} (@ai.agent_jayant) with mode '{mode}'...")
+def schedule_to_buffer(caption, image_urls, mode="addToQueue", draft=False):
+    action_label = "as DRAFT" if draft else f"with mode '{mode}'"
+    print(f"[5/5] Submitting carousel to Buffer for channel {BUFFER_CHANNEL_ID} (@ai.agent_jayant) {action_label}...")
     
     graphql_url = "https://api.buffer.com"
     assets_input = [{"image": {"url": u}} for u in image_urls]
@@ -1407,6 +1408,7 @@ def schedule_to_buffer(caption, image_urls, mode="addToQueue"):
             "assets": assets_input,
             "schedulingType": "automatic",
             "mode": mode,
+            "saveToDraft": draft,
             "metadata": {
                 "instagram": {
                     "type": "post",
@@ -1441,10 +1443,11 @@ def schedule_to_buffer(caption, image_urls, mode="addToQueue"):
         
         post_id = post_obj.get("id")
         due_at = post_obj.get("dueAt")
-        print(f"  -> Buffer Post Created! ID: {post_id}")
+        status = post_obj.get("status")
+        print(f"  -> Buffer Post Created! ID: {post_id} (Status: {status})")
 
         post_url = None
-        if mode == "shareNow":
+        if mode == "shareNow" and not draft:
             print("  -> Waiting 8 seconds for Instagram publishing verification...")
             time.sleep(8)
             try:
@@ -1476,7 +1479,10 @@ def schedule_to_buffer(caption, image_urls, mode="addToQueue"):
             except Exception as e:
                 print(f"  -> Note: Post status check error: {e}")
         else:
-            print(f"  -> Scheduled in Buffer queue for: {due_at}")
+            if draft:
+                print(f"  -> Saved to Buffer Drafts tab!")
+            else:
+                print(f"  -> Scheduled in Buffer queue for: {due_at}")
 
         return {"id": post_id, "url": post_url}
 
@@ -1484,10 +1490,10 @@ def schedule_to_buffer(caption, image_urls, mode="addToQueue"):
 # ==========================================
 # MAIN EXECUTION
 # ==========================================
-def run_daily_job(mode="addToQueue", dry_run=False):
+def run_daily_job(mode="addToQueue", dry_run=False, draft=False):
     print("==================================================")
     print("Starting Daily Carousel Pipeline for @ai.agent_jayant")
-    print(f"Mode: {mode} | Dry Run: {dry_run}")
+    print(f"Mode: {mode} | Dry Run: {dry_run} | Draft: {draft}")
     print("==================================================")
     content = generate_carousel_content()
     generate_resource_page(content)
@@ -1498,7 +1504,7 @@ def run_daily_job(mode="addToQueue", dry_run=False):
 
     if not dry_run:
         public_urls = upload_images(images)
-        res = schedule_to_buffer(content["caption"], public_urls, mode=mode)
+        res = schedule_to_buffer(content["caption"], public_urls, mode=mode, draft=draft)
         post_id = res.get("id")
         post_url = res.get("url")
         # Record to history so topic is never repeated
@@ -1518,8 +1524,9 @@ def run_daily_job(mode="addToQueue", dry_run=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Daily Carousel Generator & Publisher for @ai.agent_jayant")
     parser.add_argument("--now", action="store_true", help="Publish immediately to Instagram (shareNow) instead of queueing")
+    parser.add_argument("--draft", action="store_true", help="Save directly to Buffer Drafts tab for manual review")
     parser.add_argument("--dry-run", action="store_true", help="Render slides and web guide without uploading or scheduling to Buffer")
     args = parser.parse_args()
 
     mode = "shareNow" if args.now else "addToQueue"
-    run_daily_job(mode=mode, dry_run=args.dry_run)
+    run_daily_job(mode=mode, dry_run=args.dry_run, draft=args.draft)
