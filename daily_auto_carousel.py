@@ -1376,8 +1376,13 @@ def upload_images(image_paths):
 # ==========================================
 # 6. PUBLISH / SCHEDULE VIA BUFFER GRAPHQL API
 # ==========================================
-def schedule_to_buffer(caption, image_urls, mode="addToQueue", draft=False):
-    action_label = "as DRAFT" if draft else f"with mode '{mode}'"
+def schedule_to_buffer(caption, image_urls, mode="addToQueue", draft=False, schedule_time=None):
+    if schedule_time:
+        action_label = f"pinned to calendar at {schedule_time}"
+        mode = "customScheduled"
+        draft = False
+    else:
+        action_label = "as DRAFT" if draft else f"with mode '{mode}'"
     print(f"[5/5] Submitting carousel to Buffer for channel {BUFFER_CHANNEL_ID} (@ai.agent_jayant) {action_label}...")
     
     graphql_url = "https://api.buffer.com"
@@ -1401,22 +1406,24 @@ def schedule_to_buffer(caption, image_urls, mode="addToQueue", draft=False):
     }
     """
 
-    variables = {
-        "input": {
-            "channelId": BUFFER_CHANNEL_ID,
-            "text": caption,
-            "assets": assets_input,
-            "schedulingType": "automatic",
-            "mode": mode,
-            "saveToDraft": draft,
-            "metadata": {
-                "instagram": {
-                    "type": "post",
-                    "shouldShareToFeed": True
-                }
+    input_payload = {
+        "channelId": BUFFER_CHANNEL_ID,
+        "text": caption,
+        "assets": assets_input,
+        "schedulingType": "automatic",
+        "mode": mode,
+        "saveToDraft": draft,
+        "metadata": {
+            "instagram": {
+                "type": "post",
+                "shouldShareToFeed": True
             }
         }
     }
+    if schedule_time:
+        input_payload["dueAt"] = schedule_time
+
+    variables = {"input": input_payload}
 
     body = json.dumps({"query": mutation, "variables": variables}).encode("utf-8")
     req = urllib.request.Request(
@@ -1490,10 +1497,10 @@ def schedule_to_buffer(caption, image_urls, mode="addToQueue", draft=False):
 # ==========================================
 # MAIN EXECUTION
 # ==========================================
-def run_daily_job(mode="addToQueue", dry_run=False, draft=False):
+def run_daily_job(mode="addToQueue", dry_run=False, draft=False, schedule_time=None):
     print("==================================================")
     print("Starting Daily Carousel Pipeline for @ai.agent_jayant")
-    print(f"Mode: {mode} | Dry Run: {dry_run} | Draft: {draft}")
+    print(f"Mode: {mode} | Dry Run: {dry_run} | Draft: {draft} | Schedule Time: {schedule_time}")
     print("==================================================")
     content = generate_carousel_content()
     generate_resource_page(content)
@@ -1504,7 +1511,7 @@ def run_daily_job(mode="addToQueue", dry_run=False, draft=False):
 
     if not dry_run:
         public_urls = upload_images(images)
-        res = schedule_to_buffer(content["caption"], public_urls, mode=mode, draft=draft)
+        res = schedule_to_buffer(content["caption"], public_urls, mode=mode, draft=draft, schedule_time=schedule_time)
         post_id = res.get("id")
         post_url = res.get("url")
         # Record to history so topic is never repeated
@@ -1525,8 +1532,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Daily Carousel Generator & Publisher for @ai.agent_jayant")
     parser.add_argument("--now", action="store_true", help="Publish immediately to Instagram (shareNow) instead of queueing")
     parser.add_argument("--draft", action="store_true", help="Save directly to Buffer Drafts tab for manual review")
+    parser.add_argument("--schedule-time", type=str, default=None, help="Schedule post for exact ISO timestamp on Buffer Calendar (e.g. 2026-09-11T04:30:00Z)")
     parser.add_argument("--dry-run", action="store_true", help="Render slides and web guide without uploading or scheduling to Buffer")
     args = parser.parse_args()
 
     mode = "shareNow" if args.now else "addToQueue"
-    run_daily_job(mode=mode, dry_run=args.dry_run, draft=args.draft)
+    run_daily_job(mode=mode, dry_run=args.dry_run, draft=args.draft, schedule_time=args.schedule_time)

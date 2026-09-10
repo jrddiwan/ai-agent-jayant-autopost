@@ -16,6 +16,7 @@ import base64
 import argparse
 import urllib.request
 import urllib.error
+import urllib.parse
 from pathlib import Path
 
 # Base directories
@@ -129,7 +130,34 @@ def generate_image(prompt, model=DEFAULT_MODEL, size="1024x1024", output_path=No
             print(f"  -> Error on {base_url}: {e}")
             last_error = str(e)
 
-        print("  -> Trying next endpoint fallback...")
+    # Fallback to Pollinations AI (Unlimited free AI image generator)
+    try:
+        print("[AI Image Studio] Trying Frontier Free Fallback (Pollinations AI)...")
+        safe_prompt = urllib.parse.quote(prompt[:200])
+        p_url = f"https://image.pollinations.ai/prompt/{safe_prompt}?width=1024&height=1024&nologo=true"
+        p_req = urllib.request.Request(p_url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        with urllib.request.urlopen(p_req, timeout=40) as p_resp:
+            p_bytes = p_resp.read()
+            if len(p_bytes) > 5000:
+                if not output_path:
+                    timestamp = int(time.time())
+                    safe_slug = "".join([c if c.isalnum() else "_" for c in prompt[:30]]).strip("_").lower()
+                    out_file = OUTPUT_DIR / f"{timestamp}_{safe_slug}.png"
+                else:
+                    out_file = Path(output_path)
+                    out_file.parent.mkdir(parents=True, exist_ok=True)
+                with open(out_file, "wb") as f:
+                    f.write(p_bytes)
+                print(f"[AI Image Studio] Successfully saved image from Pollinations: {out_file} ({len(p_bytes):,} bytes)")
+                return {
+                    "success": True,
+                    "file_path": str(out_file),
+                    "provider": "pollinations.ai",
+                    "model": "flux",
+                    "size": size
+                }
+    except Exception as pe:
+        print(f"  -> Pollinations fallback note: {pe}")
 
     print(f"[AI Image Studio] All endpoints failed. Last error: {last_error}")
     return {"success": False, "error": last_error}

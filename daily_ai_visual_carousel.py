@@ -264,23 +264,43 @@ def render_visual_slides(carousel_data, image_map):
 # 4. UPLOAD SLIDES TO CDN (Catbox.moe)
 # ==========================================
 def upload_visual_slides(image_paths):
-    print("[4/5] Uploading slides to high-speed CDN (Catbox.moe)...")
+    print("[4/5] Uploading slides to high-speed CDN (Catbox.moe / ImgBB)...")
     public_urls = []
     for idx, path_str in enumerate(image_paths):
         filepath = Path(path_str)
         uploaded = False
 
+        file_bytes = filepath.read_bytes()
+        content_type = "image/png"
+        filename = filepath.name
+
+        # Optimize 4MB+ raw PNGs to crisp 92% JPEG (~300KB) for instant, timeout-free CDN upload
+        if len(file_bytes) > 1024 * 1024:
+            try:
+                from PIL import Image
+                import io
+                with Image.open(filepath) as img:
+                    rgb_img = img.convert("RGB")
+                    buf = io.BytesIO()
+                    rgb_img.save(buf, format="JPEG", quality=92, optimize=True)
+                    file_bytes = buf.getvalue()
+                    content_type = "image/jpeg"
+                    filename = filepath.stem + ".jpg"
+                    print(f"  -> Optimized Slide {idx+1} size: {len(file_bytes)/1024:.1f} KB")
+            except Exception as ce:
+                print(f"  -> Compression notice: {ce}")
+
+        # Try Catbox CDN
         for attempt in range(3):
             try:
                 boundary = f"----WebKitFormBoundaryCatboxVisual{int(time.time()*1000)}"
-                file_bytes = filepath.read_bytes()
                 body = (
                     f"--{boundary}\r\n"
                     f'Content-Disposition: form-data; name="reqtype"\r\n\r\n'
                     f"fileupload\r\n"
                     f"--{boundary}\r\n"
-                    f'Content-Disposition: form-data; name="fileToUpload"; filename="{filepath.name}"\r\n'
-                    f"Content-Type: image/png\r\n\r\n"
+                    f'Content-Disposition: form-data; name="fileToUpload"; filename="{filename}"\r\n'
+                    f"Content-Type: {content_type}\r\n\r\n"
                 ).encode("utf-8") + file_bytes + f"\r\n--{boundary}--\r\n".encode("utf-8")
 
                 req = urllib.request.Request(
@@ -288,7 +308,7 @@ def upload_visual_slides(image_paths):
                     data=body,
                     headers={"Content-Type": f"multipart/form-data; boundary={boundary}", "User-Agent": "Mozilla/5.0"}
                 )
-                with urllib.request.urlopen(req, timeout=35) as resp:
+                with urllib.request.urlopen(req, timeout=50) as resp:
                     raw_res = resp.read().decode("utf-8").strip()
                     if raw_res.startswith("http"):
                         public_urls.append(raw_res)
@@ -299,6 +319,37 @@ def upload_visual_slides(image_paths):
                 print(f"  -> Upload slide {idx+1} attempt {attempt+1} failed: {e}. Retrying in 2s...")
                 time.sleep(2)
 
+        # Fallback to ImgBB if needed
+        if not uploaded:
+            imgbb_key = os.environ.get("IMGBB_API_KEY") or "b8b703dc32b61b43e82ed56649ebba17"
+            try:
+                b64_img = base64.b64encode(file_bytes).decode("utf-8")
+                data = urllib.parse.urlencode({"key": imgbb_key, "image": b64_img}).encode("utf-8")
+                req = urllib.request.Request("https://api.imgbb.com/1/upload", data=data)
+                with urllib.request.urlopen(req, timeout=45) as resp:
+                    res = json.loads(resp.read().decode("utf-8"))
+                    img_url = res["data"]["url"]
+                    public_urls.append(img_url)
+                    print(f"  -> Uploaded Slide {idx+1} to ImgBB: {img_url}")
+                    uploaded = True
+            except Exception as ie:
+                print(f"  -> ImgBB fallback failed: {ie}")
+
+        # Fallback to GitHub raw storage in docs/slides
+        if not uploaded:
+            try:
+                slides_dir = BASE_DIR / "docs" / "slides"
+                slides_dir.mkdir(parents=True, exist_ok=True)
+                dest = slides_dir / filename
+                with open(dest, "wb") as df:
+                    df.write(file_bytes)
+                gh_url = f"https://raw.githubusercontent.com/jrddiwan/ai-agent-jayant-autopost/main/docs/slides/{filename}"
+                public_urls.append(gh_url)
+                print(f"  -> Saved Slide {idx+1} to GitHub repo: {gh_url}")
+                uploaded = True
+            except Exception as ge:
+                print(f"  -> GitHub storage fallback failed: {ge}")
+
         if not uploaded:
             raise RuntimeError(f"Failed to upload slide {idx+1} to CDN!")
 
@@ -308,8 +359,13 @@ def upload_visual_slides(image_paths):
 # ==========================================
 # 5. DISPATCH TO BUFFER GRAPHQL API
 # ==========================================
-def dispatch_to_buffer(caption, image_urls, mode="addToQueue", draft=False):
-    action_label = "as DRAFT" if draft else f"with mode '{mode}'"
+def dispatch_to_buffer(caption, image_urls, mode="addToQueue", draft=False, schedule_time=None):
+    if schedule_time:
+        action_label = f"pinned to calendar at {schedule_time}"
+        mode = "customScheduled"
+        draft = False
+    else:
+        action_label = "as DRAFT" if draft else f"with mode '{mode}'"
     print(f"[5/5] Submitting visual carousel to Buffer (@ai.agent_jayant) {action_label}...")
     graphql_url = "https://api.buffer.com"
     assets_input = [{"image": {"url": u}} for u in image_urls]
@@ -332,22 +388,24 @@ def dispatch_to_buffer(caption, image_urls, mode="addToQueue", draft=False):
     }
     """
 
-    variables = {
-        "input": {
-            "channelId": BUFFER_CHANNEL_ID,
-            "text": caption,
-            "assets": assets_input,
-            "schedulingType": "automatic",
-            "mode": mode,
-            "saveToDraft": draft,
-            "metadata": {
-                "instagram": {
-                    "type": "post",
-                    "shouldShareToFeed": True
-                }
+    input_payload = {
+        "channelId": BUFFER_CHANNEL_ID,
+        "text": caption,
+        "assets": assets_input,
+        "schedulingType": "automatic",
+        "mode": mode,
+        "saveToDraft": draft,
+        "metadata": {
+            "instagram": {
+                "type": "post",
+                "shouldShareToFeed": True
             }
         }
     }
+    if schedule_time:
+        input_payload["dueAt"] = schedule_time
+
+    variables = {"input": input_payload}
 
     req = urllib.request.Request(
         graphql_url,
@@ -405,10 +463,10 @@ def dispatch_to_buffer(caption, image_urls, mode="addToQueue", draft=False):
 # ==========================================
 # MAIN EXECUTION
 # ==========================================
-def run_visual_pipeline(mode="addToQueue", dry_run=False, draft=False):
+def run_visual_pipeline(mode="addToQueue", dry_run=False, draft=False, schedule_time=None):
     print("==================================================")
     print("Starting Daily AI Visual Carousel Pipeline (@ai.agent_jayant)")
-    print(f"Mode: {mode} | Dry Run: {dry_run} | Draft: {draft}")
+    print(f"Mode: {mode} | Dry Run: {dry_run} | Draft: {draft} | Schedule Time: {schedule_time}")
     print("==================================================")
 
     data = brainstorm_visual_carousel()
@@ -420,7 +478,7 @@ def run_visual_pipeline(mode="addToQueue", dry_run=False, draft=False):
 
     if not dry_run:
         public_urls = upload_visual_slides(rendered_slides)
-        res = dispatch_to_buffer(data["caption"], public_urls, mode=mode, draft=draft)
+        res = dispatch_to_buffer(data["caption"], public_urls, mode=mode, draft=draft, schedule_time=schedule_time)
         post_id = res.get("id")
         post_url = res.get("url")
         save_history_entry(data.get("topic"), data.get("ctaKeyword"), post_id=post_id, post_url=post_url)
@@ -441,8 +499,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="AI Visual Carousel Generator for @ai.agent_jayant")
     parser.add_argument("--now", action="store_true", help="Publish immediately to Instagram")
     parser.add_argument("--draft", action="store_true", help="Save directly to Buffer Drafts tab for manual review")
+    parser.add_argument("--schedule-time", type=str, default=None, help="Schedule post for exact ISO timestamp on Buffer Calendar (e.g. 2026-09-11T08:00:00Z)")
     parser.add_argument("--dry-run", action="store_true", help="Render slides without publishing")
     args = parser.parse_args()
 
     mode = "shareNow" if args.now else "addToQueue"
-    run_visual_pipeline(mode=mode, dry_run=args.dry_run, draft=args.draft)
+    run_visual_pipeline(mode=mode, dry_run=args.dry_run, draft=args.draft, schedule_time=args.schedule_time)
