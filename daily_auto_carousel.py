@@ -51,7 +51,7 @@ for possible_env in [BASE_DIR / ".env", Path("C:/jayant/MoneyOrganism/.env")]:
 # Encoded fallbacks to guarantee cloud autonomy on GitHub Actions
 _GROQ_FB = base64.b64decode("Z3NrX1U5THVKOFdZSzVLRnRSS20zMklTV0dkeWIwRllYTjFMYXpVS3djRldmUjBJV2pzMk5QckQ=").decode("utf-8")
 _BUF_FB = base64.b64decode("eVF0bzVZbkJWcTBOQmxKc0pua09pNUVUT2l3YzZ0LWZsM1lNeElwT0lqeg==").decode("utf-8")
-_IMG_FB = base64.b64decode("YjhiNzAzZGMzMmI2MWI0M2U4MmVkNTY2NDllYmJhMTc=").decode("utf-8")
+_IMG_FB = base64.b64decode("YjhiNzAzZGMzMmI2MWI0M2U4MmVkNTY2NGU5YmJhMTc=").decode("utf-8")
 _APIFY_FB = base64.b64decode("YXBpZnlfYXBpX1VkZUwxdmxNZE14cHl3TDFUWnBnNHRuUEhjRnBHbDBqMXpDNg==").decode("utf-8")
 _SUPA_FB = base64.b64decode("c2RfMWY4ZGRkNzE3ZTcwZTY1MDdhZmE4MzUxMjhjMzI1ZDY=").decode("utf-8")
 
@@ -1272,7 +1272,8 @@ def render_slides(carousel_data):
 # 5. UPLOAD IMAGES TO GET PUBLIC URLS
 # ==========================================
 def upload_images(image_paths):
-    print("[4/5] Uploading images to cloud storage for Buffer...")
+    is_ci = os.environ.get("GITHUB_ACTIONS") == "true"
+    print(f"[4/5] Uploading {len(image_paths)} images to cloud storage for Buffer (CI: {is_ci})...")
     public_urls = []
 
     # Priority 1: Cloudflare R2 (if configured)
@@ -1294,52 +1295,36 @@ def upload_images(image_paths):
             print(f"  -> Uploaded to R2: {url}")
         return public_urls
 
-    # Priority 2: High-Speed Public CDN (Catbox.moe)
-    print("  -> Uploading to high-speed public CDN (Catbox.moe)...")
     for idx, path_str in enumerate(image_paths):
         filepath = Path(path_str)
         uploaded = False
 
-        # Try Catbox.moe first (Extremely fast, reliable, accepted by Buffer)
-        for attempt in range(3):
+        file_bytes = filepath.read_bytes()
+        content_type = "image/png"
+        filename = filepath.name
+
+        # Optimize raw PNGs to high-quality JPEG 92% (~250KB) for instant upload
+        if len(file_bytes) > 1024 * 1024:
             try:
-                boundary = f"----WebKitFormBoundaryCatbox{int(time.time()*1000)}"
-                file_bytes = filepath.read_bytes()
-                body = (
-                    f"--{boundary}\r\n"
-                    f'Content-Disposition: form-data; name="reqtype"\r\n\r\n'
-                    f"fileupload\r\n"
-                    f"--{boundary}\r\n"
-                    f'Content-Disposition: form-data; name="fileToUpload"; filename="{filepath.name}"\r\n'
-                    f"Content-Type: image/png\r\n\r\n"
-                ).encode("utf-8") + file_bytes + f"\r\n--{boundary}--\r\n".encode("utf-8")
+                from PIL import Image
+                import io
+                with Image.open(filepath) as img:
+                    rgb_img = img.convert("RGB")
+                    buf = io.BytesIO()
+                    rgb_img.save(buf, format="JPEG", quality=92, optimize=True)
+                    file_bytes = buf.getvalue()
+                    content_type = "image/jpeg"
+                    filename = filepath.stem + ".jpg"
+                    print(f"  -> Compressed Slide {idx+1}: {len(file_bytes)/1024:.1f} KB")
+            except Exception as ce:
+                print(f"  -> Compression notice: {ce}")
 
-                req = urllib.request.Request(
-                    "https://catbox.moe/user/api.php",
-                    data=body,
-                    headers={"Content-Type": f"multipart/form-data; boundary={boundary}", "User-Agent": "Mozilla/5.0"}
-                )
-                with urllib.request.urlopen(req, timeout=35) as resp:
-                    raw_res = resp.read().decode("utf-8").strip()
-                    if raw_res.startswith("http"):
-                        public_urls.append(raw_res)
-                        print(f"  -> Uploaded Slide {idx+1} to Catbox: {raw_res}")
-                        uploaded = True
-                        break
-            except Exception as e:
-                print(f"  -> Catbox slide {idx+1} attempt {attempt+1} failed: {e}. Retrying in 2s...")
-                time.sleep(2)
-
-        # Fallback to ImgBB
-        if not uploaded and IMGBB_API_KEY:
+        # Priority 1 on GitHub Actions: ImgBB (Catbox blocks CI runner IPs with 412)
+        if is_ci and IMGBB_API_KEY:
             for attempt in range(2):
                 try:
-                    with open(filepath, "rb") as f:
-                        b64_img = base64.b64encode(f.read()).decode("utf-8")
-                    data = urllib.parse.urlencode({
-                        "key": IMGBB_API_KEY,
-                        "image": b64_img
-                    }).encode("utf-8")
+                    b64_img = base64.b64encode(file_bytes).decode("utf-8")
+                    data = urllib.parse.urlencode({"key": IMGBB_API_KEY, "image": b64_img}).encode("utf-8")
                     req = urllib.request.Request("https://api.imgbb.com/1/upload", data=data)
                     with urllib.request.urlopen(req, timeout=45) as resp:
                         res = json.loads(resp.read().decode("utf-8"))
@@ -1349,20 +1334,72 @@ def upload_images(image_paths):
                         uploaded = True
                         break
                 except Exception as e:
-                    print(f"  -> ImgBB slide {idx+1} attempt {attempt+1} failed: {e}. Retrying in 2s...")
+                    print(f"  -> ImgBB attempt {attempt+1} failed: {e}. Retrying...")
                     time.sleep(2)
 
-        # Fallback to Raw GitHub storage in docs/slides
+        # Priority 2: Catbox.moe
+        if not uploaded:
+            for attempt in range(3):
+                try:
+                    boundary = f"----WebKitFormBoundaryCatbox{int(time.time()*1000)}"
+                    body = (
+                        f"--{boundary}\r\n"
+                        f'Content-Disposition: form-data; name="reqtype"\r\n\r\n'
+                        f"fileupload\r\n"
+                        f"--{boundary}\r\n"
+                        f'Content-Disposition: form-data; name="fileToUpload"; filename="{filename}"\r\n'
+                        f"Content-Type: {content_type}\r\n\r\n"
+                    ).encode("utf-8") + file_bytes + f"\r\n--{boundary}--\r\n".encode("utf-8")
+
+                    req = urllib.request.Request(
+                        "https://catbox.moe/user/api.php",
+                        data=body,
+                        headers={"Content-Type": f"multipart/form-data; boundary={boundary}", "User-Agent": "Mozilla/5.0"}
+                    )
+                    with urllib.request.urlopen(req, timeout=45) as resp:
+                        raw_res = resp.read().decode("utf-8").strip()
+                        if raw_res.startswith("http"):
+                            public_urls.append(raw_res)
+                            print(f"  -> Uploaded Slide {idx+1} to Catbox: {raw_res}")
+                            uploaded = True
+                            break
+                except Exception as e:
+                    print(f"  -> Catbox slide {idx+1} attempt {attempt+1} failed: {e}. Retrying in 2s...")
+                    time.sleep(2)
+
+        # Priority 3 (if not in CI or Catbox failed): ImgBB fallback
+        if not uploaded and IMGBB_API_KEY and not is_ci:
+            for attempt in range(2):
+                try:
+                    b64_img = base64.b64encode(file_bytes).decode("utf-8")
+                    data = urllib.parse.urlencode({"key": IMGBB_API_KEY, "image": b64_img}).encode("utf-8")
+                    req = urllib.request.Request("https://api.imgbb.com/1/upload", data=data)
+                    with urllib.request.urlopen(req, timeout=45) as resp:
+                        res = json.loads(resp.read().decode("utf-8"))
+                        img_url = res["data"]["url"]
+                        public_urls.append(img_url)
+                        print(f"  -> Uploaded Slide {idx+1} to ImgBB: {img_url}")
+                        uploaded = True
+                        break
+                except Exception as e:
+                    print(f"  -> ImgBB attempt {attempt+1} failed: {e}. Retrying...")
+                    time.sleep(2)
+
+        # Fallback to Raw GitHub storage in docs/slides (pushed immediately so URL is live)
         if not uploaded:
             try:
                 slides_dir = DOCS_DIR / "slides"
-                slides_dir.mkdir(exist_ok=True)
-                dest = slides_dir / filepath.name
-                import shutil
-                shutil.copy2(filepath, dest)
-                gh_url = f"https://raw.githubusercontent.com/jrddiwan/ai-agent-jayant-autopost/main/docs/slides/{filepath.name}"
+                slides_dir.mkdir(exist_ok=True, parents=True)
+                dest = slides_dir / filename
+                with open(dest, "wb") as df:
+                    df.write(file_bytes)
+                import subprocess
+                subprocess.run(["git", "add", f"docs/slides/{filename}"], check=False)
+                subprocess.run(["git", "commit", "-m", f"Upload {filename} for Buffer [skip ci]"], check=False)
+                subprocess.run(["git", "push"], check=False)
+                gh_url = f"https://raw.githubusercontent.com/jrddiwan/ai-agent-jayant-autopost/main/docs/slides/{filename}"
                 public_urls.append(gh_url)
-                print(f"  -> Copied Slide {idx+1} to GitHub repo: {gh_url}")
+                print(f"  -> Published Slide {idx+1} to GitHub repo: {gh_url}")
                 uploaded = True
             except Exception as e:
                 print(f"  -> GitHub storage fallback failed: {e}")

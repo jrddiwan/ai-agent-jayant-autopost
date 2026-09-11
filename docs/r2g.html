@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Complete Setup & Prompt Pack: MCP‑Powered Shipping Swarm | @ai.agent_jayant</title>
+  <title>Complete Setup & Prompt Pack: Real-Time Geo-Intelligence Swarm (R2G) | @ai.agent_jayant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -212,9 +212,9 @@
       <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">OFFICIAL RESOURCE PACK</span>
     </div>
 
-    <span class="hero-tag">MCP SWARM</span>
-    <h1 class="hero-title">Complete Setup & Prompt Pack: MCP‑Powered Shipping Swarm</h1>
-    <p class="hero-sub">A modular MCP‑driven agent swarm that ingests live AIS data, optimizes routes with Claude & DeepSeek, and automates execution via n8n and Supabase vector memory.</p>
+    <span class="hero-tag">VECTOR RAG</span>
+    <h1 class="hero-title">Complete Setup & Prompt Pack: Real-Time Geo-Intelligence Swarm (R2G)</h1>
+    <p class="hero-sub">An autonomous AI swarm that harvests live geopolitical news, vectorizes it, reasons with Claude, and auto‑delivers actionable insights to founders.</p>
 
     <!-- STEP BY STEP GUIDE -->
     <div class="card">
@@ -224,22 +224,22 @@
       
       <div class="step-item">
         <div class="step-num">1</div>
-        <div class="step-text">1️⃣ Deploy a Supabase project, enable pgvector, and create an 'ais_vectors' table (id UUID, embedding vector, metadata JSON).</div>
+        <div class="step-text">Configure n8n workflow: use Cursor to pull RSS feeds (BBC, Reuters) every minute, then invoke MCP to chunk and embed via Supabase pgvector.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">2</div>
-        <div class="step-text">2️⃣ Write a Cursor script that pulls AIS JSON from public APIs, generates embeddings via OpenAI, and upserts them into Supabase.</div>
+        <div class="step-text">Set up Claude Code CLI as a reasoning node: feed the vector query, request strategic recommendations, output JSON actions.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text">3️⃣ Initialize a Claude Code CLI project that queries the vector store, runs a Python/JS optimizer to calculate fastest, lowest‑risk routes, and outputs a structured JSON payload.</div>
+        <div class="step-text">Integrate OpenAI function calls for Slack, Email, and document generation; map actions in n8n.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">4</div>
-        <div class="step-text">4️⃣ Build an n8n workflow that triggers on new optimization results, calls carrier booking APIs, sends Slack/Discord alerts, and writes execution logs back to Supabase.</div>
+        <div class="step-text">Deploy the loop, monitor token usage, and scale via Supabase auto‑scale; optionally add DeepSeek R1 for cheap inference.</div>
       </div>
       
     </div>
@@ -254,7 +254,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           COPY PROMPT
         </button>
-        <span id="promptText">You are an autonomous Shipping Swarm orchestrator. Use the Model Context Protocol (MCP) to share state across agents. When a new AIS vector is stored, trigger the Claude Reasoner via Claude Code CLI to compute optimal routes. Pass the route JSON to the n8n Executor which will perform bookings and log outcomes. Always store intermediate results in Supabase pgvector for future similarity queries. If an error occurs, fallback to DeepSeek R1 for alternative suggestions. Keep all tool calls idempotent and log timestamps. Respond only with JSON containing the next tool action or final result.</span>
+        <span id="promptText">You are a Geo‑Intelligence Analyst AI. ingest the latest vectorized news articles from Supabase pgvector, identify the top three emerging geopolitical events relevant to tech founders, and for each event generate a concise strategic recommendation (max 3 bullet points) plus an actionable next‑step JSON payload for automation (e.g., Slack message, email draft, CRM update). Use Model Context Protocol to reference the most relevant chunks, keep responses under 200 tokens, and always output a JSON block under a ```json``` fence.</span>
       </div>
     </div>
 
@@ -267,27 +267,27 @@
         
         <div class="tool-chip">
           <div class="tool-name">Cursor</div>
-          <div class="tool-desc">Fetch live AIS data and generate embeddings</div>
-        </div>
-        
-        <div class="tool-chip">
-          <div class="tool-name">Claude Code CLI</div>
-          <div class="tool-desc">Reason over vector data and compute route optimizations</div>
-        </div>
-        
-        <div class="tool-chip">
-          <div class="tool-name">DeepSeek R1</div>
-          <div class="tool-desc">Provide backup reasoning and alternative suggestions</div>
+          <div class="tool-desc">Live web scraping of news feeds</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">n8n</div>
-          <div class="tool-desc">Orchestrate bookings, notifications, and logging</div>
+          <div class="tool-desc">No‑code orchestration of data pipelines</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">Claude Code CLI</div>
+          <div class="tool-desc">Reasoning over vectorized context</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">Supabase pgvector</div>
-          <div class="tool-desc">Store and retrieve high‑dimensional AIS embeddings</div>
+          <div class="tool-desc">Scalable vector database for long‑term memory</div>
+        </div>
+        
+        <div class="tool-chip">
+          <div class="tool-name">OpenAI</div>
+          <div class="tool-desc">Function calling for automated deliverables</div>
         </div>
         
       </div>
@@ -295,7 +295,7 @@
 
     <!-- FOOTER -->
     <div style="text-align: center; margin-top: 40px; color: var(--text-muted); font-size: 13px;">
-      Delivered automatically for commenting "<strong>SWARM</strong>" on Instagram.<br>
+      Delivered automatically for commenting "<strong>R2G</strong>" on Instagram.<br>
       Follow <a href="https://instagram.com/ai.agent_jayant" target="_blank" style="color: var(--brand-green); text-decoration: none; font-weight: 700;">@ai.agent_jayant</a> for daily autonomous workflows.
     </div>
   </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Complete Setup & Prompt Pack: MCP‑Powered Native Mobile Agent Swarm | @ai.agent_jayant</title>
+  <title>Complete Setup & Prompt Pack: MCP‑Powered Shipping Swarm | @ai.agent_jayant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -213,8 +213,8 @@
     </div>
 
     <span class="hero-tag">MCP SWARM</span>
-    <h1 class="hero-title">Complete Setup & Prompt Pack: MCP‑Powered Native Mobile Agent Swarm</h1>
-    <p class="hero-sub">A unified MCP‑driven architecture that turns any Shopify store into a native‑mobile AI sales engine. Real‑time vector memory, on‑the‑fly UI generation, and automated outbound SDR bots work 24/7.</p>
+    <h1 class="hero-title">Complete Setup & Prompt Pack: MCP‑Powered Shipping Swarm</h1>
+    <p class="hero-sub">A modular MCP‑driven agent swarm that ingests live AIS data, optimizes routes with Claude & DeepSeek, and automates execution via n8n and Supabase vector memory.</p>
 
     <!-- STEP BY STEP GUIDE -->
     <div class="card">
@@ -224,22 +224,22 @@
       
       <div class="step-item">
         <div class="step-num">1</div>
-        <div class="step-text">Install Cursor, Claude Code CLI, n8n, Supabase CLI, and DeepSeek R1 locally or via Ollama.</div>
+        <div class="step-text">1️⃣ Deploy a Supabase project, enable pgvector, and create an 'ais_vectors' table (id UUID, embedding vector, metadata JSON).</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">2</div>
-        <div class="step-text">Configure pgVector in Supabase, ingest product data with Cursor, and embed with DeepSeek R1.</div>
+        <div class="step-text">2️⃣ Write a Cursor script that pulls AIS JSON from public APIs, generates embeddings via OpenAI, and upserts them into Supabase.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text">Create a LangGraph MCP workflow that routes embeddings to Claude for UI code generation.</div>
+        <div class="step-text">3️⃣ Initialize a Claude Code CLI project that queries the vector store, runs a Python/JS optimizer to calculate fastest, lowest‑risk routes, and outputs a structured JSON payload.</div>
       </div>
       
       <div class="step-item">
         <div class="step-num">4</div>
-        <div class="step-text">Deploy the generated native bundles via n8n pipelines; set up SDR bot triggers and KPI dashboards.</div>
+        <div class="step-text">4️⃣ Build an n8n workflow that triggers on new optimization results, calls carrier booking APIs, sends Slack/Discord alerts, and writes execution logs back to Supabase.</div>
       </div>
       
     </div>
@@ -254,7 +254,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           COPY PROMPT
         </button>
-        <span id="promptText">You are an autonomous AI orchestrator named SWARM‑NATIVE. Use the Model Context Protocol (MCP) to share context across agents. When a new product appears, ingest with Cursor, embed with DeepSeek R1, store in Supabase pgVector, generate native UI snippets with Claude Code CLI, and trigger n8n to publish to TestFlight/App Store and launch outbound SDR outreach. Log all events to Supabase and continuously optimize conversion via reinforcement loops. Respond only with JSON payloads for each sub‑task. Keep latency < 500ms.</span>
+        <span id="promptText">You are an autonomous Shipping Swarm orchestrator. Use the Model Context Protocol (MCP) to share state across agents. When a new AIS vector is stored, trigger the Claude Reasoner via Claude Code CLI to compute optimal routes. Pass the route JSON to the n8n Executor which will perform bookings and log outcomes. Always store intermediate results in Supabase pgvector for future similarity queries. If an error occurs, fallback to DeepSeek R1 for alternative suggestions. Keep all tool calls idempotent and log timestamps. Respond only with JSON containing the next tool action or final result.</span>
       </div>
     </div>
 
@@ -267,32 +267,27 @@
         
         <div class="tool-chip">
           <div class="tool-name">Cursor</div>
-          <div class="tool-desc">Web‑scrape product feeds and raw data</div>
+          <div class="tool-desc">Fetch live AIS data and generate embeddings</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">Claude Code CLI</div>
-          <div class="tool-desc">Generate native iOS/Android UI code from context</div>
+          <div class="tool-desc">Reason over vector data and compute route optimizations</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">DeepSeek R1</div>
-          <div class="tool-desc">High‑quality embeddings for RAG</div>
-        </div>
-        
-        <div class="tool-chip">
-          <div class="tool-name">Supabase pgVector</div>
-          <div class="tool-desc">Vector store & real‑time KPI dashboard</div>
+          <div class="tool-desc">Provide backup reasoning and alternative suggestions</div>
         </div>
         
         <div class="tool-chip">
           <div class="tool-name">n8n</div>
-          <div class="tool-desc">Orchestrate deployments, SDR bots, and monitoring</div>
+          <div class="tool-desc">Orchestrate bookings, notifications, and logging</div>
         </div>
         
         <div class="tool-chip">
-          <div class="tool-name">Ollama</div>
-          <div class="tool-desc">Run local LLMs for privacy‑first inference</div>
+          <div class="tool-name">Supabase pgvector</div>
+          <div class="tool-desc">Store and retrieve high‑dimensional AIS embeddings</div>
         </div>
         
       </div>

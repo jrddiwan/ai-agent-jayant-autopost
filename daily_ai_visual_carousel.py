@@ -15,6 +15,7 @@ import time
 import base64
 import random
 import argparse
+import subprocess
 import urllib.request
 import urllib.parse
 from pathlib import Path
@@ -290,38 +291,59 @@ def upload_visual_slides(image_paths):
             except Exception as ce:
                 print(f"  -> Compression notice: {ce}")
 
-        # Try Catbox CDN
-        for attempt in range(3):
-            try:
-                boundary = f"----WebKitFormBoundaryCatboxVisual{int(time.time()*1000)}"
-                body = (
-                    f"--{boundary}\r\n"
-                    f'Content-Disposition: form-data; name="reqtype"\r\n\r\n'
-                    f"fileupload\r\n"
-                    f"--{boundary}\r\n"
-                    f'Content-Disposition: form-data; name="fileToUpload"; filename="{filename}"\r\n'
-                    f"Content-Type: {content_type}\r\n\r\n"
-                ).encode("utf-8") + file_bytes + f"\r\n--{boundary}--\r\n".encode("utf-8")
+        is_ci = os.environ.get("GITHUB_ACTIONS") == "true"
+        imgbb_key = os.environ.get("IMGBB_API_KEY") or "b8b703dc32b61b43e82ed5664e9bba17"
 
-                req = urllib.request.Request(
-                    "https://catbox.moe/user/api.php",
-                    data=body,
-                    headers={"Content-Type": f"multipart/form-data; boundary={boundary}", "User-Agent": "Mozilla/5.0"}
-                )
-                with urllib.request.urlopen(req, timeout=50) as resp:
-                    raw_res = resp.read().decode("utf-8").strip()
-                    if raw_res.startswith("http"):
-                        public_urls.append(raw_res)
-                        print(f"  -> Uploaded Slide {idx+1} to Catbox: {raw_res}")
+        # In GitHub Actions, try ImgBB first (Catbox blocks CI runner IPs with 412)
+        if is_ci and imgbb_key:
+            for attempt in range(2):
+                try:
+                    b64_img = base64.b64encode(file_bytes).decode("utf-8")
+                    data = urllib.parse.urlencode({"key": imgbb_key, "image": b64_img}).encode("utf-8")
+                    req = urllib.request.Request("https://api.imgbb.com/1/upload", data=data)
+                    with urllib.request.urlopen(req, timeout=45) as resp:
+                        res = json.loads(resp.read().decode("utf-8"))
+                        img_url = res["data"]["url"]
+                        public_urls.append(img_url)
+                        print(f"  -> Uploaded Slide {idx+1} to ImgBB: {img_url}")
                         uploaded = True
                         break
-            except Exception as e:
-                print(f"  -> Upload slide {idx+1} attempt {attempt+1} failed: {e}. Retrying in 2s...")
-                time.sleep(2)
+                except Exception as ie:
+                    print(f"  -> ImgBB attempt {attempt+1} failed: {ie}. Retrying...")
+                    time.sleep(2)
 
-        # Fallback to ImgBB if needed
+        # Try Catbox CDN
         if not uploaded:
-            imgbb_key = os.environ.get("IMGBB_API_KEY") or "b8b703dc32b61b43e82ed56649ebba17"
+            for attempt in range(3):
+                try:
+                    boundary = f"----WebKitFormBoundaryCatboxVisual{int(time.time()*1000)}"
+                    body = (
+                        f"--{boundary}\r\n"
+                        f'Content-Disposition: form-data; name="reqtype"\r\n\r\n'
+                        f"fileupload\r\n"
+                        f"--{boundary}\r\n"
+                        f'Content-Disposition: form-data; name="fileToUpload"; filename="{filename}"\r\n'
+                        f"Content-Type: {content_type}\r\n\r\n"
+                    ).encode("utf-8") + file_bytes + f"\r\n--{boundary}--\r\n".encode("utf-8")
+
+                    req = urllib.request.Request(
+                        "https://catbox.moe/user/api.php",
+                        data=body,
+                        headers={"Content-Type": f"multipart/form-data; boundary={boundary}", "User-Agent": "Mozilla/5.0"}
+                    )
+                    with urllib.request.urlopen(req, timeout=50) as resp:
+                        raw_res = resp.read().decode("utf-8").strip()
+                        if raw_res.startswith("http"):
+                            public_urls.append(raw_res)
+                            print(f"  -> Uploaded Slide {idx+1} to Catbox: {raw_res}")
+                            uploaded = True
+                            break
+                except Exception as e:
+                    print(f"  -> Upload slide {idx+1} attempt {attempt+1} failed: {e}. Retrying in 2s...")
+                    time.sleep(2)
+
+        # Fallback to ImgBB if not in CI and Catbox failed
+        if not uploaded and imgbb_key and not is_ci:
             try:
                 b64_img = base64.b64encode(file_bytes).decode("utf-8")
                 data = urllib.parse.urlencode({"key": imgbb_key, "image": b64_img}).encode("utf-8")
@@ -343,6 +365,14 @@ def upload_visual_slides(image_paths):
                 dest = slides_dir / filename
                 with open(dest, "wb") as df:
                     df.write(file_bytes)
+                # Commit & push immediately so GitHub raw CDN serves it with 200 OK
+                try:
+                    subprocess.run(["git", "add", str(dest)], cwd=str(BASE_DIR), check=True, capture_output=True)
+                    subprocess.run(["git", "commit", "-m", f"Add {filename}"], cwd=str(BASE_DIR), check=True, capture_output=True)
+                    subprocess.run(["git", "push"], cwd=str(BASE_DIR), check=True, capture_output=True)
+                    time.sleep(2)
+                except Exception:
+                    pass
                 gh_url = f"https://raw.githubusercontent.com/jrddiwan/ai-agent-jayant-autopost/main/docs/slides/{filename}"
                 public_urls.append(gh_url)
                 print(f"  -> Saved Slide {idx+1} to GitHub repo: {gh_url}")
