@@ -1,10 +1,10 @@
 name: Daily AI Visual Carousel Automation
 
+# on:
+#   schedule:
+#     # Runs every day at 1:30 PM IST (08:00 AM UTC)
+#     - cron: '0 8 * * *'
 on:
-  schedule:
-    # Runs every day at 1:30 PM IST (08:00 AM UTC)
-    - cron: '0 8 * * *'
-  # Allows manual triggering with 1-click in GitHub
   workflow_dispatch:
 
 jobs:

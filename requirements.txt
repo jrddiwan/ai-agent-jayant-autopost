@@ -1,3 +1,4 @@
 playwright
 boto3
 requests
+pillow

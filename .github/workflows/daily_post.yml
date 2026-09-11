@@ -1,10 +1,10 @@
 name: Daily Instagram Carousel Automation
 
+# on:
+#   schedule:
+#     # Runs every day at 9:00 AM IST (03:30 AM UTC)
+#     - cron: '30 3 * * *'
 on:
-  schedule:
-    # Runs every day at 9:00 AM IST (03:30 AM UTC)
-    - cron: '30 3 * * *'
-  # Allows you to manually trigger the workflow anytime with a single click in GitHub!
   workflow_dispatch:
 
 jobs:

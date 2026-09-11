@@ -2,8 +2,10 @@ name: Rolling Advance Carousel Automation (2 Days Ahead)
 
 on:
   schedule:
-    # Runs daily at 7:30 AM IST (02:00 AM UTC) to generate and schedule Day + 2
+    # Morning roll: 02:00 AM UTC (07:30 AM IST)
     - cron: '0 2 * * *'
+    # Evening roll: 04:00 PM UTC (09:30 PM IST) after day's posts publish
+    - cron: '0 16 * * *'
   workflow_dispatch:
     inputs:
       action:
@@ -33,7 +35,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install playwright boto3 requests
+          pip install playwright boto3 requests pillow
           python -m playwright install --with-deps chromium
 
       - name: Run Advance Schedule Orchestrator

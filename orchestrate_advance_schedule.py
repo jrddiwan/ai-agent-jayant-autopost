@@ -91,24 +91,32 @@ def run_slot(day_offset: int, slot_info: dict, dry_run: bool = False):
     print(f"📌  Slot {slot_num}: {label} [{workflow.upper()} WORKFLOW]")
     print("=" * 60)
 
-    if workflow == "tactile":
-        import daily_auto_carousel
-        daily_auto_carousel.run_daily_job(
-            mode="customScheduled",
-            dry_run=dry_run,
-            draft=False,
-            schedule_time=iso_time
-        )
-    elif workflow == "visual":
-        import daily_ai_visual_carousel
-        daily_ai_visual_carousel.run_visual_pipeline(
-            mode="customScheduled",
-            dry_run=dry_run,
-            draft=False,
-            schedule_time=iso_time
-        )
-    else:
-        raise ValueError(f"Unknown workflow: {workflow}")
+    try:
+        if workflow == "tactile":
+            import daily_auto_carousel
+            daily_auto_carousel.run_daily_job(
+                mode="customScheduled",
+                dry_run=dry_run,
+                draft=False,
+                schedule_time=iso_time
+            )
+        elif workflow == "visual":
+            import daily_ai_visual_carousel
+            daily_ai_visual_carousel.run_visual_pipeline(
+                mode="customScheduled",
+                dry_run=dry_run,
+                draft=False,
+                schedule_time=iso_time
+            )
+        else:
+            raise ValueError(f"Unknown workflow: {workflow}")
+    except Exception as e:
+        err_msg = str(e)
+        if any(w in err_msg.lower() for w in ["limit", "quota", "maximum", "capacity"]):
+            print(f"\n⚠️  [BUFFER QUEUE NOTICE] Slot {slot_num} ({label}) reached Buffer's Free Plan 10-post limit.")
+            print(f"    -> Will automatically schedule on the next roll once today's earlier posts are published to Instagram.")
+        else:
+            print(f"\n❌  Slot {slot_num} ({label}) notice: {err_msg}")
 
 
 def main():
