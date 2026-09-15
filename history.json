@@ -160,5 +160,21 @@
     "timestamp": 1789416871,
     "postId": "6aa855a7c761a757eeeac00d",
     "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-09-15",
+    "timestamp": 1789456013,
+    "postId": "6aa8ee8c7c6c16e04a1c2f1d",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-09-15",
+    "timestamp": 1789456031,
+    "postId": "6aa8ee9fa8c36ff9777cba40",
+    "postUrl": null
   }
 ]
