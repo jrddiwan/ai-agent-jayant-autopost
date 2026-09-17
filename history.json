@@ -208,5 +208,21 @@
     "timestamp": 1789542395,
     "postId": "6aaa3ffb5593a4b220bd32aa",
     "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-09-17",
+    "timestamp": 1789628592,
+    "postId": "6aab90afdd75fed8a09fc2c8",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-09-17",
+    "timestamp": 1789628610,
+    "postId": "6aab90c27c96844cd5269700",
+    "postUrl": null
   }
 ]
