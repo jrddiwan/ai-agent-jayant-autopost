@@ -1,11 +1,5 @@
 [
   {
-    "topic": "The 24/7 Autonomous Inbound Lead Machine",
-    "ctaKeyword": "REVENUE",
-    "date": "2026-09-06",
-    "status": "published"
-  },
-  {
     "topic": "Autonomous Team of 7 Specialized AI Agents",
     "ctaKeyword": "SYSTEM",
     "date": "2026-09-06",
@@ -383,6 +377,22 @@
     "date": "2026-09-24",
     "timestamp": 1790233493,
     "postId": "6ab4cb95514df3bc1ed0fc08",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-09-25",
+    "timestamp": 1790319659,
+    "postId": "6ab61c2b8c95968bb02f5745",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-09-25",
+    "timestamp": 1790319674,
+    "postId": "6ab61c39cbe818dd4ffc9909",
     "postUrl": null
   }
 ]
