@@ -1,11 +1,5 @@
 [
   {
-    "topic": "Autonomous Team of 7 Specialized AI Agents",
-    "ctaKeyword": "SYSTEM",
-    "date": "2026-09-06",
-    "status": "published"
-  },
-  {
     "topic": "Build a 24/7 AI Employee Working for $0",
     "ctaKeyword": "EMPLOYEE",
     "date": "2026-09-05",
@@ -393,6 +387,14 @@
     "date": "2026-09-25",
     "timestamp": 1790319674,
     "postId": "6ab61c39cbe818dd4ffc9909",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-09-26",
+    "timestamp": 1790449747,
+    "postId": "6ab818539f89edbefe7c4a32",
     "postUrl": null
   }
 ]
