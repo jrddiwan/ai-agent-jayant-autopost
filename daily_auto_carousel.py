@@ -11,6 +11,7 @@ Pipeline:
 
 import os
 import sys
+import re
 import json
 import time
 import base64
@@ -19,6 +20,17 @@ import argparse
 import urllib.request
 import urllib.parse
 from pathlib import Path
+
+def enforce_max_5_hashtags(caption: str) -> str:
+    """Enforces Instagram's strict policy of maximum 5 hashtags per post."""
+    if not caption:
+        return caption
+    hashtags = re.findall(r'#\w+', caption)
+    if len(hashtags) > 5:
+        top_5 = hashtags[:5]
+        clean_text = re.sub(r'#\w+', '', caption).rstrip()
+        caption = clean_text + "\n\n" + " ".join(top_5)
+    return caption.strip()
 
 # Fix Windows console UTF-8 encoding
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
@@ -144,7 +156,7 @@ FALLBACK_TOPICS = [
         "shapeStyle": "cube",
         "ctaKeyword": "MCP",
         "ctaSub": "I'll DM you the full setup + copy-paste prompt pack.",
-        "caption": "Model Context Protocol (MCP) changes everything for AI builders in 2026.\n\nInstead of siloed chatbots, MCP connects Cursor, Claude, and your databases into a unified swarm with zero custom glue code. 🤖\n\nHere is how to deploy a 4-node MCP system in 15 minutes:\n• Connect Cursor to your local Postgres/Supabase database\n• Grant Claude real-time web search and terminal execution capabilities\n• Run autonomous multi-file refactors without copy-pasting\n\n📌 Save this breakdown for your next build!\n\n💬 Comment \"MCP\" below and I will send you the step-by-step setup guide + configuration file!\n\nFollow @ai.agent_jayant for daily cutting-edge AI agent systems.\n\n#MCP #ModelContextProtocol #AIAgents #CursorAI #Claude #LangGraph #OpenAI #BuildInPublic #SoftwareEngineering #TechTrends #DevTools #Automation #Python",
+        "caption": "Model Context Protocol (MCP) changes everything for AI builders in 2026.\n\nInstead of siloed chatbots, MCP connects Cursor, Claude, and your databases into a unified swarm with zero custom glue code. 🤖\n\nHere is how to deploy a 4-node MCP system in 15 minutes:\n• Connect Cursor to your local Postgres/Supabase database\n• Grant Claude real-time web search and terminal execution capabilities\n• Run autonomous multi-file refactors without copy-pasting\n\n📌 Save this breakdown for your next build!\n\n💬 Comment \"MCP\" below and I will send you the step-by-step setup guide + configuration file!\n\nFollow @ai.agent_jayant for daily cutting-edge AI agent systems.\n\n#MCP #AIAgents #ClaudeAI #CursorAI #DevTools",
         "plinthTitle": "MCP SWARM",
         "plinthTag": "2026 PRO",
         "items": [
@@ -253,7 +265,7 @@ Your mission: Inspect project repositories, discover available MCP servers (data
         "shapeStyle": "block",
         "ctaKeyword": "CODE",
         "ctaSub": "I'll DM you the full setup + copy-paste prompt pack.",
-        "caption": "Anthropic's Claude Code CLI is redefining command-line software development.\n\nIt doesn't just suggest snippets. It navigates your entire git history, runs your test suites, inspects error traces, and fixes bugs autonomously inside your terminal. 💻\n\nHere is how to set up Claude Code for 10x engineering velocity:\n• Initialize inside any repository with zero configuration\n• Autonomous bug fixing with automatic lint and test verification\n• Instant codebase architecture mapping and documentation\n\n📌 Save this guide for your development workflow!\n\n💬 Comment \"CODE\" below and I will send you the complete setup guide + command cheat sheet!\n\nFollow @ai.agent_jayant for daily AI agent breakdowns.\n\n#ClaudeCode #Anthropic #AIAgents #CursorAI #SoftwareEngineering #DevTools #CLI #CodingLife #BuildInPublic #Python #FullStack #TechNews",
+        "caption": "Anthropic's Claude Code CLI is redefining command-line software development.\n\nIt doesn't just suggest snippets. It navigates your entire git history, runs your test suites, inspects error traces, and fixes bugs autonomously inside your terminal. 💻\n\nHere is how to set up Claude Code for 10x engineering velocity:\n• Initialize inside any repository with zero configuration\n• Autonomous bug fixing with automatic lint and test verification\n• Instant codebase architecture mapping and documentation\n\n📌 Save this guide for your development workflow!\n\n💬 Comment \"CODE\" below and I will send you the complete setup guide + command cheat sheet!\n\nFollow @ai.agent_jayant for daily AI agent breakdowns.\n\n#ClaudeCode #AIAgents #SoftwareEngineering #DevTools #Coding",
         "plinthTitle": "CLAUDE CLI",
         "plinthTag": "AGENT V2",
         "items": [
@@ -361,7 +373,7 @@ Analyze the repository, maintain strict backwards compatibility, write clear tes
         "shapeStyle": "cube",
         "ctaKeyword": "DEEPSEEK",
         "ctaSub": "I'll DM you the full setup + copy-paste prompt pack.",
-        "caption": "Why pay $100s in cloud API fees when you can run DeepSeek R1 reasoning locally on your machine?\n\nWith Ollama, you get 100% private, zero-latency chain-of-thought reasoning that runs entirely on local hardware with zero data leaks. 🧠⚡\n\nHere is how to set up DeepSeek R1 locally:\n• Download and run quantized R1 models with one Ollama command\n• Connect to Cursor and VS Code for free, unlimited reasoning\n• Build offline RAG agents with local embeddings\n\n📌 Save this post for your local AI setup!\n\n💬 Comment \"DEEPSEEK\" below and I will send you the step-by-step installation guide + prompt optimization templates!\n\nFollow @ai.agent_jayant for daily AI breakthroughs.\n\n#DeepSeek #DeepSeekR1 #Ollama #OpenSourceAI #LocalAI #PrivacyFirst #MachineLearning #ArtificialIntelligence #TechTrends #BuildInPublic #Python #DevCommunity",
+        "caption": "Why pay $100s in cloud API fees when you can run DeepSeek R1 reasoning locally on your machine?\n\nWith Ollama, you get 100% private, zero-latency chain-of-thought reasoning that runs entirely on local hardware with zero data leaks. 🧠⚡\n\nHere is how to set up DeepSeek R1 locally:\n• Download and run quantized R1 models with one Ollama command\n• Connect to Cursor and VS Code for free, unlimited reasoning\n• Build offline RAG agents with local embeddings\n\n📌 Save this post for your local AI setup!\n\n💬 Comment \"DEEPSEEK\" below and I will send you the step-by-step installation guide + prompt optimization templates!\n\nFollow @ai.agent_jayant for daily AI breakthroughs.\n\n#DeepSeek #DeepSeekR1 #Ollama #LocalAI #OpenSourceAI",
         "plinthTitle": "LOCAL RAG",
         "plinthTag": "OFFLINE",
         "items": [
@@ -469,7 +481,7 @@ Guide the user through configuring local LLMs via Ollama, optimizing GPU memory 
         "shapeStyle": "cube",
         "ctaKeyword": "MEMORY",
         "ctaSub": "I'll DM you the full setup + copy-paste prompt pack.",
-        "caption": "Chatbots forget everything the moment you close the tab. Autonomous agents need permanent memory.\n\nHere is how to wire Supabase pgvector to give your AI agent swarms long-term semantic memory across weeks, clients, and projects. 💾⚡\n\nHow agent memory works:\n• Chunk and embed conversations in real time\n• Store vector embeddings in Postgres with pgvector\n• Hybrid search with cosine similarity + keyword matching for 99% accuracy\n\n📌 Save this architecture for your AI projects!\n\n💬 Comment \"MEMORY\" below and I will send you the Supabase SQL schema + Python connection code!\n\nFollow @ai.agent_jayant for daily AI system blueprints.\n\n#Supabase #pgvector #PostgreSQL #AIAgents #VectorDatabase #RAG #MachineLearning #DevTools #SoftwareArchitecture #BuildInPublic #Python #OpenAI",
+        "caption": "Chatbots forget everything the moment you close the tab. Autonomous agents need permanent memory.\n\nHere is how to wire Supabase pgvector to give your AI agent swarms long-term semantic memory across weeks, clients, and projects. 💾⚡\n\nHow agent memory works:\n• Chunk and embed conversations in real time\n• Store vector embeddings in Postgres with pgvector\n• Hybrid search with cosine similarity + keyword matching for 99% accuracy\n\n📌 Save this architecture for your AI projects!\n\n💬 Comment \"MEMORY\" below and I will send you the Supabase SQL schema + Python connection code!\n\nFollow @ai.agent_jayant for daily AI system blueprints.\n\n#Supabase #pgvector #AIAgents #VectorDatabase #RAG",
         "plinthTitle": "AUTO MEMORY",
         "plinthTag": "PGVECTOR",
         "items": [
@@ -568,6 +580,220 @@ Your role: Design scalable, low-latency vector databases using Supabase and Post
                 {"name": "Supabase", "purpose": "Hosted Postgres database with native pgvector support"},
                 {"name": "Python", "purpose": "Embedding generation and agent orchestration"},
                 {"name": "OpenAI / Claude", "purpose": "Semantic reasoning and synthesis"}
+            ]
+        }
+    },
+    {
+        "topic": "Browser-Use: Autonomous 24/7 Web Agent",
+        "categoryTag": "WEB AGENTS",
+        "shapeStyle": "cube",
+        "ctaKeyword": "BROWSER",
+        "ctaSub": "I'll DM you the full setup + Python script.",
+        "caption": "Stop wasting hours clicking forms, copying tables, and scraping portals.\n\nBrowser-Use connects LLMs directly to a headless Chromium browser to navigate complex web apps autonomously. 🌐⚡\n\nHow to build a web agent:\n• Launch headless Chromium controlled via Playwright\n• Feed DOM trees & visual screenshots into vision models\n• Execute clicks, logins, and downloads with zero human touch\n\n📌 Save this architecture for web automation!\n\n💬 Comment \"BROWSER\" below and I will send you the complete setup guide + Python code!\n\nFollow @ai.agent_jayant for daily AI breakdowns.\n\n#BrowserUse #AIAgents #Python #WebAutomation #DevTools",
+        "plinthTitle": "WEB AGENT",
+        "plinthTag": "24/7 AUTO",
+        "items": [
+            {"name": "Python", "icon": "python", "shape": "cube"},
+            {"name": "Cursor", "icon": "cursor", "shape": "cube"},
+            {"name": "Claude", "icon": "anthropic", "shape": "cube"},
+            {"name": "GitHub", "icon": "github", "shape": "cube"},
+            {"name": "Ollama", "icon": "ollama", "shape": "cube"}
+        ],
+        "slides": [
+            {
+                "id": 1,
+                "num": "",
+                "title": "HOW TO DEPLOY A 24/7",
+                "titleGreen": "AUTONOMOUS WEB AGENT.",
+                "subtitle": "CONTROL BROWSERS WITH NATURAL LANGUAGE TO EXTRACT DATA, COMPLETE FORMS, AND NAVIGATE SITES.",
+                "metaBotL": "BROWSER USE",
+                "metaBotR": "FOLLOW @ai.agent_jayant"
+            },
+            {
+                "id": 2,
+                "num": "02",
+                "title": "THE PROBLEM WITH",
+                "titleGreen": "BRITTLE WEB SCRAPERS.",
+                "subtitle": "CSS SELECTORS BREAK WHEN SITES UPDATE. VISION AGENTS ADAPT INSTANTLY TO ANY LAYOUT.",
+                "metaBotL": "NO BROKEN XPATHS",
+                "metaBotR": "SELF-HEALING"
+            },
+            {
+                "id": 3,
+                "num": "03",
+                "title": "STEP 1:",
+                "titleGreen": "HEADLESS CHROMIUM.",
+                "subtitle": "SPAWN AN ISOLATED PLAYWRIGHT SESSION WITH COOKIE AND LOCALSTORAGE PERSISTENCE.",
+                "metaBotL": "SECURE SESSION",
+                "metaBotR": "HEADLESS ENGINE"
+            },
+            {
+                "id": 4,
+                "num": "04",
+                "title": "STEP 2:",
+                "titleGreen": "DOM & VISION PARSING.",
+                "subtitle": "CONVERT ACCESSIBILITY TREES AND SCREENSHOTS INTO AGENT ACTION TOKENS.",
+                "metaBotL": "VISION REASONING",
+                "metaBotR": "ACCESSIBILITY TREE"
+            },
+            {
+                "id": 5,
+                "num": "05",
+                "title": "STEP 3:",
+                "titleGreen": "ACTION PLANNING LOOP.",
+                "subtitle": "THE AGENT CLICKS, TYPES, AND WAITS UNTIL THE MULTI-STEP GOAL IS VERIFIED.",
+                "metaBotL": "AUTONOMOUS LOOP",
+                "metaBotR": "GOAL VERIFICATION"
+            },
+            {
+                "id": 6,
+                "num": "06",
+                "title": "THE COMPLETE",
+                "titleGreen": "AGENT WORKFLOW.",
+                "subtitle": "PROMPT -> BROWSER-USE -> HEADLESS CHROMIUM -> STRUCTURED JSON SAVED TO DATABASE.",
+                "metaBotL": "END-TO-END FLOW",
+                "metaBotR": "STRUCTURED OUTPUT"
+            },
+            {
+                "id": 7,
+                "num": "07",
+                "title": "REAL WORLD",
+                "titleGreen": "TIME RECLAIMED.",
+                "subtitle": "AUTOMATE INVOICE EXTRACTION, LEAD RESEARCH, AND COMPETITOR TRACKING WHILE YOU SLEEP.",
+                "metaBotL": "10+ HOURS SAVED",
+                "metaBotR": "SCALABLE FLEET"
+            },
+            {
+                "id": 8,
+                "num": "08",
+                "title": "STEAL THIS",
+                "titleGreen": "PYTHON SETUP CODE.",
+                "subtitle": "COMMENT BELOW AND I WILL SEND YOU THE STEP-BY-STEP SETUP REPO AND PROMPT TEMPLATE.",
+                "metaBotL": "SAVE FOR LATER 🔖",
+                "metaBotR": "FOLLOW @ai.agent_jayant"
+            }
+        ],
+        "resourceGuide": {
+            "guideTitle": "Browser-Use: Autonomous 24/7 Web Agent Setup & Prompt Pack",
+            "summary": "Deploy an autonomous browser navigation agent using Python, Playwright, and vision LLMs.",
+            "stepByStep": [
+                "Install browser-use: pip install browser-use playwright.",
+                "Run playwright install to download Chromium binaries.",
+                "Configure your LLM provider endpoint in .env.",
+                "Run agent.run() with natural language tasks to automate complex workflows."
+            ],
+            "systemPrompt": "You are an autonomous web navigation agent. Inspect the webpage accessibility tree, plan minimal clicks, and extract structured data accurately.",
+            "toolsList": [
+                {"name": "Browser-Use", "purpose": "Agentic browser control library"},
+                {"name": "Playwright", "purpose": "Headless Chromium browser automation"},
+                {"name": "Python", "purpose": "Runtime and orchestration"}
+            ]
+        }
+    },
+    {
+        "topic": "Cursor Composer: Multi-File Autonomous Refactors",
+        "categoryTag": "AI CODING",
+        "shapeStyle": "block",
+        "ctaKeyword": "COMPOSER",
+        "ctaSub": "I'll DM you the system prompts + shortcuts.",
+        "caption": "Single-file chat in AI editors is dead in 2026.\n\nCursor Composer edits dozens of files across your entire repository simultaneously with full symbol awareness. ⚡💻\n\nHow to master multi-file coding:\n• Use @-symbols to bind whole folders & docs into context\n• Execute fullstack features (frontend + backend + DB) in one prompt\n• Review unified git diffs before accepting changes\n\n📌 Save this guide for your engineering workflow!\n\n💬 Comment \"COMPOSER\" below and I will send you the prompt engineering cheat sheet for Cursor!\n\nFollow @ai.agent_jayant for daily AI dev tools.\n\n#CursorAI #CodingLife #SoftwareEngineering #DevTools #AIAgents",
+        "plinthTitle": "COMPOSER",
+        "plinthTag": "MULTI-FILE",
+        "items": [
+            {"name": "Cursor", "icon": "cursor", "shape": "block"},
+            {"name": "Claude", "icon": "anthropic", "shape": "block"},
+            {"name": "GitHub", "icon": "github", "shape": "block"},
+            {"name": "Python", "icon": "python", "shape": "block"},
+            {"name": "Terminal", "icon": "terminal", "shape": "block"}
+        ],
+        "slides": [
+            {
+                "id": 1,
+                "num": "",
+                "title": "HOW TO 10X WITH",
+                "titleGreen": "CURSOR COMPOSER.",
+                "subtitle": "BUILD FULLSTACK FEATURES ACROSS 10+ FILES SIMULTANEOUSLY WITH A SINGLE PROMPT.",
+                "metaBotL": "MULTI-FILE AGENT",
+                "metaBotR": "FOLLOW @ai.agent_jayant"
+            },
+            {
+                "id": 2,
+                "num": "02",
+                "title": "THE OLD WAY VS",
+                "titleGreen": "THE COMPOSER WAY.",
+                "subtitle": "NO MORE JUMPING BETWEEN FILES. COMPOSER EDITS MODELS, ROUTES, AND UI IN ONE PASS.",
+                "metaBotL": "SINGLE FILE CHAT",
+                "metaBotR": "REPO-WIDE ORCHESTRATION"
+            },
+            {
+                "id": 3,
+                "num": "03",
+                "title": "STEP 1:",
+                "titleGreen": "SMART CONTEXT BINDING.",
+                "subtitle": "USE @CODEBASE AND @FOLDER TO FEED ONLY RELEVANT ARCHITECTURAL DEPENDENCIES.",
+                "metaBotL": "TOKEN EFFICIENCY",
+                "metaBotR": "ZERO CONTEXT NOISE"
+            },
+            {
+                "id": 4,
+                "num": "04",
+                "title": "STEP 2:",
+                "titleGreen": "MULTI-FILE EDITING.",
+                "subtitle": "COMPOSER CREATES NEW FILES AND REFACTORS EXISTING CODE IN PARALLEL.",
+                "metaBotL": "PARALLEL GENERATION",
+                "metaBotR": "ATOMIC REFACTORS"
+            },
+            {
+                "id": 5,
+                "num": "05",
+                "title": "STEP 3:",
+                "titleGreen": "AUTOMATED TERMINAL CHECKS.",
+                "subtitle": "RUN TESTS AND LINTERS INLINE TO VERIFY CODE QUALITY BEFORE ACCEPTING DIFFS.",
+                "metaBotL": "INLINE VALIDATION",
+                "metaBotR": "PASSING BUILDS"
+            },
+            {
+                "id": 6,
+                "num": "06",
+                "title": "THE COMPLETE",
+                "titleGreen": "DEVELOPER STACK.",
+                "subtitle": "CURSOR COMPOSER + CLAUDE 3.7 SONNET + GIT COMMITS SHIPS FEATURES IN MINUTES.",
+                "metaBotL": "PRODUCTION WORKFLOW",
+                "metaBotR": "INSTANT SHIP"
+            },
+            {
+                "id": 7,
+                "num": "07",
+                "title": "COMPOUNDING",
+                "titleGreen": "DEVELOPER VELOCITY.",
+                "subtitle": "SPEND 90% OF YOUR TIME ARCHITECTING SYSTEMS AND 10% TYPING BOILERPLATE.",
+                "metaBotL": "10X LEVERAGE",
+                "metaBotR": "ARCHITECT FIRST"
+            },
+            {
+                "id": 8,
+                "num": "08",
+                "title": "STEAL MY",
+                "titleGreen": "CURSOR PROMPT PACK.",
+                "subtitle": "COMMENT BELOW AND I WILL SEND YOU MY MASTER SYSTEM PROMPTS AND CHEAT SHEET.",
+                "metaBotL": "SAVE FOR LATER 🔖",
+                "metaBotR": "FOLLOW @ai.agent_jayant"
+            }
+        ],
+        "resourceGuide": {
+            "guideTitle": "Cursor Composer Mastery: Multi-File System Prompts & Workflow",
+            "summary": "Master multi-file code generation and repository refactoring with Cursor Composer.",
+            "stepByStep": [
+                "Open Cursor and press Ctrl+I (Cmd+I) to open Composer.",
+                "Bind project files using @Files and @Codebase.",
+                "Provide detailed specifications with clear input/output requirements.",
+                "Review multi-file diffs and accept changes with one click."
+            ],
+            "systemPrompt": "You are a senior fullstack engineer using Cursor Composer. Write modular, type-safe code that adheres to clean architecture principles.",
+            "toolsList": [
+                {"name": "Cursor", "purpose": "AI-native code editor"},
+                {"name": "Claude", "purpose": "Frontier reasoning model"},
+                {"name": "Git", "purpose": "Version control"}
             ]
         }
     }
@@ -696,7 +922,7 @@ Return ONLY a valid JSON object matching this structure:
   "shapeStyle": "cube",
   "ctaKeyword": "A single uppercase trigger keyword to comment (e.g. MCP, CODE, SWARM, FLOW, MEMORY, REVENUE)",
   "ctaSub": "I'll DM you the full setup + copy-paste prompts.",
-  "caption": "Viral Instagram caption with hook, 3 bullet points, CTA to comment the keyword, follow reminder for @ai.agent_jayant, and 15 hashtags.",
+  "caption": "Viral Instagram caption with hook, 3 bullet points, CTA to comment the keyword, follow reminder for @ai.agent_jayant, and EXACTLY 4 to 5 hyper-targeted niche hashtags (NEVER more than 5 hashtags).",
   "plinthTitle": "2-3 word engraved title for 3D rack (e.g. MCP SWARM, CURSOR DEV, LOCAL RAG)",
   "plinthTag": "Short badge tag (e.g. PRO, 24/7, V2, AUTO)",
   "items": [
@@ -1208,7 +1434,7 @@ def render_slides(carousel_data):
         browser = p.chromium.launch()
         page = browser.new_page(
             viewport={"width": 1080, "height": 1350},
-            device_scale_factor=2
+            device_scale_factor=1
         )
 
         file_url = f"file:///{HTML_PATH.as_posix()}"
@@ -1300,24 +1526,23 @@ def upload_images(image_paths):
         uploaded = False
 
         file_bytes = filepath.read_bytes()
-        content_type = "image/png"
-        filename = filepath.name
+        content_type = "image/jpeg"
+        filename = f"slide_{idx+1}.jpg"
 
-        # Optimize raw PNGs to high-quality JPEG 92% (~250KB) for instant upload
-        if len(file_bytes) > 1024 * 1024:
-            try:
-                from PIL import Image
-                import io
-                with Image.open(filepath) as img:
-                    rgb_img = img.convert("RGB")
-                    buf = io.BytesIO()
-                    rgb_img.save(buf, format="JPEG", quality=92, optimize=True)
-                    file_bytes = buf.getvalue()
-                    content_type = "image/jpeg"
-                    filename = filepath.stem + ".jpg"
-                    print(f"  -> Compressed Slide {idx+1}: {len(file_bytes)/1024:.1f} KB")
-            except Exception as ce:
-                print(f"  -> Compression notice: {ce}")
+        # ALWAYS convert to 1080x1350 RGB JPEG (Instagram Graph API strict requirement)
+        try:
+            from PIL import Image
+            import io
+            with Image.open(filepath) as img:
+                rgb_img = img.convert("RGB")
+                if rgb_img.size != (1080, 1350):
+                    rgb_img = rgb_img.resize((1080, 1350), Image.Resampling.LANCZOS)
+                buf = io.BytesIO()
+                rgb_img.save(buf, format="JPEG", quality=92, optimize=True)
+                file_bytes = buf.getvalue()
+                print(f"  -> Formatted Slide {idx+1} for Instagram (1080x1350 JPEG): {len(file_bytes)/1024:.1f} KB")
+        except Exception as ce:
+            print(f"  -> JPEG conversion notice: {ce}")
 
         # Priority 1 on GitHub Actions: ImgBB (Catbox blocks CI runner IPs with 412)
         if is_ci and IMGBB_API_KEY:
@@ -1414,6 +1639,7 @@ def upload_images(image_paths):
 # 6. PUBLISH / SCHEDULE VIA BUFFER GRAPHQL API
 # ==========================================
 def schedule_to_buffer(caption, image_urls, mode="addToQueue", draft=False, schedule_time=None):
+    caption = enforce_max_5_hashtags(caption)
     if schedule_time:
         action_label = f"pinned to calendar at {schedule_time}"
         mode = "customScheduled"

@@ -10,6 +10,7 @@ Usage:
 
 import os
 import sys
+import re
 import json
 import time
 import base64
@@ -19,6 +20,17 @@ import subprocess
 import urllib.request
 import urllib.parse
 from pathlib import Path
+
+def enforce_max_5_hashtags(caption: str) -> str:
+    """Enforces Instagram's strict policy of maximum 5 hashtags per post."""
+    if not caption:
+        return caption
+    hashtags = re.findall(r'#\w+', caption)
+    if len(hashtags) > 5:
+        top_5 = hashtags[:5]
+        clean_text = re.sub(r'#\w+', '', caption).rstrip()
+        caption = clean_text + "\n\n" + " ".join(top_5)
+    return caption.strip()
 
 # Fix console encoding
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
@@ -130,7 +142,7 @@ Return JSON:
   "topic": "Catchy topic title",
   "categoryTag": "SHORT PILL (e.g. 2030 AI AGENTS, NEURAL CODING, CYBERNETIC OPS)",
   "ctaKeyword": "TRIGGER_WORD (e.g. FUTURE, AGENT, MATRIX, NEURAL, SWARM)",
-  "caption": "Viral Instagram caption with hook, 3 bullet points, CTA to comment the keyword, follow reminder for @ai.agent_jayant, and 15 hashtags.",
+  "caption": "Viral Instagram caption with hook, 3 bullet points, CTA to comment the keyword, follow reminder for @ai.agent_jayant, and EXACTLY 4 to 5 hyper-targeted niche hashtags (NEVER more than 5 hashtags).",
   "slides": [
     {{
       "id": 1,
@@ -149,30 +161,216 @@ Return JSON:
 }}
 """
 
-    req = urllib.request.Request(
-        "https://api.groq.com/openai/v1/chat/completions",
-        data=json.dumps({
-            "model": GROQ_MODEL,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            "response_format": {"type": "json_object"}
-        }).encode("utf-8"),
-        headers={
-            "Authorization": f"Bearer {GROQ_API_KEY}",
-            "Content-Type": "application/json",
-            "User-Agent": "Mozilla/5.0"
-        }
-    )
+    try:
+        req = urllib.request.Request(
+            "https://api.groq.com/openai/v1/chat/completions",
+            data=json.dumps({
+                "model": GROQ_MODEL,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                "response_format": {"type": "json_object"}
+            }).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {GROQ_API_KEY}",
+                "Content-Type": "application/json",
+                "User-Agent": "Mozilla/5.0"
+            }
+        )
 
-    with urllib.request.urlopen(req, timeout=35) as resp:
-        res = json.loads(resp.read().decode("utf-8"))
-        raw = res["choices"][0]["message"]["content"]
-        data = json.loads(raw)
-        print(f"  -> Generated Visual Topic: {data.get('topic')}")
-        print(f"  -> CTA Keyword: {data.get('ctaKeyword')}")
-        return data
+        with urllib.request.urlopen(req, timeout=35) as resp:
+            res = json.loads(resp.read().decode("utf-8"))
+            raw = res["choices"][0]["message"]["content"]
+            data = json.loads(raw)
+            print(f"  -> Generated Visual Topic: {data.get('topic')}")
+            print(f"  -> CTA Keyword: {data.get('ctaKeyword')}")
+            return data
+    except Exception as e:
+        print(f"  -> Groq visual generation failed: {e}. Rotating from curated visual library...")
+
+    # Curated High-Voltage 2026 Visual AI Topics
+    FALLBACK_VISUAL_TOPICS = [
+        {
+            "topic": "2030 Cybernetic AI Workflows Unleashed",
+            "categoryTag": "2030 AI AGENTS",
+            "ctaKeyword": "MATRIX",
+            "caption": "Software development in 2030 will look unrecognizable to engineers today.\n\nNeural swarms will autonomously debug, test, and ship complete codebases while you sleep. ⚡🧠\n\nWhat the 2030 stack looks like:\n• Mind-speed intent to production architecture\n• Self-healing zero-latency micro-services\n• Continuous autonomous verification loops\n\n📌 Save this vision for the future of engineering!\n\n💬 Comment \"MATRIX\" below and I will send you our 2030 AI Architecture blueprint!\n\nFollow @ai.agent_jayant for daily visual AI breakthroughs.\n\n#FutureAI #AIAgents #Cyberpunk #SoftwareEngineering #TechTrends",
+            "slides": [
+                {
+                    "id": 1,
+                    "slideNum": "01 / 06",
+                    "hookPill": "⚡ 2030 PARADIGM",
+                    "title": "HOW CODING LOOKS",
+                    "titleGreen": "IN THE YEAR 2030.",
+                    "subtitle": "Autonomous neural swarms that refactor codebases while you sleep with zero manual copy-paste.",
+                    "tacticalHeading": "CORE BREAKTHROUGHS",
+                    "tacticalItems": ["Self-Repairing Logic", "Sub-10ms Tool Execution", "Autonomous Git Commits", "Infinite Context Trees"],
+                    "imagePrompt": "Futuristic cyberpunk developer workstation with floating neon green holographic screens, dark cinematic lighting, octane render, 8k",
+                    "footerLeft": "SWIPE FOR STEP 2 ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 2,
+                    "slideNum": "02 / 06",
+                    "hookPill": "🛑 THE OLD WAY",
+                    "title": "THE DEATH OF",
+                    "titleGreen": "MANUAL BOILERPLATE.",
+                    "subtitle": "Typing syntax manually is already obsolete. The modern engineer is a systems architect.",
+                    "tacticalHeading": "WHAT DISAPPEARS",
+                    "tacticalItems": ["Manual CSS/HTML alignment", "Writing boilerplate CRUD", "Debugging syntax typos", "Manual ticket triaging"],
+                    "imagePrompt": "Holographic human silhouette standing before massive glowing neural data network, neon emerald and cyan, cinematic lighting, 8k",
+                    "footerLeft": "SWIPE FOR ARCHITECTURE ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 3,
+                    "slideNum": "03 / 06",
+                    "hookPill": "🧠 THE ENGINE",
+                    "title": "AUTONOMOUS",
+                    "titleGreen": "NEURAL COMPILERS.",
+                    "subtitle": "High-level natural language intent compiled directly into verified machine execution trees.",
+                    "tacticalHeading": "ARCHITECTURE STACK",
+                    "tacticalItems": ["Intent Decomposition Engine", "Formal Verification Loop", "Zero-Latency Local RAG", "Swarm State Synchronization"],
+                    "imagePrompt": "Close up of futuristic glowing cybernetic AI processor chip emitting neon green energy lines, dark moody atmospheric lighting, octane render, 8k",
+                    "footerLeft": "SWIPE FOR RESULTS ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 4,
+                    "slideNum": "04 / 06",
+                    "hookPill": "🚀 THE LEVERAGE",
+                    "title": "1-PERSON",
+                    "titleGreen": "BILLION $ COMPANIES.",
+                    "subtitle": "A single engineer operating 50 specialized AI agents will out-execute a 500-person legacy team.",
+                    "tacticalHeading": "COMPOUNDING RESULTS",
+                    "tacticalItems": ["100x Shipping Velocity", "Zero Maintenance Overhead", "Continuous 24/7 Deployment", "Instant Multi-Platform Scale"],
+                    "imagePrompt": "Futuristic sleek glass and carbon skyscraper control room with holographic command displays overlooking high-tech metropolis at night, 8k",
+                    "footerLeft": "SWIPE FOR ROADMAP ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 5,
+                    "slideNum": "05 / 06",
+                    "hookPill": "🛠️ THE TOOLKIT",
+                    "title": "TOOLS YOU MUST",
+                    "titleGreen": "MASTER TODAY.",
+                    "subtitle": "The bridge to 2030 is already being built with frontier agentic frameworks.",
+                    "tacticalHeading": "FOUNDATION TOOLS",
+                    "tacticalItems": ["Model Context Protocol (MCP)", "Cursor Composer", "Ollama Local Reasoning", "Claude Code CLI"],
+                    "imagePrompt": "Isometric 3D glowing high-tech laboratory with server racks and floating neon green data cubes, dark sci-fi aesthetic, 8k",
+                    "footerLeft": "SWIPE FOR FREE BLUEPRINT ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 6,
+                    "slideNum": "06 / 06",
+                    "hookPill": "🎁 FREE BLUEPRINT",
+                    "title": "CLAIM YOUR 2030",
+                    "titleGreen": "AI ARCHITECTURE.",
+                    "subtitle": "Comment below and I will send you our complete 2030 AI engineering roadmap and system prompts.",
+                    "tacticalHeading": "WHAT YOU GET",
+                    "tacticalItems": ["Complete System Prompts", "Agent Architecture Schema", "Tool Integration Cheat Sheet", "Priority Community Access"],
+                    "imagePrompt": "Futuristic glowing neon green gift capsule with cybernetic circuitry and holographic interface, dark atmospheric background, 8k",
+                    "footerLeft": "SAVE FOR LATER 🔖",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                }
+            ]
+        },
+        {
+            "topic": "Autonomous Factory Swarms: The Physical AI Revolution",
+            "categoryTag": "PHYSICAL AI",
+            "ctaKeyword": "SWARM",
+            "caption": "AI is no longer trapped behind glass screens.\n\nPhysical AI swarms are coordinating embodied robotics, warehouse drones, and industrial logistics in real time. 🤖🏭\n\nHow physical AI swarms work:\n• Edge-computed visual spatial reasoning\n• Sub-millisecond peer-to-peer swarm consensus\n• Zero-human industrial pipeline execution\n\n📌 Save this breakdown of Physical AI!\n\n💬 Comment \"SWARM\" below and I will send you the complete physical AI overview!\n\nFollow @ai.agent_jayant for daily breakthroughs.\n\n#Robotics #PhysicalAI #AIAgents #Automation #IndustrialAI",
+            "slides": [
+                {
+                    "id": 1,
+                    "slideNum": "01 / 06",
+                    "hookPill": "🤖 PHYSICAL AI",
+                    "title": "THE RISE OF",
+                    "titleGreen": "AUTONOMOUS SWARMS.",
+                    "subtitle": "Embodied robotics and physical AI agents taking over factory floors with zero human supervision.",
+                    "tacticalHeading": "CORE PILLARS",
+                    "tacticalItems": ["Spatial Intelligence", "Edge Reasoning Models", "Peer-to-Peer Mesh Sync", "Safety-Critical Loops"],
+                    "imagePrompt": "Futuristic automated robotic factory with sleek humanoid robots and drone swarms moving glowing components, neon green and cyan accents, 8k",
+                    "footerLeft": "SWIPE FOR STEP 2 ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 2,
+                    "slideNum": "02 / 06",
+                    "hookPill": "⚡ REAL TIME",
+                    "title": "SUB-10MS",
+                    "titleGreen": "SPATIAL SENSING.",
+                    "subtitle": "Computer vision models running directly on device to calculate millimeter-accurate trajectories.",
+                    "tacticalHeading": "KEY SPECIFICATIONS",
+                    "tacticalItems": ["Stereo Depth Mapping", "Local Tensor Acceleration", "Obstacle Avoidance", "Predictive Collision Loops"],
+                    "imagePrompt": "Close up of high-tech humanoid robot face with glowing neon green optical sensors, dark metallic finish, photorealistic, 8k",
+                    "footerLeft": "SWIPE FOR ARCHITECTURE ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 3,
+                    "slideNum": "03 / 06",
+                    "hookPill": "🌐 MESH CONSENSUS",
+                    "title": "DISTRIBUTED",
+                    "titleGreen": "SWARM INTELLIGENCE.",
+                    "subtitle": "No central server failure point. If one robot drops, the swarm self-reorganizes in milliseconds.",
+                    "tacticalHeading": "NETWORK CAPABILITIES",
+                    "tacticalItems": ["Decentralized Raft Protocol", "Real-Time Task Handoffs", "Dynamic Fleet Balancing", "Self-Healing Operations"],
+                    "imagePrompt": "Futuristic holographic swarm network diagram with interconnected glowing neon green nodes floating in dark space, octane render, 8k",
+                    "footerLeft": "SWIPE FOR IMPACT ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 4,
+                    "slideNum": "04 / 06",
+                    "hookPill": "📈 ROI & SPEED",
+                    "title": "24/7 LIGHTS-OUT",
+                    "titleGreen": "PRODUCTION CYCLES.",
+                    "subtitle": "Continuous manufacturing operations running around the clock with zero lighting or heating required.",
+                    "tacticalHeading": "MEASURABLE METRICS",
+                    "tacticalItems": ["99.98% Precision Rate", "Zero Shift Handover Lag", "4x Energy Efficiency", "Autonomous Predictive Maintenance"],
+                    "imagePrompt": "Dark futuristic warehouse with automated robotic arms and guided vehicles illuminated only by glowing green LED strips, 8k",
+                    "footerLeft": "SWIPE FOR THE STACK ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 5,
+                    "slideNum": "05 / 06",
+                    "hookPill": "🛠️ SOFTWARE STACK",
+                    "title": "THE EMBODIED",
+                    "titleGreen": "AI SOFTWARE STACK.",
+                    "subtitle": "The frameworks powering real-world robotics and spatial intelligence today.",
+                    "tacticalHeading": "PRODUCTION FRAMEWORKS",
+                    "tacticalItems": ["ROS2 Middleware", "NVIDIA Isaac Sim", "Edge Vision Transformers", "On-Device SLAM"],
+                    "imagePrompt": "Futuristic developer debugging robot schematics on glowing transparent holographic tablet, cinematic sci-fi laboratory, 8k",
+                    "footerLeft": "SWIPE FOR FREE GUIDE ➔",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                },
+                {
+                    "id": 6,
+                    "slideNum": "06 / 06",
+                    "hookPill": "🎁 FREE GUIDE",
+                    "title": "STEAL THE SWARM",
+                    "titleGreen": "ARCHITECTURE GUIDE.",
+                    "subtitle": "Comment below and I will send you the complete physical AI and robotics breakdown!",
+                    "tacticalHeading": "RESOURCE PACK",
+                    "tacticalItems": ["Framework Architecture PDF", "Model Selection Guide", "Simulation Setup Links", "Follow for Daily AI"],
+                    "imagePrompt": "Futuristic glowing neon green gift box with microchip details, dark moody cyberpunk lighting, 8k",
+                    "footerLeft": "SAVE FOR LATER 🔖",
+                    "footerRight": "FOLLOW @ai.agent_jayant"
+                }
+            ]
+        }
+    ]
+
+    for candidate in FALLBACK_VISUAL_TOPICS:
+        if candidate["topic"] not in recent_topics:
+            print(f"  -> Selected Curated Visual Blueprint: {candidate['topic']}")
+            return candidate
+
+    return FALLBACK_VISUAL_TOPICS[0]
 
 
 # ==========================================
@@ -226,7 +424,7 @@ def render_visual_slides(carousel_data, image_map):
         browser = p.chromium.launch()
         page = browser.new_page(
             viewport={"width": 1080, "height": 1350},
-            device_scale_factor=2
+            device_scale_factor=1
         )
         page.goto(file_url)
 
@@ -272,24 +470,23 @@ def upload_visual_slides(image_paths):
         uploaded = False
 
         file_bytes = filepath.read_bytes()
-        content_type = "image/png"
-        filename = filepath.name
+        content_type = "image/jpeg"
+        filename = f"visual_slide_{idx+1}.jpg"
 
-        # Optimize 4MB+ raw PNGs to crisp 92% JPEG (~300KB) for instant, timeout-free CDN upload
-        if len(file_bytes) > 1024 * 1024:
-            try:
-                from PIL import Image
-                import io
-                with Image.open(filepath) as img:
-                    rgb_img = img.convert("RGB")
-                    buf = io.BytesIO()
-                    rgb_img.save(buf, format="JPEG", quality=92, optimize=True)
-                    file_bytes = buf.getvalue()
-                    content_type = "image/jpeg"
-                    filename = filepath.stem + ".jpg"
-                    print(f"  -> Optimized Slide {idx+1} size: {len(file_bytes)/1024:.1f} KB")
-            except Exception as ce:
-                print(f"  -> Compression notice: {ce}")
+        # ALWAYS convert to 1080x1350 RGB JPEG (Instagram Graph API strict requirement)
+        try:
+            from PIL import Image
+            import io
+            with Image.open(filepath) as img:
+                rgb_img = img.convert("RGB")
+                if rgb_img.size != (1080, 1350):
+                    rgb_img = rgb_img.resize((1080, 1350), Image.Resampling.LANCZOS)
+                buf = io.BytesIO()
+                rgb_img.save(buf, format="JPEG", quality=92, optimize=True)
+                file_bytes = buf.getvalue()
+                print(f"  -> Formatted Visual Slide {idx+1} for Instagram (1080x1350 JPEG): {len(file_bytes)/1024:.1f} KB")
+        except Exception as ce:
+            print(f"  -> JPEG conversion notice: {ce}")
 
         is_ci = os.environ.get("GITHUB_ACTIONS") == "true"
         imgbb_key = os.environ.get("IMGBB_API_KEY") or "b8b703dc32b61b43e82ed5664e9bba17"
@@ -390,6 +587,7 @@ def upload_visual_slides(image_paths):
 # 5. DISPATCH TO BUFFER GRAPHQL API
 # ==========================================
 def dispatch_to_buffer(caption, image_urls, mode="addToQueue", draft=False, schedule_time=None):
+    caption = enforce_max_5_hashtags(caption)
     if schedule_time:
         action_label = f"pinned to calendar at {schedule_time}"
         mode = "customScheduled"
