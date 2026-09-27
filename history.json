@@ -1,19 +1,5 @@
 [
   {
-    "topic": "Build a 24/7 AI Employee Working for $0",
-    "ctaKeyword": "EMPLOYEE",
-    "date": "2026-09-05",
-    "status": "published"
-  },
-  {
-    "topic": "MCP\u2011Driven Real\u2011Time Code Swarm (2026)",
-    "ctaKeyword": "SWARM",
-    "date": "2026-09-08",
-    "timestamp": 1788870903,
-    "postId": null,
-    "postUrl": null
-  },
-  {
     "topic": "MCP\u2011Enabled Autonomous Code\u2011First Swarm for Real\u2011Time SaaS Feature Deployment",
     "ctaKeyword": "SWARM",
     "date": "2026-09-08",
@@ -395,6 +381,22 @@
     "date": "2026-09-26",
     "timestamp": 1790449747,
     "postId": "6ab818539f89edbefe7c4a32",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-09-27",
+    "timestamp": 1790538063,
+    "postId": "6ab9714f54f1e60c7e78bd4a",
+    "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-09-27",
+    "timestamp": 1790538091,
+    "postId": "6ab9716b54f1e60c7e78beee",
     "postUrl": null
   }
 ]
