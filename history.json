@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Vector\u2011Memory Agent Swarm with pgVector & Claude Code CLI",
-    "ctaKeyword": "MEMORY",
-    "date": "2026-09-10",
-    "timestamp": 1789049552,
-    "postId": "6aa2bacf6a121c39ae50d561",
-    "postUrl": null
-  },
-  {
     "topic": "Supabase pgvector: Infinite Memory for AI Agents",
     "ctaKeyword": "MEMORY",
     "date": "2026-09-10",
@@ -397,6 +389,14 @@
     "date": "2026-09-29",
     "timestamp": 1790668106,
     "postId": "6abb6d4a320ca548b4e04172",
+    "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-09-29",
+    "timestamp": 1790714192,
+    "postId": "6abc21505df9296bd8d26b4f",
     "postUrl": null
   }
 ]
