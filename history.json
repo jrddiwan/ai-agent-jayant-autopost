@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Ollama\u2011Powered Edge Swarm for Real\u2011Time RAG on Device",
-    "ctaKeyword": "SWARM",
-    "date": "2026-09-11",
-    "timestamp": 1789139874,
-    "postId": "6aa41ba0f403b5171f13345c",
-    "postUrl": null
-  },
-  {
     "topic": "MCP\u2011Powered Real\u2011Time Shipping Route Swarm (2026)",
     "ctaKeyword": "SWARM",
     "date": "2026-09-11",
@@ -397,6 +389,14 @@
     "date": "2026-09-30",
     "timestamp": 1790800906,
     "postId": "6abd740a693d245d2938cf6e",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-10-01",
+    "timestamp": 1790842229,
+    "postId": "6abe15754d69554bf40b42e7",
     "postUrl": null
   }
 ]
