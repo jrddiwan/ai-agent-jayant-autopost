@@ -1,13 +1,5 @@
 [
   {
-    "topic": "MCP\u2011Powered Real\u2011Time Shipping Route Swarm (2026)",
-    "ctaKeyword": "SWARM",
-    "date": "2026-09-11",
-    "timestamp": 1789141108,
-    "postId": "6aa42072262bdff0e8802abf",
-    "postUrl": null
-  },
-  {
     "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
     "ctaKeyword": "DEEPSEEK",
     "date": "2026-09-12",
@@ -397,6 +389,14 @@
     "date": "2026-10-01",
     "timestamp": 1790842229,
     "postId": "6abe15754d69554bf40b42e7",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-10-01",
+    "timestamp": 1790888124,
+    "postId": "6abec8bc63de9e09a27c2961",
     "postUrl": null
   }
 ]
