@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
-    "ctaKeyword": "CODE",
-    "date": "2026-09-12",
-    "timestamp": 1789195664,
-    "postId": "6aa4f590232b849fea40e4b4",
-    "postUrl": null
-  },
-  {
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-09-13",
@@ -397,6 +389,14 @@
     "date": "2026-10-02",
     "timestamp": 1790927492,
     "postId": "6abf628463de9e09a292a91a",
+    "postUrl": null
+  },
+  {
+    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
+    "ctaKeyword": "BROWSER",
+    "date": "2026-10-02",
+    "timestamp": 1790973239,
+    "postId": "6ac015370905cbd3798c560c",
     "postUrl": null
   }
 ]
