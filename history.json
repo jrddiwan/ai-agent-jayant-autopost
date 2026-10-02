@@ -1,13 +1,5 @@
 [
   {
-    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
-    "ctaKeyword": "DEEPSEEK",
-    "date": "2026-09-12",
-    "timestamp": 1789195646,
-    "postId": "6aa4f57eb5a6b12c0b1c9cb8",
-    "postUrl": null
-  },
-  {
     "topic": "Claude Code CLI: Autonomous Terminal Engineer",
     "ctaKeyword": "CODE",
     "date": "2026-09-12",
@@ -397,6 +389,14 @@
     "date": "2026-10-01",
     "timestamp": 1790888124,
     "postId": "6abec8bc63de9e09a27c2961",
+    "postUrl": null
+  },
+  {
+    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
+    "ctaKeyword": "BROWSER",
+    "date": "2026-10-02",
+    "timestamp": 1790927492,
+    "postId": "6abf628463de9e09a292a91a",
     "postUrl": null
   }
 ]
