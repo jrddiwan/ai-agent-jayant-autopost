@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-09-14",
-    "timestamp": 1789370944,
-    "postId": "6aa7a240369387a9e2f85092",
-    "postUrl": null
-  },
-  {
     "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
     "ctaKeyword": "DEEPSEEK",
     "date": "2026-09-14",
@@ -397,6 +389,14 @@
     "date": "2026-10-03",
     "timestamp": 1791054502,
     "postId": "6ac152a5fec5913394836cce",
+    "postUrl": null
+  },
+  {
+    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
+    "ctaKeyword": "COMPOSER",
+    "date": "2026-10-04",
+    "timestamp": 1791099636,
+    "postId": "6ac202f47d53b827e0003480",
     "postUrl": null
   }
 ]
