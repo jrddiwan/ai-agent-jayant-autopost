@@ -1,21 +1,5 @@
 [
   {
-    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
-    "ctaKeyword": "MEMORY",
-    "date": "2026-09-15",
-    "timestamp": 1789456031,
-    "postId": "6aa8ee9fa8c36ff9777cba40",
-    "postUrl": null
-  },
-  {
-    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
-    "ctaKeyword": "MEMORY",
-    "date": "2026-09-15",
-    "timestamp": 1789501049,
-    "postId": "6aa99e787911eff2b6f95421",
-    "postUrl": null
-  },
-  {
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-09-15",
@@ -397,6 +381,22 @@
     "date": "2026-10-05",
     "timestamp": 1791187704,
     "postId": "6ac35af863761da98b734209",
+    "postUrl": null
+  },
+  {
+    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
+    "ctaKeyword": "COMPOSER",
+    "date": "2026-10-06",
+    "timestamp": 1791275248,
+    "postId": "6ac4b0f0ff06d19cffdfd736",
+    "postUrl": null
+  },
+  {
+    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
+    "ctaKeyword": "BROWSER",
+    "date": "2026-10-06",
+    "timestamp": 1791275274,
+    "postId": "6ac4b10ac5fafee5b119959e",
     "postUrl": null
   }
 ]
