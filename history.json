@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
-    "ctaKeyword": "CODE",
-    "date": "2026-09-17",
-    "timestamp": 1789628610,
-    "postId": "6aab90c27c96844cd5269700",
-    "postUrl": null
-  },
-  {
     "topic": "Supabase pgvector: Infinite Memory for AI Agents",
     "ctaKeyword": "MEMORY",
     "date": "2026-09-18",
@@ -397,6 +389,14 @@
     "date": "2026-10-08",
     "timestamp": 1791447543,
     "postId": "6ac751f76bf3dfa8dcf16b25",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-10-08",
+    "timestamp": 1791493950,
+    "postId": "6ac8073ec121d8911408c313",
     "postUrl": null
   }
 ]
