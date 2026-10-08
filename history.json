@@ -1,13 +1,5 @@
 [
   {
-    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
-    "ctaKeyword": "DEEPSEEK",
-    "date": "2026-09-17",
-    "timestamp": 1789628592,
-    "postId": "6aab90afdd75fed8a09fc2c8",
-    "postUrl": null
-  },
-  {
     "topic": "Claude Code CLI: Autonomous Terminal Engineer",
     "ctaKeyword": "CODE",
     "date": "2026-09-17",
@@ -397,6 +389,14 @@
     "date": "2026-10-07",
     "timestamp": 1791407316,
     "postId": "6ac6b4d331a577b8bd2e2174",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-10-08",
+    "timestamp": 1791447543,
+    "postId": "6ac751f76bf3dfa8dcf16b25",
     "postUrl": null
   }
 ]
