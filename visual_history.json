@@ -1,21 +1,5 @@
 [
   {
-    "topic": "Biometric Spatial Agents: The Next Workspace Revolution",
-    "ctaKeyword": "AGENT",
-    "date": "2026-09-10",
-    "timestamp": 1789049727,
-    "postId": "6aa2bb7e98d1587af5260706",
-    "postUrl": null
-  },
-  {
-    "topic": "Engineering the AI-Driven Code Future",
-    "ctaKeyword": "SWARM",
-    "date": "2026-09-10",
-    "timestamp": 1789050764,
-    "postId": "6aa2bf8b6a121c39ae51515f",
-    "postUrl": null
-  },
-  {
     "topic": "Swarm Intelligence Revolution: Autonomous Factory Swarms",
     "ctaKeyword": "SWARM",
     "date": "2026-09-10",
@@ -397,6 +381,22 @@
     "date": "2026-10-08",
     "timestamp": 1791493996,
     "postId": null,
+    "postUrl": null
+  },
+  {
+    "topic": "Autonomous Factory Swarms: The Physical AI Revolution",
+    "ctaKeyword": "SWARM",
+    "date": "2026-10-09",
+    "timestamp": 1791534074,
+    "postId": "6ac8a3fa93f9e5101ff2252e",
+    "postUrl": null
+  },
+  {
+    "topic": "2030 Cybernetic AI Workflows Unleashed",
+    "ctaKeyword": "MATRIX",
+    "date": "2026-10-09",
+    "timestamp": 1791534107,
+    "postId": "6ac8a41b93f9e5101ff2281b",
     "postUrl": null
   }
 ]
