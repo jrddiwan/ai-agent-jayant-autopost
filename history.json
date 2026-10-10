@@ -1,21 +1,5 @@
 [
   {
-    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
-    "ctaKeyword": "CODE",
-    "date": "2026-09-18",
-    "timestamp": 1789757904,
-    "postId": "6aad89d05fe629aa265e504d",
-    "postUrl": null
-  },
-  {
-    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
-    "ctaKeyword": "DEEPSEEK",
-    "date": "2026-09-18",
-    "timestamp": 1789757925,
-    "postId": "6aad89e5560f708e81411386",
-    "postUrl": null
-  },
-  {
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-09-19",
@@ -397,6 +381,22 @@
     "date": "2026-10-09",
     "timestamp": 1791534088,
     "postId": "6ac8a408987e694c3c49c373",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-10-10",
+    "timestamp": 1791619250,
+    "postId": "6ac9f0b2ed92ed8fa5bf6c4a",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-10-10",
+    "timestamp": 1791619384,
+    "postId": "6ac9f138b07d37ac9765e71f",
     "postUrl": null
   }
 ]

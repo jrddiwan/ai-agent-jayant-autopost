@@ -1,21 +1,5 @@
 [
   {
-    "topic": "AI\u2011Powered Engineering Renaissance",
-    "ctaKeyword": "MATRIX",
-    "date": "2026-09-11",
-    "timestamp": 1789140738,
-    "postId": "6aa41f01262bdff0e88002fa",
-    "postUrl": null
-  },
-  {
-    "topic": "Biometric Spatial Agents: Immersive Workspace Evolution",
-    "ctaKeyword": "EMERALD",
-    "date": "2026-09-11",
-    "timestamp": 1789141436,
-    "postId": "6aa421bbff8b77c7da772095",
-    "postUrl": null
-  },
-  {
     "topic": "Autonomous Factory Swarms: The Physical AI Revolution",
     "ctaKeyword": "SWARM",
     "date": "2026-09-28",
@@ -397,6 +381,22 @@
     "date": "2026-10-09",
     "timestamp": 1791578634,
     "postId": null,
+    "postUrl": null
+  },
+  {
+    "topic": "2030 Cybernetic AI Workflows Unleashed",
+    "ctaKeyword": "MATRIX",
+    "date": "2026-10-10",
+    "timestamp": 1791619279,
+    "postId": "6ac9f0cff91f772d458691cb",
+    "postUrl": null
+  },
+  {
+    "topic": "2030 Cybernetic AI Workflows Unleashed",
+    "ctaKeyword": "MATRIX",
+    "date": "2026-10-10",
+    "timestamp": 1791619404,
+    "postId": "6ac9f14cd9cab260a7b85728",
     "postUrl": null
   }
 ]
