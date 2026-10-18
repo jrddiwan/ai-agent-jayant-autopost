@@ -3,14 +3,6 @@
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-09-25",
-    "timestamp": 1790319659,
-    "postId": "6ab61c2b8c95968bb02f5745",
-    "postUrl": null
-  },
-  {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-09-25",
     "timestamp": 1790319674,
     "postId": "6ab61c39cbe818dd4ffc9909",
     "postUrl": null
@@ -397,6 +389,14 @@
     "date": "2026-10-17",
     "timestamp": 1792261208,
     "postId": "6ad3bc580b0d72757aeca613",
+    "postUrl": null
+  },
+  {
+    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
+    "ctaKeyword": "BROWSER",
+    "date": "2026-10-18",
+    "timestamp": 1792306432,
+    "postId": "6ad46d006d56c60a73fc7aa1",
     "postUrl": null
   }
 ]
