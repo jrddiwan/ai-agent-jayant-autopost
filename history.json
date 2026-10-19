@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-09-27",
-    "timestamp": 1790538063,
-    "postId": "6ab9714f54f1e60c7e78bd4a",
-    "postUrl": null
-  },
-  {
     "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
     "ctaKeyword": "DEEPSEEK",
     "date": "2026-09-27",
@@ -397,6 +389,14 @@
     "date": "2026-10-18",
     "timestamp": 1792348400,
     "postId": "6ad510ef769b457934d58c5d",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-10-19",
+    "timestamp": 1792394062,
+    "postId": "6ad5c34e38c1835cd4426140",
     "postUrl": null
   }
 ]
