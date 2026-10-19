@@ -1,21 +1,5 @@
 [
   {
-    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
-    "ctaKeyword": "DEEPSEEK",
-    "date": "2026-09-27",
-    "timestamp": 1790538091,
-    "postId": "6ab9716b54f1e60c7e78beee",
-    "postUrl": null
-  },
-  {
-    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
-    "ctaKeyword": "BROWSER",
-    "date": "2026-09-28",
-    "timestamp": 1790582816,
-    "postId": "6aba202020e4570cbd9b0789",
-    "postUrl": null
-  },
-  {
     "topic": "Cursor Composer: Multi-File Autonomous Refactors",
     "ctaKeyword": "COMPOSER",
     "date": "2026-09-28",
@@ -397,6 +381,22 @@
     "date": "2026-10-19",
     "timestamp": 1792394062,
     "postId": "6ad5c34e38c1835cd4426140",
+    "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-10-19",
+    "timestamp": 1792443517,
+    "postId": "6ad6847d46c9e2453b9fad23",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-10-19",
+    "timestamp": 1792443719,
+    "postId": "6ad6854746c9e2453ba001e8",
     "postUrl": null
   }
 ]
