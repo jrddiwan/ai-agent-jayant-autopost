@@ -3,14 +3,6 @@
     "topic": "Cursor Composer: Multi-File Autonomous Refactors",
     "ctaKeyword": "COMPOSER",
     "date": "2026-09-29",
-    "timestamp": 1790668074,
-    "postId": "6abb6d2a76fa1f54a59b9fc8",
-    "postUrl": null
-  },
-  {
-    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
-    "ctaKeyword": "COMPOSER",
-    "date": "2026-09-29",
     "timestamp": 1790668106,
     "postId": "6abb6d4a320ca548b4e04172",
     "postUrl": null
@@ -397,6 +389,14 @@
     "date": "2026-10-20",
     "timestamp": 1792479804,
     "postId": "6ad7123ccba41b0140661c57",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-10-21",
+    "timestamp": 1792565776,
+    "postId": "6ad86210db7d8198214d66f8",
     "postUrl": null
   }
 ]
