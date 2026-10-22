@@ -3,14 +3,6 @@
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-09-30",
-    "timestamp": 1790800877,
-    "postId": "6abd73ecc6f337a779f3429f",
-    "postUrl": null
-  },
-  {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-09-30",
     "timestamp": 1790800906,
     "postId": "6abd740a693d245d2938cf6e",
     "postUrl": null
@@ -397,6 +389,14 @@
     "date": "2026-10-22",
     "timestamp": 1792653527,
     "postId": "6ad9b8d70d834398c9a65d19",
+    "postUrl": null
+  },
+  {
+    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
+    "ctaKeyword": "COMPOSER",
+    "date": "2026-10-22",
+    "timestamp": 1792698852,
+    "postId": "6ada69e480b62e65750366f1",
     "postUrl": null
   }
 ]
