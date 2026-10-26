@@ -1,13 +1,5 @@
 [
   {
-    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
-    "ctaKeyword": "DEEPSEEK",
-    "date": "2026-10-03",
-    "timestamp": 1791054502,
-    "postId": "6ac152a5fec5913394836cce",
-    "postUrl": null
-  },
-  {
     "topic": "Cursor Composer: Multi-File Autonomous Refactors",
     "ctaKeyword": "COMPOSER",
     "date": "2026-10-04",
@@ -397,6 +389,14 @@
     "date": "2026-10-25",
     "timestamp": 1792954283,
     "postId": "6ade4fab3d5b27036be90609",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-10-26",
+    "timestamp": 1792999796,
+    "postId": "6adf0174ba65356abc97a2f8",
     "postUrl": null
   }
 ]
