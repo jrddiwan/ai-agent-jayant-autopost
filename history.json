@@ -1,21 +1,5 @@
 [
   {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-10-05",
-    "timestamp": 1791187704,
-    "postId": "6ac35af863761da98b734209",
-    "postUrl": null
-  },
-  {
-    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
-    "ctaKeyword": "COMPOSER",
-    "date": "2026-10-06",
-    "timestamp": 1791275248,
-    "postId": "6ac4b0f0ff06d19cffdfd736",
-    "postUrl": null
-  },
-  {
     "topic": "Browser-Use: Autonomous 24/7 Web Agent",
     "ctaKeyword": "BROWSER",
     "date": "2026-10-06",
@@ -397,6 +381,22 @@
     "date": "2026-10-27",
     "timestamp": 1793085213,
     "postId": "6ae04f1d6546b985f8d5d508",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-10-27",
+    "timestamp": 1793133256,
+    "postId": "6ae10ac8dec875ec958a283e",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-10-27",
+    "timestamp": 1793133451,
+    "postId": "6ae10b8b944977ae0256ad2f",
     "postUrl": null
   }
 ]
