@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
-    "ctaKeyword": "CODE",
-    "date": "2026-10-05",
-    "timestamp": 1791187679,
-    "postId": "6ac35adf63761da98b733afd",
-    "postUrl": null
-  },
-  {
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-10-05",
@@ -397,6 +389,14 @@
     "date": "2026-10-26",
     "timestamp": 1793048351,
     "postId": "6adfbf1f3ffda7dd0590cb9b",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-10-27",
+    "timestamp": 1793085213,
+    "postId": "6ae04f1d6546b985f8d5d508",
     "postUrl": null
   }
 ]
