@@ -1,21 +1,5 @@
 [
   {
-    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
-    "ctaKeyword": "BROWSER",
-    "date": "2026-10-11",
-    "timestamp": 1791706244,
-    "postId": "6acb4484c4de2d2b12542f47",
-    "postUrl": null
-  },
-  {
-    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
-    "ctaKeyword": "DEEPSEEK",
-    "date": "2026-10-11",
-    "timestamp": 1791706286,
-    "postId": "6acb44aeb07d37ac979d1ede",
-    "postUrl": null
-  },
-  {
     "topic": "Cursor Composer: Multi-File Autonomous Refactors",
     "ctaKeyword": "COMPOSER",
     "date": "2026-10-11",
@@ -397,6 +381,22 @@
     "date": "2026-11-01",
     "timestamp": 1793564601,
     "postId": "6ae79fb9465de073df1bf227",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-11-02",
+    "timestamp": 1793609097,
+    "postId": "6ae84d88c8c477a933a10445",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-11-02",
+    "timestamp": 1793609126,
+    "postId": "6ae84da648f3289bc08c3bcf",
     "postUrl": null
   }
 ]
