@@ -1,21 +1,5 @@
 [
   {
-    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
-    "ctaKeyword": "COMPOSER",
-    "date": "2026-10-11",
-    "timestamp": 1791749181,
-    "postId": "6acbec3d63ff33d8c994d84d",
-    "postUrl": null
-  },
-  {
-    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
-    "ctaKeyword": "CODE",
-    "date": "2026-10-12",
-    "timestamp": 1791793647,
-    "postId": "6acc99ef5feb3462de97bf3f",
-    "postUrl": null
-  },
-  {
     "topic": "Claude Code CLI: Autonomous Terminal Engineer",
     "ctaKeyword": "CODE",
     "date": "2026-10-13",
@@ -397,6 +381,22 @@
     "date": "2026-11-02",
     "timestamp": 1793609126,
     "postId": "6ae84da648f3289bc08c3bcf",
+    "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-11-03",
+    "timestamp": 1793696167,
+    "postId": "6ae9a1a7005f0f705799352c",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-11-03",
+    "timestamp": 1793696201,
+    "postId": "6ae9a1c941f5368ea26013f1",
     "postUrl": null
   }
 ]
