@@ -3,14 +3,6 @@
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-10-14",
-    "timestamp": 1791961248,
-    "postId": "6acf28a00ab87a16c8e80471",
-    "postUrl": null
-  },
-  {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-10-14",
     "timestamp": 1792008321,
     "postId": "6acfe081a0a1bd470f49da67",
     "postUrl": null
@@ -397,6 +389,14 @@
     "date": "2026-11-04",
     "timestamp": 1793828814,
     "postId": "6aeba7ce3a6057e11e77b018",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-11-05",
+    "timestamp": 1793868765,
+    "postId": "6aec43dce22643a987a7280a",
     "postUrl": null
   }
 ]
