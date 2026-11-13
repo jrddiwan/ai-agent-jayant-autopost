@@ -2,22 +2,6 @@
   {
     "topic": "Browser-Use: Autonomous 24/7 Web Agent",
     "ctaKeyword": "BROWSER",
-    "date": "2026-10-21",
-    "timestamp": 1792613562,
-    "postId": "6ad91cb90a921c67b7dcb009",
-    "postUrl": null
-  },
-  {
-    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
-    "ctaKeyword": "MEMORY",
-    "date": "2026-10-21",
-    "timestamp": 1792615721,
-    "postId": "6ad92528498426ee69065175",
-    "postUrl": null
-  },
-  {
-    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
-    "ctaKeyword": "BROWSER",
     "date": "2026-10-22",
     "timestamp": 1792653527,
     "postId": "6ad9b8d70d834398c9a65d19",
@@ -397,6 +381,22 @@
     "date": "2026-11-12",
     "timestamp": 1794474455,
     "postId": "6af581d75edf04f414e6983f",
+    "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-11-13",
+    "timestamp": 1794560393,
+    "postId": "6af6d189d8381a679efec503",
+    "postUrl": null
+  },
+  {
+    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
+    "ctaKeyword": "MCP",
+    "date": "2026-11-13",
+    "timestamp": 1794560430,
+    "postId": "6af6d1ae6da77f9a468880f5",
     "postUrl": null
   }
 ]
