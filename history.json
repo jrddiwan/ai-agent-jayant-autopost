@@ -1,21 +1,5 @@
 [
   {
-    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
-    "ctaKeyword": "BROWSER",
-    "date": "2026-10-22",
-    "timestamp": 1792653527,
-    "postId": "6ad9b8d70d834398c9a65d19",
-    "postUrl": null
-  },
-  {
-    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
-    "ctaKeyword": "COMPOSER",
-    "date": "2026-10-22",
-    "timestamp": 1792698852,
-    "postId": "6ada69e480b62e65750366f1",
-    "postUrl": null
-  },
-  {
     "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
     "ctaKeyword": "DEEPSEEK",
     "date": "2026-10-23",
@@ -397,6 +381,22 @@
     "date": "2026-11-13",
     "timestamp": 1794560430,
     "postId": "6af6d1ae6da77f9a468880f5",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-11-14",
+    "timestamp": 1794644900,
+    "postId": "6af81ba481e1228421f2f5da",
+    "postUrl": null
+  },
+  {
+    "topic": "Supabase pgvector: Infinite Memory for AI Agents",
+    "ctaKeyword": "MEMORY",
+    "date": "2026-11-14",
+    "timestamp": 1794644925,
+    "postId": "6af81bbcbb36d00909f990e8",
     "postUrl": null
   }
 ]
