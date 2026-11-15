@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
-    "ctaKeyword": "BROWSER",
-    "date": "2026-10-24",
-    "timestamp": 1792824616,
-    "postId": "6adc5528e4be8a4d86455d8b",
-    "postUrl": null
-  },
-  {
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-10-24",
@@ -397,6 +389,14 @@
     "date": "2026-11-15",
     "timestamp": 1794732268,
     "postId": "6af970ece5a113497ad6b989",
+    "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-11-15",
+    "timestamp": 1794776159,
+    "postId": "6afa1c5f8e87c256a38eb527",
     "postUrl": null
   }
 ]
