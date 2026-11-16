@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-10-24",
-    "timestamp": 1792867391,
-    "postId": "6adcfc3fbd33ce99c339c623",
-    "postUrl": null
-  },
-  {
     "topic": "Supabase pgvector: Infinite Memory for AI Agents",
     "ctaKeyword": "MEMORY",
     "date": "2026-10-24",
@@ -397,6 +389,14 @@
     "date": "2026-11-15",
     "timestamp": 1794776159,
     "postId": "6afa1c5f8e87c256a38eb527",
+    "postUrl": null
+  },
+  {
+    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
+    "ctaKeyword": "COMPOSER",
+    "date": "2026-11-16",
+    "timestamp": 1794819321,
+    "postId": "6afac4f98e87c256a3c4fd76",
     "postUrl": null
   }
 ]
