@@ -1,13 +1,5 @@
 [
   {
-    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
-    "ctaKeyword": "DEEPSEEK",
-    "date": "2026-10-28",
-    "timestamp": 1793220951,
-    "postId": "6ae2615761a8363a4948ba09",
-    "postUrl": null
-  },
-  {
     "topic": "Cursor Composer: Multi-File Autonomous Refactors",
     "ctaKeyword": "COMPOSER",
     "date": "2026-10-29",
@@ -397,6 +389,14 @@
     "date": "2026-11-20",
     "timestamp": 1795167310,
     "postId": "6b00144e8681649bed775d12",
+    "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-11-20",
+    "timestamp": 1795214268,
+    "postId": "6b00cbbc5e993799d8337d3a",
     "postUrl": null
   }
 ]
