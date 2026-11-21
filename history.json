@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Cursor Composer: Multi-File Autonomous Refactors",
-    "ctaKeyword": "COMPOSER",
-    "date": "2026-10-29",
-    "timestamp": 1793260647,
-    "postId": "6ae2fc67b8abb6631d15bc62",
-    "postUrl": null
-  },
-  {
     "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
     "ctaKeyword": "MCP",
     "date": "2026-10-30",
@@ -397,6 +389,14 @@
     "date": "2026-11-20",
     "timestamp": 1795214268,
     "postId": "6b00cbbc5e993799d8337d3a",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-11-21",
+    "timestamp": 1795252047,
+    "postId": "6b015f4f5e993799d866229e",
     "postUrl": null
   }
 ]
