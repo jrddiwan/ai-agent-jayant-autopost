@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
-    "ctaKeyword": "CODE",
-    "date": "2026-11-02",
-    "timestamp": 1793609126,
-    "postId": "6ae84da648f3289bc08c3bcf",
-    "postUrl": null
-  },
-  {
     "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
     "ctaKeyword": "DEEPSEEK",
     "date": "2026-11-03",
@@ -397,6 +389,14 @@
     "date": "2026-11-25",
     "timestamp": 1795566721,
     "postId": "6b062c81f0b405190ac83e4f",
+    "postUrl": null
+  },
+  {
+    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
+    "ctaKeyword": "BROWSER",
+    "date": "2026-11-25",
+    "timestamp": 1795603760,
+    "postId": "6b06bd309a443f2fb5f29101",
     "postUrl": null
   }
 ]
