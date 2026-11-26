@@ -1,13 +1,5 @@
 [
   {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-11-03",
-    "timestamp": 1793696201,
-    "postId": "6ae9a1c941f5368ea26013f1",
-    "postUrl": null
-  },
-  {
     "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
     "ctaKeyword": "DEEPSEEK",
     "date": "2026-11-04",
@@ -397,6 +389,14 @@
     "date": "2026-11-26",
     "timestamp": 1795651669,
     "postId": "6b077855b8e2338b8574c43f",
+    "postUrl": null
+  },
+  {
+    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
+    "ctaKeyword": "CODE",
+    "date": "2026-11-26",
+    "timestamp": 1795688519,
+    "postId": "6b080847d91bf30768345e2f",
     "postUrl": null
   }
 ]
