@@ -1,21 +1,5 @@
 [
   {
-    "topic": "Claude Code CLI: Autonomous Terminal Engineer",
-    "ctaKeyword": "CODE",
-    "date": "2026-11-05",
-    "timestamp": 1793868765,
-    "postId": "6aec43dce22643a987a7280a",
-    "postUrl": null
-  },
-  {
-    "topic": "Model Context Protocol (MCP) Multi-Agent Swarm",
-    "ctaKeyword": "MCP",
-    "date": "2026-11-05",
-    "timestamp": 1793915501,
-    "postId": "6aecfa6d5ab704cc602ad762",
-    "postUrl": null
-  },
-  {
     "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
     "ctaKeyword": "DEEPSEEK",
     "date": "2026-11-06",
@@ -397,6 +381,22 @@
     "date": "2026-11-27",
     "timestamp": 1795775471,
     "postId": "6b095befe94385a8fd9671cf",
+    "postUrl": null
+  },
+  {
+    "topic": "DeepSeek R1 Local Reasoning Engine on Ollama",
+    "ctaKeyword": "DEEPSEEK",
+    "date": "2026-11-28",
+    "timestamp": 1795859388,
+    "postId": "6b0aa3bc568c51d1b944af7f",
+    "postUrl": null
+  },
+  {
+    "topic": "Browser-Use: Autonomous 24/7 Web Agent",
+    "ctaKeyword": "BROWSER",
+    "date": "2026-11-28",
+    "timestamp": 1795859587,
+    "postId": "6b0aa4832eb719ec56fe0fc7",
     "postUrl": null
   }
 ]
